@@ -1,0 +1,126 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --usg-red: #c8102e;
+  --usg-red-dark: #9e0a21;
+  --usg-black: #0a0a0a;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #0a0a0a;
+  color: #f5f5f5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Stadium-style background pattern */
+.stadium-bg {
+  background-color: #0a0a0a;
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(200, 16, 46, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(200, 16, 46, 0.1) 0%, transparent 50%),
+    linear-gradient(180deg, #0a0a0a 0%, #1a1a1a 100%);
+}
+
+.field-lines {
+  position: relative;
+}
+
+.field-lines::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(90deg, transparent 0%, transparent 49.5%, rgba(255,255,255,0.04) 49.5%, rgba(255,255,255,0.04) 50.5%, transparent 50.5%);
+  pointer-events: none;
+}
+
+/* Botón estilo "fútbol" */
+.btn-whatsapp {
+  background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+  box-shadow: 0 10px 30px -5px rgba(37, 211, 102, 0.5);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-whatsapp:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 40px -5px rgba(37, 211, 102, 0.7);
+}
+
+/* Tarjeta con borde glow */
+.card-glow {
+  background: linear-gradient(145deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));
+  border: 1px solid rgba(255,255,255,0.08);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.card-glow:hover {
+  border-color: rgba(200, 16, 46, 0.5);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px -10px rgba(200, 16, 46, 0.2);
+}
+
+/* Diagonal stripe effect */
+.diagonal-stripes {
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 20px,
+    rgba(200, 16, 46, 0.05) 20px,
+    rgba(200, 16, 46, 0.05) 40px
+  );
+}
+
+/* Scroll fade animation helper */
+.fade-in-section {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeUp 0.8s ease forwards;
+}
+
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, #ffffff 0%, #c8102e 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-red {
+  background: linear-gradient(135deg, #ff4d6a 0%, #c8102e 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c8102e;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #9e0a21;
+}
