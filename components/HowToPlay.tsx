@@ -1,5 +1,5 @@
-import Image from "next/image";
 import { getWhatsAppUrl } from "@/lib/config";
+import UsgLogo from "@/components/UsgLogo";
 
 const STEPS = [
   {
@@ -38,18 +38,16 @@ export default function HowToPlay() {
       id="mecanica"
       className="relative py-20 sm:py-28 bg-gradient-to-b from-black via-usg-black to-black overflow-hidden"
     >
-      {/* Decorative red diagonal */}
+      {/* Línea decorativa superior */}
       <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-usg-red to-transparent" />
 
-      {/* Marca de agua del logo USG */}
+      {/* Halos rojos */}
+      <div className="absolute top-1/3 right-0 w-96 h-96 bg-usg-red/10 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-1/3 left-0 w-80 h-80 bg-usg-red/8 rounded-full blur-[120px] pointer-events-none" />
+
+      {/* Marca de agua del logo USG (vector) */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-[0.04]">
-        <Image
-          src="/usg-logo.png"
-          alt=""
-          width={1000}
-          height={440}
-          className="w-[70%] max-w-3xl h-auto"
-        />
+        <UsgLogo variant="light" className="w-[70%] max-w-3xl h-auto" />
       </div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -58,10 +56,10 @@ export default function HowToPlay() {
           <span className="inline-block text-usg-red text-sm font-bold tracking-widest uppercase mb-3">
             Mecánica de la promoción
           </span>
-          <h2 className="font-display text-5xl sm:text-6xl md:text-7xl text-white tracking-tight leading-none mb-6">
+          <h2 className="font-display text-5xl sm:text-6xl md:text-7xl text-white tracking-tight leading-[0.92] mb-6">
             ¿Cómo se <span className="gradient-text-red">juega</span>?
           </h2>
-          <p className="text-lg text-white/70">
+          <p className="text-base sm:text-lg text-white/70 leading-relaxed">
             Cuatro jugadas simples para entrar a la cancha y empezar a sumar
             puntos. Todo el proceso es{" "}
             <span className="text-usg-red font-semibold">100% por WhatsApp</span>
@@ -70,18 +68,18 @@ export default function HowToPlay() {
         </div>
 
         {/* Steps grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
           {STEPS.map((step, idx) => (
             <div
               key={step.number}
-              className="card-glow rounded-2xl p-6 relative group"
+              className="card-glow rounded-2xl p-7 relative group"
             >
               {/* Number background */}
-              <span className="absolute top-4 right-4 font-display text-6xl text-white/5 group-hover:text-usg-red/20 transition-colors leading-none">
+              <span className="absolute top-3 right-4 font-display text-7xl text-white/[0.06] group-hover:text-usg-red/25 transition-colors leading-none">
                 {step.number}
               </span>
 
-              <div className="text-5xl mb-4 relative z-10">{step.icon}</div>
+              <div className="text-5xl mb-5 relative z-10">{step.icon}</div>
               <h3 className="font-display text-2xl text-white tracking-wide leading-tight mb-3 relative z-10">
                 {step.title}
               </h3>

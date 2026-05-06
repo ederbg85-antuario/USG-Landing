@@ -1,5 +1,5 @@
-import Image from "next/image";
 import Link from "next/link";
+import UsgLogo from "@/components/UsgLogo";
 
 export default function Footer() {
   return (
@@ -8,19 +8,13 @@ export default function Footer() {
         <div className="grid md:grid-cols-4 gap-10 mb-10">
           {/* Brand */}
           <div className="md:col-span-2">
-            <div className="bg-white inline-block rounded-md p-2 mb-4">
-              <Image
-                src="/usg-logo-dark.png"
-                alt="USG Logo"
-                width={120}
-                height={50}
-                className="h-10 w-auto"
-              />
+            <div className="bg-white inline-flex rounded-lg px-3 py-2 mb-4 shadow-md">
+              <UsgLogo variant="dark" className="h-10 w-auto" />
             </div>
-            <p className="font-display text-2xl text-white tracking-wide mb-1">
+            <p className="font-display text-2xl text-white tracking-wide mb-2">
               LIGA DE CAMPEONES
             </p>
-            <p className="text-sm text-white/50 max-w-md leading-relaxed">
+            <p className="text-sm text-white/55 max-w-md leading-relaxed">
               Promoción oficial USG 2026. Acumula goles (puntos) por cada
               compra de productos USG, sube en el ranking nacional y compite
               por hasta $100,000 MXN en premios.
@@ -34,27 +28,27 @@ export default function Footer() {
             </h4>
             <ul className="space-y-2 text-sm text-white/60">
               <li>
-                <Link href="#mecanica" className="hover:text-usg-red">
+                <Link href="#mecanica" className="hover:text-usg-red transition-colors">
                   Cómo se juega
                 </Link>
               </li>
               <li>
-                <Link href="#productos" className="hover:text-usg-red">
+                <Link href="#productos" className="hover:text-usg-red transition-colors">
                   Productos y puntos
                 </Link>
               </li>
               <li>
-                <Link href="#premios" className="hover:text-usg-red">
+                <Link href="#premios" className="hover:text-usg-red transition-colors">
                   Premios
                 </Link>
               </li>
               <li>
-                <Link href="#ranking" className="hover:text-usg-red">
+                <Link href="#ranking" className="hover:text-usg-red transition-colors">
                   Leaderboard
                 </Link>
               </li>
               <li>
-                <Link href="#faq" className="hover:text-usg-red">
+                <Link href="#faq" className="hover:text-usg-red transition-colors">
                   Preguntas frecuentes
                 </Link>
               </li>
@@ -68,17 +62,17 @@ export default function Footer() {
             </h4>
             <ul className="space-y-2 text-sm text-white/60">
               <li>
-                <Link href="#terminos" className="hover:text-usg-red">
+                <Link href="#terminos" className="hover:text-usg-red transition-colors">
                   Términos y condiciones
                 </Link>
               </li>
               <li>
-                <Link href="#privacidad" className="hover:text-usg-red">
+                <Link href="#privacidad" className="hover:text-usg-red transition-colors">
                   Aviso de privacidad
                 </Link>
               </li>
               <li>
-                <Link href="#contacto" className="hover:text-usg-red">
+                <Link href="#contacto" className="hover:text-usg-red transition-colors">
                   Contacto
                 </Link>
               </li>

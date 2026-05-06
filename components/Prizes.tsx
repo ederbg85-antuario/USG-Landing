@@ -1,30 +1,26 @@
-import Image from "next/image";
 import { PRIZES, getWhatsAppUrl } from "@/lib/config";
+import UsgLogo from "@/components/UsgLogo";
 
 const PRIZE_SHOTS = [
   {
     name: "Motocicleta",
     desc: "Premio destacado",
     icon: "🏍️",
-    accent: "from-usg-red to-usg-red-dark",
   },
   {
     name: "Smart TV",
     desc: "Pantalla premium",
     icon: "📺",
-    accent: "from-usg-red to-usg-red-dark",
   },
   {
     name: "Bicicletas",
     desc: "Modelos premium",
     icon: "🚲",
-    accent: "from-usg-red to-usg-red-dark",
   },
   {
     name: "Cajas de herramientas",
     desc: "Equipo profesional",
     icon: "🧰",
-    accent: "from-usg-red to-usg-red-dark",
   },
 ];
 
@@ -32,33 +28,27 @@ export default function Prizes() {
   return (
     <section
       id="premios"
-      className="relative py-20 sm:py-28 usg-stadium-bg overflow-hidden"
+      className="relative py-20 sm:py-28 overflow-hidden bg-gradient-to-b from-black via-[#100407] to-black"
     >
-      {/* Spotlight effect */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-usg-red/20 rounded-full blur-3xl pointer-events-none" />
+      {/* Spotlight rojo */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-usg-red/20 rounded-full blur-[140px] pointer-events-none" />
 
-      {/* Marca de agua del logo USG */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-[0.04]">
-        <Image
-          src="/usg-logo.png"
-          alt=""
-          width={1100}
-          height={480}
-          className="w-[80%] max-w-4xl h-auto"
-        />
+      {/* Marca de agua del logo USG (vector) */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-[0.05]">
+        <UsgLogo variant="light" className="w-[80%] max-w-4xl h-auto" />
       </div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
+        <div className="text-center max-w-3xl mx-auto mb-14">
           <span className="inline-block text-usg-red text-sm font-bold tracking-widest uppercase mb-3">
             Premios
           </span>
-          <h2 className="font-display text-5xl sm:text-6xl md:text-7xl text-white tracking-tight leading-none mb-6">
+          <h2 className="font-display text-5xl sm:text-6xl md:text-7xl text-white tracking-tight leading-[0.92] mb-6">
             ¡La mejor selección
             <span className="block gradient-text-red">se lleva los premios!</span>
           </h2>
-          <p className="text-lg text-white/70 max-w-2xl mx-auto">
+          <p className="text-base sm:text-lg text-white/70 max-w-2xl mx-auto leading-relaxed">
             Los líderes de la liga se llevan{" "}
             <span className="text-usg-red font-semibold">producto USG</span> +{" "}
             <span className="text-usg-red font-semibold">premios físicos</span>{" "}
@@ -66,25 +56,23 @@ export default function Prizes() {
           </p>
         </div>
 
-        {/* Product shots de los premios físicos — sección destacada */}
+        {/* Tarjetas — premios físicos */}
         <div className="max-w-5xl mx-auto mb-16">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
             {PRIZE_SHOTS.map((p) => (
               <div
                 key={p.name}
                 className="group relative card-glow rounded-3xl p-6 text-center overflow-hidden"
               >
-                <div
-                  className={`absolute -top-12 -right-12 w-32 h-32 rounded-full blur-3xl opacity-30 bg-gradient-to-br ${p.accent}`}
-                />
+                <div className="absolute -top-12 -right-12 w-32 h-32 rounded-full blur-3xl opacity-30 bg-gradient-to-br from-usg-red to-usg-red-dark" />
                 <div className="relative z-10">
-                  <div className="w-24 h-24 mx-auto rounded-2xl bg-gradient-to-br from-usg-red/20 to-usg-red-dark/30 border border-usg-red/40 flex items-center justify-center text-5xl mb-4 group-hover:scale-110 transition-transform">
+                  <div className="w-20 h-20 sm:w-24 sm:h-24 mx-auto rounded-2xl bg-gradient-to-br from-usg-red/20 to-usg-red-dark/30 border border-usg-red/40 flex items-center justify-center text-4xl sm:text-5xl mb-4 group-hover:scale-110 transition-transform">
                     {p.icon}
                   </div>
-                  <p className="font-display text-xl text-white tracking-wide mb-1">
+                  <p className="font-display text-lg sm:text-xl text-white tracking-wide mb-1 leading-tight">
                     {p.name}
                   </p>
-                  <p className="text-xs text-white/50 uppercase tracking-widest">
+                  <p className="text-[10px] sm:text-xs text-white/55 uppercase tracking-widest">
                     {p.desc}
                   </p>
                 </div>
@@ -93,8 +81,8 @@ export default function Prizes() {
           </div>
         </div>
 
-        {/* Prize tiers */}
-        <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto mb-12">
+        {/* Niveles de premio */}
+        <div className="grid md:grid-cols-3 gap-5 sm:gap-6 max-w-6xl mx-auto mb-10">
           {PRIZES.map((prize, idx) => (
             <div
               key={prize.place}
@@ -111,10 +99,10 @@ export default function Prizes() {
 
               <div className="relative z-10">
                 <div className="text-7xl mb-4 text-center">{prize.medal}</div>
-                <p className="text-xs uppercase tracking-widest text-white/60 text-center mb-2">
+                <p className="text-xs uppercase tracking-[0.25em] text-white/60 text-center mb-2">
                   {prize.place}
                 </p>
-                <p className="font-display text-5xl text-white text-center leading-none mb-4">
+                <p className="font-display text-4xl sm:text-5xl text-white text-center leading-none mb-4">
                   {prize.value}
                 </p>
                 <p className="text-sm text-white/70 text-center leading-relaxed">
@@ -126,7 +114,7 @@ export default function Prizes() {
         </div>
 
         {/* Disclaimer */}
-        <p className="text-center text-xs text-white/40 max-w-2xl mx-auto mb-10">
+        <p className="text-center text-xs text-white/40 max-w-2xl mx-auto mb-8">
           *Los premios económicos en producto se otorgarán mediante NDC al
           distribuidor. Al momento de premiar se entregará un cheque
           representativo al ganador para redimir en POV.

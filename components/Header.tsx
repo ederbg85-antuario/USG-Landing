@@ -1,9 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { getWhatsAppUrl } from "@/lib/config";
+import UsgLogo from "@/components/UsgLogo";
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -18,46 +18,42 @@ export default function Header() {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "bg-black/80 backdrop-blur-lg border-b border-white/10 py-3"
-          : "bg-transparent py-5"
+          ? "bg-black/85 backdrop-blur-xl border-b border-white/10 py-3"
+          : "bg-gradient-to-b from-black/60 via-black/30 to-transparent backdrop-blur-sm py-5"
       }`}
     >
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-        <Link href="#hero" className="flex items-center gap-3">
-          <div className="bg-white rounded-md p-1.5 shadow-lg">
-            <Image
-              src="/usg-logo-dark.png"
-              alt="USG Logo"
-              width={70}
-              height={32}
-              className="h-7 w-auto"
-              priority
-            />
-          </div>
-          <div className="hidden sm:block">
-            <p className="font-display text-white text-lg leading-none tracking-wide">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
+        <Link href="#hero" className="flex items-center gap-3 group">
+          {/* Logo USG en versión clara (fondo oscuro) — el ginda se mantiene */}
+          <UsgLogo
+            variant="light"
+            className="h-9 sm:h-10 w-auto transition-transform group-hover:scale-105"
+            ariaLabel="USG Liga de Campeones"
+          />
+          <div className="hidden sm:block border-l border-white/15 pl-3">
+            <p className="font-display text-white text-base sm:text-lg leading-none tracking-wide">
               LIGA DE CAMPEONES
             </p>
-            <p className="text-[10px] text-usg-red uppercase tracking-widest">
+            <p className="text-[10px] text-usg-red uppercase tracking-[0.2em] mt-1">
               Promoción 2026
             </p>
           </div>
         </Link>
 
-        <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-white/80">
-          <Link href="#mecanica" className="hover:text-usg-red transition-colors">
+        <nav className="hidden lg:flex items-center gap-7 text-sm font-medium text-white/75">
+          <Link href="#mecanica" className="hover:text-white transition-colors">
             Cómo se juega
           </Link>
-          <Link href="#productos" className="hover:text-usg-red transition-colors">
+          <Link href="#productos" className="hover:text-white transition-colors">
             Productos
           </Link>
-          <Link href="#premios" className="hover:text-usg-red transition-colors">
+          <Link href="#premios" className="hover:text-white transition-colors">
             Premios
           </Link>
-          <Link href="#ranking" className="hover:text-usg-red transition-colors">
+          <Link href="#ranking" className="hover:text-white transition-colors">
             Ranking
           </Link>
-          <Link href="#faq" className="hover:text-usg-red transition-colors">
+          <Link href="#faq" className="hover:text-white transition-colors">
             FAQ
           </Link>
         </nav>
@@ -66,7 +62,7 @@ export default function Header() {
           href={getWhatsAppUrl()}
           target="_blank"
           rel="noopener noreferrer"
-          className="btn-whatsapp text-white font-bold px-4 sm:px-6 py-2.5 rounded-full text-sm flex items-center gap-2"
+          className="btn-whatsapp text-white font-bold px-4 sm:px-6 py-2.5 rounded-full text-sm flex items-center gap-2 flex-shrink-0"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

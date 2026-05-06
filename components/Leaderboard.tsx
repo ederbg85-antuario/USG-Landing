@@ -19,7 +19,7 @@
  */
 
 import { useEffect, useState } from "react";
-import Image from "next/image";
+import UsgLogo from "@/components/UsgLogo";
 
 type LeaderboardEntry = {
   rank: number;
@@ -72,7 +72,7 @@ function StarRow({ count }: { count: number }) {
 }
 
 export default function Leaderboard() {
-  const [entries, setEntries] = useState<LeaderboardEntry[]>(MOCK_LEADERBOARD);
+  const [entries] = useState<LeaderboardEntry[]>(MOCK_LEADERBOARD);
   const [loading] = useState(false);
   const [updatedAt, setUpdatedAt] = useState<string>("");
 
@@ -85,21 +85,6 @@ export default function Leaderboard() {
         minute: "2-digit",
       })
     );
-
-    /**
-     * 🔌 Cuando esté lista la API conectada a Google Sheets,
-     * descomenta este bloque y elimina el setEntries inicial.
-     *
-     * setLoading(true);
-     * fetch("/api/leaderboard")
-     *   .then((r) => r.json())
-     *   .then((data: LeaderboardEntry[]) => {
-     *     setEntries(data);
-     *     setUpdatedAt(new Date().toLocaleString("es-MX"));
-     *   })
-     *   .catch(() => {})
-     *   .finally(() => setLoading(false));
-     */
   }, []);
 
   return (
@@ -107,20 +92,14 @@ export default function Leaderboard() {
       id="ranking"
       className="relative py-20 sm:py-28 overflow-hidden bg-gradient-to-b from-black via-usg-black to-black"
     >
-      {/* Marca de agua del logo USG */}
+      {/* Marca de agua del logo USG (vector) */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-[0.04]">
-        <Image
-          src="/usg-logo.png"
-          alt=""
-          width={1100}
-          height={420}
-          className="w-[80%] max-w-4xl h-auto"
-        />
+        <UsgLogo variant="light" className="w-[80%] max-w-4xl h-auto" />
       </div>
 
       {/* Spotlights rojos USG */}
-      <div className="absolute top-0 left-1/4 w-[480px] h-[480px] rounded-full bg-usg-red/20 blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 right-1/4 w-[480px] h-[480px] rounded-full bg-usg-red/15 blur-3xl pointer-events-none" />
+      <div className="absolute top-0 left-1/4 w-[480px] h-[480px] rounded-full bg-usg-red/20 blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-0 right-1/4 w-[480px] h-[480px] rounded-full bg-usg-red/15 blur-[120px] pointer-events-none" />
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
@@ -134,11 +113,11 @@ export default function Leaderboard() {
           <span className="inline-block text-usg-red text-sm font-bold tracking-widest uppercase mb-3">
             Tabla de posiciones nacional
           </span>
-          <h2 className="font-display text-5xl sm:text-6xl md:text-7xl text-white tracking-tight leading-none mb-6">
+          <h2 className="font-display text-5xl sm:text-6xl md:text-7xl text-white tracking-tight leading-[0.92] mb-6">
             <span className="block">Ranking de ganadores</span>
             <span className="block gradient-text-red">en tiempo real</span>
           </h2>
-          <p className="text-lg text-white/70 max-w-2xl mx-auto">
+          <p className="text-base sm:text-lg text-white/70 max-w-2xl mx-auto leading-relaxed">
             Estos son los líderes de la promoción. Sube en el ranking
             acumulando goles (puntos) por cada compra USG registrada por
             WhatsApp. Se actualiza automáticamente.
@@ -155,14 +134,8 @@ export default function Leaderboard() {
             {/* Cabecera de la tarjeta */}
             <div className="relative z-10 flex items-center justify-between gap-3 px-5 sm:px-8 py-5 border-b border-usg-red/30 bg-gradient-to-r from-usg-red/20 via-usg-red/10 to-transparent">
               <div className="flex items-center gap-3 min-w-0">
-                <div className="bg-white rounded-md p-1.5 shadow-lg flex-shrink-0">
-                  <Image
-                    src="/usg-logo-dark.png"
-                    alt="USG"
-                    width={60}
-                    height={24}
-                    className="h-5 w-auto"
-                  />
+                <div className="bg-white rounded-md px-2 py-1.5 shadow-lg flex-shrink-0">
+                  <UsgLogo variant="dark" className="h-5 sm:h-6 w-auto" />
                 </div>
                 <div className="min-w-0">
                   <p className="font-display text-lg sm:text-2xl text-white tracking-wide leading-none truncate">
