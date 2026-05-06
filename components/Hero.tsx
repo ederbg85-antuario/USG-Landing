@@ -1,10 +1,11 @@
+import Image from "next/image";
 import { getWhatsAppUrl } from "@/lib/config";
 
 export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex items-center overflow-hidden stadium-bg pt-24 pb-16"
+      className="relative min-h-screen flex items-center overflow-hidden usg-stadium-bg pt-24 pb-16"
     >
       {/* Diagonal red accent */}
       <div className="absolute top-0 right-0 w-full h-full pointer-events-none">
@@ -18,6 +19,18 @@ export default function Hero() {
       <div className="absolute -bottom-20 -left-20 w-80 h-80 rounded-full bg-usg-red/10 blur-3xl pointer-events-none animate-pulse-slow" />
       <div className="absolute -top-20 -right-20 w-96 h-96 rounded-full bg-usg-red/15 blur-3xl pointer-events-none animate-pulse-slow" />
 
+      {/* Marca de agua gigante del logo USG en el fondo */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-[0.04]">
+        <Image
+          src="/images.png"
+          alt=""
+          width={1200}
+          height={520}
+          className="w-[90%] max-w-5xl h-auto"
+          priority
+        />
+      </div>
+
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Text content */}
@@ -25,13 +38,13 @@ export default function Hero() {
             <div className="inline-flex items-center gap-2 bg-usg-red/15 border border-usg-red/40 backdrop-blur-sm rounded-full px-4 py-2 mb-6">
               <span className="w-2 h-2 bg-usg-red rounded-full animate-pulse" />
               <span className="text-xs sm:text-sm font-semibold text-white tracking-wider uppercase">
-                Promoción Oficial 2026
+                Promoción Oficial USG · 2026
               </span>
             </div>
 
             <h1 className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-white tracking-tight leading-[0.9] mb-4">
               <span className="block text-white/70 text-3xl sm:text-4xl md:text-5xl mb-2">
-                PROMO
+                PROMOCIÓN
               </span>
               <span className="gradient-text-red">USG LIGA</span>
               <span className="block text-white">DE CAMPEONES</span>
@@ -44,22 +57,22 @@ export default function Hero() {
               por premios reales.
             </p>
 
-            {/* Stats row */}
+            {/* Stats row — sin mención de $500K */}
             <div className="grid grid-cols-3 gap-4 mt-8 max-w-md mx-auto lg:mx-0">
               <div className="text-center lg:text-left">
-                <p className="font-display text-3xl sm:text-4xl text-usg-red leading-none">
-                  $500K
-                </p>
-                <p className="text-[10px] sm:text-xs text-white/60 uppercase tracking-wider mt-1">
-                  En premios
-                </p>
-              </div>
-              <div className="text-center lg:text-left border-x border-white/10 px-2">
                 <p className="font-display text-3xl sm:text-4xl text-usg-red leading-none">
                   10
                 </p>
                 <p className="text-[10px] sm:text-xs text-white/60 uppercase tracking-wider mt-1">
                   Productos
+                </p>
+              </div>
+              <div className="text-center lg:text-left border-x border-white/10 px-2">
+                <p className="font-display text-3xl sm:text-4xl text-usg-red leading-none">
+                  3
+                </p>
+                <p className="text-[10px] sm:text-xs text-white/60 uppercase tracking-wider mt-1">
+                  Lugares ganadores
                 </p>
               </div>
               <div className="text-center lg:text-left">
@@ -91,10 +104,10 @@ export default function Hero() {
                 Inicia tu registro en WhatsApp
               </a>
               <a
-                href="#mecanica"
+                href="#productos"
                 className="border-2 border-white/30 hover:border-usg-red hover:bg-usg-red/10 text-white font-semibold px-8 py-4 rounded-full text-base sm:text-lg transition-all inline-flex items-center justify-center gap-2"
               >
-                Cómo se juega
+                Ver reglas de puntos
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -118,40 +131,45 @@ export default function Hero() {
             </p>
           </div>
 
-          {/* Visual side — soccer/trophy illustration */}
-          <div className="relative hidden lg:flex justify-center">
-            <div className="relative w-full max-w-md aspect-square">
-              {/* Trophy circle */}
-              <div className="absolute inset-0 rounded-full bg-gradient-to-br from-usg-red via-usg-red-dark to-black opacity-90" />
-              <div className="absolute inset-4 rounded-full border-2 border-white/20 backdrop-blur-sm" />
-              <div className="absolute inset-8 rounded-full border border-white/10" />
-
-              {/* Center content */}
-              <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-8">
-                <div className="text-7xl mb-4 animate-bounce-slow">🏆</div>
-                <p className="font-display text-5xl text-white leading-none mb-2">
-                  $500,000
-                </p>
-                <p className="font-display text-2xl text-white/90 mb-1">MXN</p>
-                <p className="text-sm text-white/70 uppercase tracking-widest">
-                  Bolsa total de premios
-                </p>
+          {/* Visual side — imagen oficial USG (estadio + productos) */}
+          <div className="relative hidden lg:flex justify-center items-center">
+            <div className="relative w-full max-w-xl">
+              {/* Marco con glow rojo USG */}
+              <div className="absolute -inset-2 bg-gradient-to-br from-usg-red via-usg-red-dark to-usg-red rounded-3xl blur-xl opacity-60" />
+              <div className="relative rounded-3xl overflow-hidden border-2 border-usg-red/60 shadow-2xl shadow-usg-red/40">
+                <Image
+                  src="/backgrounds/hero-stadium-usg.jpg"
+                  alt="¡La mejor selección es con USG! — Estadio USG con productos USG"
+                  width={1600}
+                  height={900}
+                  className="w-full h-auto object-cover"
+                  priority
+                />
               </div>
 
-              {/* Floating ball */}
-              <div className="absolute -top-4 -right-4 text-6xl animate-bounce-slow">
-                ⚽
+              {/* Iconos de premios físicos flotando alrededor */}
+              <div className="absolute -top-6 -right-6 w-20 h-20 rounded-full bg-black border-2 border-usg-red flex items-center justify-center text-3xl shadow-xl shadow-usg-red/40 animate-bounce-slow">
+                🏍️
               </div>
-              <div className="absolute -bottom-2 -left-2 text-5xl animate-pulse-slow">
-                🥇
+              <div className="absolute -bottom-4 -left-4 w-16 h-16 rounded-full bg-black border-2 border-usg-red flex items-center justify-center text-2xl shadow-xl shadow-usg-red/40 animate-pulse-slow">
+                📺
+              </div>
+              <div className="absolute top-1/2 -right-8 w-14 h-14 rounded-full bg-black border-2 border-usg-red flex items-center justify-center text-xl shadow-xl shadow-usg-red/40">
+                🚲
+              </div>
+              <div className="absolute bottom-1/4 -left-8 w-14 h-14 rounded-full bg-black border-2 border-usg-red flex items-center justify-center text-xl shadow-xl shadow-usg-red/40">
+                🧰
               </div>
             </div>
           </div>
         </div>
       </div>
 
+      {/* Banda inferior estilo valla USG */}
+      <div className="absolute bottom-0 left-0 right-0 h-10 usg-board hidden md:block" />
+
       {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 hidden md:block">
+      <div className="absolute bottom-14 left-1/2 -translate-x-1/2 hidden md:block">
         <div className="flex flex-col items-center gap-2 text-white/40">
           <span className="text-xs uppercase tracking-widest">Scroll</span>
           <div className="w-px h-12 bg-gradient-to-b from-white/40 to-transparent" />

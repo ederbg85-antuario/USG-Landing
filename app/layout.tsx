@@ -18,7 +18,7 @@ const bebas = Bebas_Neue({
 export const metadata: Metadata = {
   title: "USG Liga de Campeones — Promo Oficial 2026",
   description:
-    "Acumula puntos por cada compra USG, sube en el ranking nacional y gana hasta $100,000 MXN. Bolsa total de premios: $500,000 MXN. Regístrate por WhatsApp.",
+    "Acumula puntos por cada compra USG, sube en el ranking nacional y gana premios reales: motos, pantallas, bicicletas y herramientas. Regístrate por WhatsApp.",
   keywords: [
     "USG",
     "USG Liga de Campeones",
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "USG Liga de Campeones — Promo Oficial",
     description:
-      "Acumula goles (puntos) por cada compra USG y compite por $500,000 MXN en premios. Regístrate por WhatsApp.",
+      "Acumula goles (puntos) por cada compra USG y compite por premios reales (motos, pantallas, bicicletas, herramientas). Regístrate por WhatsApp.",
     type: "website",
     locale: "es_MX",
   },

@@ -13,8 +13,9 @@ export default function Home() {
     <main className="min-h-screen bg-black overflow-x-hidden">
       <Header />
       <Hero />
-      <HowToPlay />
+      {/* Reglas de puntos al inicio (movido por solicitud del cliente) */}
       <Products />
+      <HowToPlay />
       <Prizes />
       <FAQ />
       <FinalCTA />

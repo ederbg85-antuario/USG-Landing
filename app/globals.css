@@ -28,6 +28,78 @@ body {
     linear-gradient(180deg, #0a0a0a 0%, #1a1a1a 100%);
 }
 
+/* Cancha temática mundialista con marca de agua del logo USG repetido */
+.usg-pitch-bg {
+  position: relative;
+  background-color: #06140a;
+  background-image:
+    /* franjas verticales tipo cancha */
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.025) 0px,
+      rgba(255, 255, 255, 0.025) 80px,
+      rgba(0, 0, 0, 0.15) 80px,
+      rgba(0, 0, 0, 0.15) 160px
+    ),
+    radial-gradient(ellipse at center, rgba(34, 87, 46, 0.45) 0%, rgba(6, 20, 10, 0.95) 70%),
+    linear-gradient(180deg, #0a1f12 0%, #06140a 50%, #0a0a0a 100%);
+}
+
+.usg-pitch-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='160' viewBox='0 0 240 160'><g fill='%23ffffff' opacity='0.05'><text x='10' y='90' font-family='Arial Black, sans-serif' font-size='52' font-weight='900' letter-spacing='2'>USG</text><polygon points='150,55 200,55 200,75 175,75 175,95 200,95 200,115 150,115' fill='%23ffffff'/></g></svg>");
+  background-repeat: repeat;
+  background-size: 240px 160px;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+
+.usg-pitch-bg > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Cancha vista de lateral (estadio): para hero y CTAs principales */
+.usg-stadium-bg {
+  position: relative;
+  background-color: #0a0a0a;
+  background-image:
+    radial-gradient(ellipse 80% 60% at 50% 100%, rgba(34, 87, 46, 0.55) 0%, transparent 60%),
+    radial-gradient(circle at 20% 30%, rgba(200, 16, 46, 0.25) 0%, transparent 55%),
+    radial-gradient(circle at 80% 25%, rgba(200, 16, 46, 0.18) 0%, transparent 55%),
+    linear-gradient(180deg, #1a1a1a 0%, #0a0a0a 60%, #06140a 100%);
+}
+
+.usg-stadium-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='320' height='200' viewBox='0 0 320 200'><g fill='%23ffffff' opacity='0.04'><text x='20' y='110' font-family='Arial Black, sans-serif' font-size='64' font-weight='900' letter-spacing='3'>USG</text></g></svg>");
+  background-repeat: repeat;
+  background-size: 320px 200px;
+  pointer-events: none;
+}
+
+.usg-stadium-bg > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Banda perimetral con logos USG estilo valla publicitaria de estadio */
+.usg-board {
+  background: linear-gradient(180deg, #c8102e 0%, #9e0a21 100%);
+  background-image:
+    linear-gradient(180deg, rgba(0,0,0,0.0) 0%, rgba(0,0,0,0.25) 100%),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='60' viewBox='0 0 180 60'><g fill='%23ffffff'><text x='12' y='42' font-family='Arial Black, sans-serif' font-size='28' font-weight='900' letter-spacing='1'>USG</text><polygon points='95,18 130,18 130,30 113,30 113,42 130,42 130,54 95,54' /></g></svg>");
+  background-repeat: no-repeat, repeat-x;
+  background-size: cover, 180px 60px;
+  background-position: center, center;
+  border-top: 2px solid rgba(255,255,255,0.2);
+  border-bottom: 2px solid rgba(0,0,0,0.4);
+}
+
 .field-lines {
   position: relative;
 }

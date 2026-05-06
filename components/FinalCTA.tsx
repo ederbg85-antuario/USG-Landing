@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { getWhatsAppUrl } from "@/lib/config";
 
 export default function FinalCTA() {
@@ -5,17 +6,56 @@ export default function FinalCTA() {
     <section className="relative py-24 sm:py-32 overflow-hidden">
       {/* Big red diagonal background */}
       <div className="absolute inset-0 bg-gradient-to-br from-usg-red via-usg-red-dark to-black" />
+
+      {/* Fondo proporcionado por el cliente (túnel con jugadores USG).
+          Encuadrado en la parte inferior para resaltar la "selección" USG. */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 bg-cover pointer-events-none opacity-45"
+        style={{
+          backgroundImage: "url('/backgrounds/tunnel-usg-team.jpg')",
+          backgroundPosition: "center 70%",
+        }}
+      />
+      {/* Capa para asegurar legibilidad del texto principal */}
+      <div className="absolute inset-0 bg-gradient-to-b from-usg-red/70 via-usg-red-dark/55 to-black/85 pointer-events-none" />
+
       <div className="absolute inset-0 diagonal-stripes opacity-30" />
 
       {/* Glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-white/5 rounded-full blur-3xl" />
 
+      {/* Marca de agua gigante del logo USG */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-[0.07]">
+        <Image
+          src="/images.png"
+          alt=""
+          width={1200}
+          height={520}
+          className="w-[85%] max-w-5xl h-auto invert brightness-0"
+        />
+      </div>
+
+      {/* Banda superior estilo valla USG */}
+      <div className="absolute top-0 left-0 right-0 h-8 usg-board" />
+      <div className="absolute bottom-0 left-0 right-0 h-8 usg-board" />
+
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="max-w-4xl mx-auto text-center">
+          {/* Logo USG en una "tarjeta" blanca para dar protagonismo a la marca */}
+          <div className="inline-flex items-center justify-center bg-white rounded-2xl px-8 py-4 shadow-2xl shadow-black/40 mb-8">
+            <Image
+              src="/images.png"
+              alt="USG"
+              width={180}
+              height={80}
+              className="h-12 sm:h-14 w-auto"
+            />
+          </div>
           <div className="text-7xl mb-6">⚽</div>
           <h2 className="font-display text-5xl sm:text-6xl md:text-8xl text-white tracking-tight leading-[0.9] mb-6">
-            La cancha está
-            <span className="block">abierta.</span>
+            ¡La mejor selección
+            <span className="block">es con USG!</span>
           </h2>
           <p className="text-xl sm:text-2xl text-white/90 mb-10 leading-relaxed max-w-2xl mx-auto">
             No necesitas registrar correo ni descargar nada. Inicia tu chat por

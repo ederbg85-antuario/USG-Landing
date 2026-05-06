@@ -43,9 +43,19 @@ export default function FAQ() {
   return (
     <section
       id="faq"
-      className="relative py-20 sm:py-28 bg-gradient-to-b from-black to-usg-black"
+      className="relative py-20 sm:py-28 bg-gradient-to-b from-black to-usg-black overflow-hidden"
     >
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Marca de agua sutil del logo USG */}
+      <div
+        className="absolute inset-0 pointer-events-none opacity-[0.025]"
+        style={{
+          backgroundImage:
+            "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='320' height='200' viewBox='0 0 320 200'><g fill='%23ffffff'><text x='20' y='110' font-family='Arial Black, sans-serif' font-size='64' font-weight='900' letter-spacing='3'>USG</text></g></svg>\")",
+          backgroundRepeat: "repeat",
+          backgroundSize: "320px 200px",
+        }}
+      />
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center max-w-3xl mx-auto mb-14">
           <span className="inline-block text-usg-red text-sm font-bold tracking-widest uppercase mb-3">
             Resolvemos tus dudas

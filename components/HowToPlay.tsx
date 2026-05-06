@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { getWhatsAppUrl } from "@/lib/config";
 
 const STEPS = [
@@ -35,12 +36,23 @@ export default function HowToPlay() {
   return (
     <section
       id="mecanica"
-      className="relative py-20 sm:py-28 bg-gradient-to-b from-black via-usg-black to-black"
+      className="relative py-20 sm:py-28 bg-gradient-to-b from-black via-usg-black to-black overflow-hidden"
     >
       {/* Decorative red diagonal */}
       <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-usg-red to-transparent" />
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Marca de agua del logo USG */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-[0.04]">
+        <Image
+          src="/images.png"
+          alt=""
+          width={1000}
+          height={440}
+          className="w-[70%] max-w-3xl h-auto"
+        />
+      </div>
+
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
           <span className="inline-block text-usg-red text-sm font-bold tracking-widest uppercase mb-3">

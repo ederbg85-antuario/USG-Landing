@@ -18,7 +18,6 @@ export const SITE_CONFIG = {
     "¡Hola! Quiero registrarme en la Promo USG Liga de Campeones ⚽",
   campaignName: "USG Liga de Campeones",
   campaignDuration: "2 meses",
-  totalPrize: "$500,000 MXN",
   brandName: "USG",
   email: "contacto@usg.com.mx", // Cambiar por correo oficial cuando lo proporcionen
 };

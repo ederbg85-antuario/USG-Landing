@@ -37,3 +37,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Imágenes WhatsApp originales (ya copiadas a public/backgrounds/)
+WhatsApp Image*.jpeg
+WhatsApp Image*.jpg

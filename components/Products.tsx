@@ -1,20 +1,38 @@
+import Image from "next/image";
 import { PRODUCTS_BASIC, PRODUCTS_PREMIUM } from "@/lib/config";
 
 export default function Products() {
   return (
     <section
       id="productos"
-      className="relative py-20 sm:py-28 stadium-bg overflow-hidden"
+      className="relative py-20 sm:py-28 usg-pitch-bg overflow-hidden"
     >
       {/* Decorative elements */}
-      <div className="absolute top-1/4 -left-32 w-64 h-64 bg-usg-red/15 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-1/4 -right-32 w-72 h-72 bg-usg-red/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-1/4 -left-32 w-64 h-64 bg-usg-red/20 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-1/4 -right-32 w-72 h-72 bg-usg-red/15 rounded-full blur-3xl pointer-events-none" />
+
+      {/* Marca de agua del logo USG */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-[0.05]">
+        <Image
+          src="/images.png"
+          alt=""
+          width={1100}
+          height={480}
+          className="w-[80%] max-w-4xl h-auto"
+        />
+      </div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
+          <div className="inline-flex items-center gap-2 bg-usg-red/15 border border-usg-red/40 backdrop-blur-sm rounded-full px-4 py-2 mb-4">
+            <span className="w-2 h-2 bg-usg-red rounded-full animate-pulse" />
+            <span className="text-xs sm:text-sm font-semibold text-white tracking-wider uppercase">
+              Reglas del juego
+            </span>
+          </div>
           <span className="inline-block text-usg-red text-sm font-bold tracking-widest uppercase mb-3">
-            Sistema de Puntos
+            Sistema de Puntos · Productos participantes
           </span>
           <h2 className="font-display text-5xl sm:text-6xl md:text-7xl text-white tracking-tight leading-none mb-6">
             No todos los productos

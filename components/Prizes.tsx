@@ -1,13 +1,52 @@
+import Image from "next/image";
 import { PRIZES, getWhatsAppUrl } from "@/lib/config";
+
+const PRIZE_SHOTS = [
+  {
+    name: "Motocicleta",
+    desc: "Premio destacado",
+    icon: "🏍️",
+    accent: "from-usg-red to-usg-red-dark",
+  },
+  {
+    name: "Smart TV",
+    desc: "Pantalla premium",
+    icon: "📺",
+    accent: "from-usg-red to-usg-red-dark",
+  },
+  {
+    name: "Bicicletas",
+    desc: "Modelos premium",
+    icon: "🚲",
+    accent: "from-usg-red to-usg-red-dark",
+  },
+  {
+    name: "Cajas de herramientas",
+    desc: "Equipo profesional",
+    icon: "🧰",
+    accent: "from-usg-red to-usg-red-dark",
+  },
+];
 
 export default function Prizes() {
   return (
     <section
       id="premios"
-      className="relative py-20 sm:py-28 bg-black overflow-hidden"
+      className="relative py-20 sm:py-28 usg-stadium-bg overflow-hidden"
     >
       {/* Spotlight effect */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-usg-red/20 rounded-full blur-3xl pointer-events-none" />
+
+      {/* Marca de agua del logo USG */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-[0.04]">
+        <Image
+          src="/images.png"
+          alt=""
+          width={1100}
+          height={480}
+          className="w-[80%] max-w-4xl h-auto"
+        />
+      </div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
@@ -16,21 +55,41 @@ export default function Prizes() {
             Premios
           </span>
           <h2 className="font-display text-5xl sm:text-6xl md:text-7xl text-white tracking-tight leading-none mb-6">
-            Compite por la
-            <span className="block gradient-text-red">Bolsa de Campeones</span>
+            ¡La mejor selección
+            <span className="block gradient-text-red">se lleva los premios!</span>
           </h2>
+          <p className="text-lg text-white/70 max-w-2xl mx-auto">
+            Los líderes de la liga se llevan{" "}
+            <span className="text-usg-red font-semibold">producto USG</span> +{" "}
+            <span className="text-usg-red font-semibold">premios físicos</span>{" "}
+            de alto valor: motos, pantallas, bicicletas y cajas de herramientas.
+          </p>
+        </div>
 
-          {/* Total prize big highlight */}
-          <div className="inline-block mt-4 bg-gradient-to-r from-usg-red via-usg-red-dark to-usg-red p-1 rounded-2xl shadow-2xl shadow-usg-red/30">
-            <div className="bg-black rounded-xl px-8 py-5">
-              <p className="text-xs uppercase tracking-widest text-white/60 mb-2">
-                Bolsa total de premios
-              </p>
-              <p className="font-display text-6xl sm:text-7xl text-white leading-none">
-                $500,000{" "}
-                <span className="text-3xl sm:text-4xl text-usg-red">MXN</span>
-              </p>
-            </div>
+        {/* Product shots de los premios físicos — sección destacada */}
+        <div className="max-w-5xl mx-auto mb-16">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+            {PRIZE_SHOTS.map((p) => (
+              <div
+                key={p.name}
+                className="group relative card-glow rounded-3xl p-6 text-center overflow-hidden"
+              >
+                <div
+                  className={`absolute -top-12 -right-12 w-32 h-32 rounded-full blur-3xl opacity-30 bg-gradient-to-br ${p.accent}`}
+                />
+                <div className="relative z-10">
+                  <div className="w-24 h-24 mx-auto rounded-2xl bg-gradient-to-br from-usg-red/20 to-usg-red-dark/30 border border-usg-red/40 flex items-center justify-center text-5xl mb-4 group-hover:scale-110 transition-transform">
+                    {p.icon}
+                  </div>
+                  <p className="font-display text-xl text-white tracking-wide mb-1">
+                    {p.name}
+                  </p>
+                  <p className="text-xs text-white/50 uppercase tracking-widest">
+                    {p.desc}
+                  </p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
 
@@ -64,43 +123,6 @@ export default function Prizes() {
               </div>
             </div>
           ))}
-        </div>
-
-        {/* Prize visuals */}
-        <div className="max-w-5xl mx-auto bg-gradient-to-br from-white/5 to-transparent border border-white/10 rounded-3xl p-8 sm:p-10 mb-10">
-          <p className="text-center text-xs uppercase tracking-widest text-white/50 mb-8">
-            Algunos de los premios incluidos
-          </p>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
-            <div className="flex flex-col items-center gap-2">
-              <div className="w-16 h-16 rounded-full bg-usg-red/20 border border-usg-red/40 flex items-center justify-center text-3xl">
-                🏍️
-              </div>
-              <p className="text-white font-semibold text-sm">Motocicleta</p>
-              <p className="text-white/50 text-xs">Premio destacado</p>
-            </div>
-            <div className="flex flex-col items-center gap-2">
-              <div className="w-16 h-16 rounded-full bg-usg-red/20 border border-usg-red/40 flex items-center justify-center text-3xl">
-                📺
-              </div>
-              <p className="text-white font-semibold text-sm">Televisión</p>
-              <p className="text-white/50 text-xs">Smart TV</p>
-            </div>
-            <div className="flex flex-col items-center gap-2">
-              <div className="w-16 h-16 rounded-full bg-usg-red/20 border border-usg-red/40 flex items-center justify-center text-3xl">
-                🚲
-              </div>
-              <p className="text-white font-semibold text-sm">Bicicletas</p>
-              <p className="text-white/50 text-xs">Premium</p>
-            </div>
-            <div className="flex flex-col items-center gap-2">
-              <div className="w-16 h-16 rounded-full bg-usg-red/20 border border-usg-red/40 flex items-center justify-center text-3xl">
-                🧰
-              </div>
-              <p className="text-white font-semibold text-sm">Herramientas</p>
-              <p className="text-white/50 text-xs">Cajas profesionales</p>
-            </div>
-          </div>
         </div>
 
         {/* Disclaimer */}
