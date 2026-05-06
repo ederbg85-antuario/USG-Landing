@@ -2,7 +2,7 @@
 
 /**
  * ============================================================
- * LEADERBOARD — Top de la USG Liga de Campeones
+ * RANKING DE GANADORES EN TIEMPO REAL
  * ============================================================
  *
  * Por ahora usa datos ficticios (mock) para mostrar el diseño.
@@ -45,16 +45,10 @@ const MOCK_LEADERBOARD: LeaderboardEntry[] = [
   { rank: 10, name: "Sofía T.", state: "Sinaloa", stars: 2, points: 4150 },
 ];
 
-/**
- * Cuando se integre Google Sheets, el endpoint debería responder:
- *  [{ "rank": 1, "name": "...", "state": "...", "stars": 5, "points": 14820 }, ...]
- *  ordenado por puntos desc.
- */
-
-const MEDALS: Record<number, { emoji: string; bg: string; ring: string }> = {
-  1: { emoji: "🥇", bg: "from-yellow-400 to-yellow-600", ring: "ring-yellow-400/60" },
-  2: { emoji: "🥈", bg: "from-gray-300 to-gray-500", ring: "ring-gray-300/60" },
-  3: { emoji: "🥉", bg: "from-orange-400 to-orange-700", ring: "ring-orange-400/60" },
+const MEDALS: Record<number, { emoji: string; ring: string }> = {
+  1: { emoji: "🥇", ring: "ring-yellow-400/60" },
+  2: { emoji: "🥈", ring: "ring-gray-300/60" },
+  3: { emoji: "🥉", ring: "ring-orange-400/60" },
 };
 
 function StarRow({ count }: { count: number }) {
@@ -79,11 +73,10 @@ function StarRow({ count }: { count: number }) {
 
 export default function Leaderboard() {
   const [entries, setEntries] = useState<LeaderboardEntry[]>(MOCK_LEADERBOARD);
-  const [loading, setLoading] = useState(false);
+  const [loading] = useState(false);
   const [updatedAt, setUpdatedAt] = useState<string>("");
 
   useEffect(() => {
-    // marca el momento del último refresh con la hora local del cliente
     const now = new Date();
     setUpdatedAt(
       now.toLocaleString("es-MX", {
@@ -117,76 +110,74 @@ export default function Leaderboard() {
       {/* Marca de agua del logo USG */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-[0.04]">
         <Image
-          src="/images.png"
+          src="/usg-logo.png"
           alt=""
           width={1100}
-          height={480}
+          height={420}
           className="w-[80%] max-w-4xl h-auto"
         />
       </div>
 
-      {/* Spotlights */}
-      <div className="absolute top-0 left-1/4 w-[480px] h-[480px] rounded-full bg-usg-red/15 blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 right-1/4 w-[480px] h-[480px] rounded-full bg-usg-red/10 blur-3xl pointer-events-none" />
+      {/* Spotlights rojos USG */}
+      <div className="absolute top-0 left-1/4 w-[480px] h-[480px] rounded-full bg-usg-red/20 blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 right-1/4 w-[480px] h-[480px] rounded-full bg-usg-red/15 blur-3xl pointer-events-none" />
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-14">
           <div className="inline-flex items-center gap-2 bg-usg-red/15 border border-usg-red/40 backdrop-blur-sm rounded-full px-4 py-2 mb-4">
-            <span className="w-2 h-2 bg-usg-red rounded-full animate-pulse" />
+            <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse shadow-[0_0_8px_rgba(74,222,128,0.8)]" />
             <span className="text-xs sm:text-sm font-semibold text-white tracking-wider uppercase">
-              Ranking en vivo
+              EN VIVO · Actualización automática
             </span>
           </div>
           <span className="inline-block text-usg-red text-sm font-bold tracking-widest uppercase mb-3">
             Tabla de posiciones nacional
           </span>
           <h2 className="font-display text-5xl sm:text-6xl md:text-7xl text-white tracking-tight leading-none mb-6">
-            <span className="gradient-text-red">LEADERBOARD</span>
-            <span className="block text-white text-3xl sm:text-4xl md:text-5xl mt-2">
-              Liga de Campeones
-            </span>
+            <span className="block">Ranking de ganadores</span>
+            <span className="block gradient-text-red">en tiempo real</span>
           </h2>
           <p className="text-lg text-white/70 max-w-2xl mx-auto">
-            Estos son los líderes de la promoción en tiempo real. Sube en el
-            ranking acumulando goles (puntos) por cada compra USG registrada
-            por WhatsApp.
+            Estos son los líderes de la promoción. Sube en el ranking
+            acumulando goles (puntos) por cada compra USG registrada por
+            WhatsApp. Se actualiza automáticamente.
           </p>
         </div>
 
-        {/* Tarjeta principal del leaderboard */}
+        {/* Tarjeta principal del leaderboard — paleta USG (rojo/negro) */}
         <div className="max-w-4xl mx-auto">
-          <div className="relative rounded-3xl overflow-hidden border-2 border-usg-red/40 shadow-2xl shadow-usg-red/20 bg-gradient-to-br from-[#0a1530] via-[#06122a] to-black">
-            {/* Glow lateral */}
-            <div className="absolute -top-20 -right-20 w-64 h-64 rounded-full bg-blue-500/20 blur-3xl pointer-events-none" />
+          <div className="relative rounded-3xl overflow-hidden border-2 border-usg-red/50 shadow-2xl shadow-usg-red/30 bg-gradient-to-br from-usg-red-dark/30 via-black to-black">
+            {/* Glows USG */}
+            <div className="absolute -top-20 -right-20 w-64 h-64 rounded-full bg-usg-red/30 blur-3xl pointer-events-none" />
             <div className="absolute -bottom-20 -left-20 w-64 h-64 rounded-full bg-usg-red/20 blur-3xl pointer-events-none" />
 
             {/* Cabecera de la tarjeta */}
-            <div className="relative z-10 flex items-center justify-between px-6 sm:px-8 py-5 border-b border-white/10">
-              <div className="flex items-center gap-3">
-                <div className="bg-white rounded-md p-1.5 shadow-lg">
+            <div className="relative z-10 flex items-center justify-between gap-3 px-5 sm:px-8 py-5 border-b border-usg-red/30 bg-gradient-to-r from-usg-red/20 via-usg-red/10 to-transparent">
+              <div className="flex items-center gap-3 min-w-0">
+                <div className="bg-white rounded-md p-1.5 shadow-lg flex-shrink-0">
                   <Image
-                    src="/images.png"
+                    src="/usg-logo-dark.png"
                     alt="USG"
-                    width={50}
-                    height={22}
+                    width={60}
+                    height={24}
                     className="h-5 w-auto"
                   />
                 </div>
-                <div>
-                  <p className="font-display text-xl sm:text-2xl text-white tracking-wide leading-none">
-                    LEADERBOARD
+                <div className="min-w-0">
+                  <p className="font-display text-lg sm:text-2xl text-white tracking-wide leading-none truncate">
+                    RANKING USG
                   </p>
-                  <p className="text-[10px] uppercase tracking-widest text-white/50 mt-1">
-                    Top {entries.length} · USG Liga de Campeones
+                  <p className="text-[10px] uppercase tracking-widest text-white/60 mt-1 truncate">
+                    Top {entries.length} · Liga de Campeones
                   </p>
                 </div>
               </div>
-              <div className="text-right">
-                <p className="text-[10px] uppercase tracking-widest text-white/50">
+              <div className="text-right flex-shrink-0">
+                <p className="text-[10px] uppercase tracking-widest text-white/60">
                   {loading ? "Actualizando…" : "Última actualización"}
                 </p>
-                <p className="text-xs text-white/80 font-mono">{updatedAt}</p>
+                <p className="text-xs text-white font-mono">{updatedAt}</p>
               </div>
             </div>
 
@@ -199,8 +190,8 @@ export default function Leaderboard() {
                   <li
                     key={entry.rank}
                     className={`flex items-center gap-3 sm:gap-4 px-4 sm:px-8 py-4 transition-colors ${
-                      isTop3 ? "bg-white/[0.02]" : ""
-                    } hover:bg-usg-red/5`}
+                      isTop3 ? "bg-usg-red/[0.06]" : ""
+                    } hover:bg-usg-red/10`}
                   >
                     {/* Rank / medalla */}
                     <div className="flex-shrink-0 w-10 sm:w-12 flex items-center justify-center">
@@ -219,7 +210,7 @@ export default function Leaderboard() {
                     </div>
 
                     {/* Avatar */}
-                    <div className="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-white/70 overflow-hidden">
+                    <div className="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/10 border border-usg-red/40 flex items-center justify-center text-white/70 overflow-hidden">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
@@ -231,7 +222,7 @@ export default function Leaderboard() {
                     </div>
 
                     {/* Nombre + estado */}
-                    <div className="flex-1 min-w-0 bg-gradient-to-r from-white/[0.06] to-transparent rounded-xl px-3 sm:px-4 py-2 border-l-2 border-usg-red/40">
+                    <div className="flex-1 min-w-0 bg-gradient-to-r from-usg-red/15 via-usg-red/5 to-transparent rounded-xl px-3 sm:px-4 py-2 border-l-2 border-usg-red">
                       <p className="text-white font-semibold text-sm sm:text-base truncate">
                         {entry.name}
                       </p>
@@ -242,7 +233,7 @@ export default function Leaderboard() {
                       )}
                     </div>
 
-                    {/* Estrellas — ocultas en mobile muy estrecho */}
+                    {/* Estrellas */}
                     <div className="hidden sm:flex flex-shrink-0">
                       <StarRow count={entry.stars} />
                     </div>
@@ -262,12 +253,11 @@ export default function Leaderboard() {
             </ol>
 
             {/* Footer de la tarjeta */}
-            <div className="relative z-10 px-6 sm:px-8 py-4 border-t border-white/10 bg-black/40 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-white/50">
+            <div className="relative z-10 px-6 sm:px-8 py-4 border-t border-usg-red/30 bg-black/60 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-white/60">
               <p>
-                🔄 Datos sincronizados con la base de datos oficial de la
-                promoción.
+                🔄 Sincronizado con la base de datos oficial de la promoción.
               </p>
-              <p className="font-mono">USG · 2026</p>
+              <p className="font-mono text-usg-red">USG · 2026</p>
             </div>
           </div>
 

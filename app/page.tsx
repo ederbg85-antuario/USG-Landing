@@ -16,9 +16,10 @@ export default function Home() {
       <Hero />
       {/* Reglas de puntos al inicio (movido por solicitud del cliente) */}
       <Products />
+      {/* Ranking de ganadores en tiempo real — visible alto en la página */}
+      <Leaderboard />
       <HowToPlay />
       <Prizes />
-      <Leaderboard />
       <FAQ />
       <FinalCTA />
       <Footer />

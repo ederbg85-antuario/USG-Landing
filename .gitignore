@@ -41,3 +41,9 @@ next-env.d.ts
 # Imágenes WhatsApp originales (ya copiadas a public/backgrounds/)
 WhatsApp Image*.jpeg
 WhatsApp Image*.jpg
+
+# Archivos temporales de exploración del logo (no se publican)
+public/_*.png
+public/_*.jpg
+public/usg-logo-cropped.png
+public/_logo_clean.png

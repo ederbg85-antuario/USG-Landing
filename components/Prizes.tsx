@@ -40,7 +40,7 @@ export default function Prizes() {
       {/* Marca de agua del logo USG */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-[0.04]">
         <Image
-          src="/images.png"
+          src="/usg-logo.png"
           alt=""
           width={1100}
           height={480}

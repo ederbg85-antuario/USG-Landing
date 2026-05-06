@@ -10,7 +10,7 @@ export default function Footer() {
           <div className="md:col-span-2">
             <div className="bg-white inline-block rounded-md p-2 mb-4">
               <Image
-                src="/images.png"
+                src="/usg-logo-dark.png"
                 alt="USG Logo"
                 width={120}
                 height={50}

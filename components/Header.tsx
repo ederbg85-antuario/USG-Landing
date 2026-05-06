@@ -26,7 +26,7 @@ export default function Header() {
         <Link href="#hero" className="flex items-center gap-3">
           <div className="bg-white rounded-md p-1.5 shadow-lg">
             <Image
-              src="/images.png"
+              src="/usg-logo-dark.png"
               alt="USG Logo"
               width={70}
               height={32}

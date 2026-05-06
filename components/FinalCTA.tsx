@@ -28,11 +28,11 @@ export default function FinalCTA() {
       {/* Marca de agua gigante del logo USG */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-[0.07]">
         <Image
-          src="/images.png"
+          src="/usg-logo.png"
           alt=""
           width={1200}
           height={520}
-          className="w-[85%] max-w-5xl h-auto invert brightness-0"
+          className="w-[85%] max-w-5xl h-auto"
         />
       </div>
 
@@ -45,7 +45,7 @@ export default function FinalCTA() {
           {/* Logo USG en una "tarjeta" blanca para dar protagonismo a la marca */}
           <div className="inline-flex items-center justify-center bg-white rounded-2xl px-8 py-4 shadow-2xl shadow-black/40 mb-8">
             <Image
-              src="/images.png"
+              src="/usg-logo-dark.png"
               alt="USG"
               width={180}
               height={80}
