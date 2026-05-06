@@ -54,6 +54,9 @@ export default function Header() {
           <Link href="#premios" className="hover:text-usg-red transition-colors">
             Premios
           </Link>
+          <Link href="#ranking" className="hover:text-usg-red transition-colors">
+            Ranking
+          </Link>
           <Link href="#faq" className="hover:text-usg-red transition-colors">
             FAQ
           </Link>

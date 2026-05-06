@@ -49,6 +49,11 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="#ranking" className="hover:text-usg-red">
+                  Leaderboard
+                </Link>
+              </li>
+              <li>
                 <Link href="#faq" className="hover:text-usg-red">
                   Preguntas frecuentes
                 </Link>

@@ -3,6 +3,7 @@ import Hero from "@/components/Hero";
 import HowToPlay from "@/components/HowToPlay";
 import Products from "@/components/Products";
 import Prizes from "@/components/Prizes";
+import Leaderboard from "@/components/Leaderboard";
 import FAQ from "@/components/FAQ";
 import FinalCTA from "@/components/FinalCTA";
 import Footer from "@/components/Footer";
@@ -17,6 +18,7 @@ export default function Home() {
       <Products />
       <HowToPlay />
       <Prizes />
+      <Leaderboard />
       <FAQ />
       <FinalCTA />
       <Footer />
