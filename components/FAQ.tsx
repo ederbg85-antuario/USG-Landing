@@ -43,7 +43,7 @@ export default function FAQ() {
   return (
     <section
       id="faq"
-      className="relative py-20 sm:py-28 bg-gradient-to-b from-black to-usg-black overflow-hidden"
+      className="relative py-16 sm:py-24 lg:py-28 bg-gradient-to-b from-black/65 via-black/55 to-usg-black/65 overflow-hidden"
     >
       {/* Marca de agua sutil del logo USG */}
       <div
@@ -60,10 +60,10 @@ export default function FAQ() {
           <span className="inline-block text-usg-red text-sm font-bold tracking-widest uppercase mb-3">
             Resolvemos tus dudas
           </span>
-          <h2 className="font-display text-5xl sm:text-6xl md:text-7xl text-white tracking-tight leading-none mb-6">
+          <h2 className="font-display text-4xl xs:text-5xl sm:text-6xl md:text-7xl text-white tracking-tight leading-none mb-5 sm:mb-6">
             Preguntas <span className="gradient-text-red">frecuentes</span>
           </h2>
-          <p className="text-lg text-white/70">
+          <p className="text-base sm:text-lg text-white/70">
             Si tienes una pregunta que no está aquí, escríbenos directo por
             WhatsApp y un asesor te ayuda al momento.
           </p>
@@ -83,9 +83,9 @@ export default function FAQ() {
               >
                 <button
                   onClick={() => setOpen(isOpen ? null : idx)}
-                  className="w-full px-6 py-5 flex items-center justify-between gap-4 text-left"
+                  className="w-full px-4 sm:px-6 py-4 sm:py-5 flex items-center justify-between gap-3 sm:gap-4 text-left"
                 >
-                  <span className="font-semibold text-white text-base sm:text-lg">
+                  <span className="font-semibold text-white text-sm sm:text-lg leading-snug">
                     {faq.q}
                   </span>
                   <span
@@ -116,7 +116,7 @@ export default function FAQ() {
                     isOpen ? "max-h-96" : "max-h-0"
                   }`}
                 >
-                  <div className="px-6 pb-5 text-white/70 leading-relaxed">
+                  <div className="px-4 sm:px-6 pb-4 sm:pb-5 text-sm sm:text-base text-white/75 leading-relaxed">
                     {faq.a}
                   </div>
                 </div>

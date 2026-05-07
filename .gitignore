@@ -47,3 +47,12 @@ public/_*.png
 public/_*.jpg
 public/usg-logo-cropped.png
 public/_logo_clean.png
+
+# Archivos fuente del logo / brand kit (artefactos de trabajo, no del build)
+USG BRAND.svg
+Copia de USG BRAND.svg
+USG Logo blanco.svg
+.gitignore.add
+
+# Snapshot/respaldo manual (no se publica)
+PARA-SUBIR-A-GITHUB/

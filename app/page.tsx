@@ -11,7 +11,7 @@ import WhatsAppFloat from "@/components/WhatsAppFloat";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-black overflow-x-hidden">
+    <main className="usg-global-bg min-h-screen overflow-x-hidden">
       <Header />
       <Hero />
       {/* Reglas de puntos al inicio (movido por solicitud del cliente) */}

@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1200" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+  <!-- ========================================= -->
+  <!--  CANCHA DE FÚTBOL — vista cenital          -->
+  <!--  Capa base de césped con franjas verticales -->
+  <!--  alternadas (efecto de podadora) + líneas  -->
+  <!--  blancas marcando los principales sectores  -->
+  <!--  del campo. Pensada para usarse como        -->
+  <!--  fondo fijo a todo el viewport.             -->
+  <!-- ========================================= -->
+
+  <defs>
+    <!-- Franjas verticales del césped (mowing pattern) -->
+    <pattern id="grass-stripes" x="0" y="0" width="240" height="1200" patternUnits="userSpaceOnUse">
+      <rect width="120" height="1200" fill="#103a1c"/>
+      <rect x="120" width="120" height="1200" fill="#164a25"/>
+    </pattern>
+
+    <!-- Vignette para profundidad -->
+    <radialGradient id="vignette" cx="50%" cy="50%" r="65%">
+      <stop offset="0%" stop-color="rgba(0,0,0,0)"/>
+      <stop offset="65%" stop-color="rgba(0,0,0,0.35)"/>
+      <stop offset="100%" stop-color="rgba(0,0,0,0.85)"/>
+    </radialGradient>
+
+    <!-- Halo rojo USG superior derecha -->
+    <radialGradient id="halo-tr" cx="88%" cy="14%" r="32%">
+      <stop offset="0%" stop-color="rgba(200,16,46,0.42)"/>
+      <stop offset="100%" stop-color="rgba(200,16,46,0)"/>
+    </radialGradient>
+
+    <!-- Halo rojo USG inferior izquierda -->
+    <radialGradient id="halo-bl" cx="12%" cy="86%" r="34%">
+      <stop offset="0%" stop-color="rgba(200,16,46,0.30)"/>
+      <stop offset="100%" stop-color="rgba(200,16,46,0)"/>
+    </radialGradient>
+  </defs>
+
+  <!-- 1. Césped con franjas (efecto podadora) -->
+  <rect width="1920" height="1200" fill="url(#grass-stripes)"/>
+
+  <!-- 2. Líneas oficiales de la cancha (en blanco semitransparente) -->
+  <g stroke="rgba(255,255,255,0.30)" stroke-width="3" fill="none">
+    <!-- Rectángulo perimetral (líneas de banda y de meta) -->
+    <rect x="80" y="100" width="1760" height="1000"/>
+
+    <!-- Línea media -->
+    <line x1="960" y1="100" x2="960" y2="1100"/>
+
+    <!-- Círculo central -->
+    <circle cx="960" cy="600" r="140"/>
+    <!-- Punto central -->
+    <circle cx="960" cy="600" r="6" fill="rgba(255,255,255,0.35)" stroke="none"/>
+
+    <!-- Área grande izquierda -->
+    <rect x="80" y="350" width="240" height="500"/>
+    <!-- Área pequeña izquierda -->
+    <rect x="80" y="470" width="90" height="260"/>
+    <!-- Punto penal izq -->
+    <circle cx="240" cy="600" r="5" fill="rgba(255,255,255,0.35)" stroke="none"/>
+    <!-- Semicírculo del área izquierda -->
+    <path d="M 320 480 A 80 80 0 0 1 320 720"/>
+
+    <!-- Área grande derecha -->
+    <rect x="1600" y="350" width="240" height="500"/>
+    <!-- Área pequeña derecha -->
+    <rect x="1750" y="470" width="90" height="260"/>
+    <!-- Punto penal der -->
+    <circle cx="1680" cy="600" r="5" fill="rgba(255,255,255,0.35)" stroke="none"/>
+    <!-- Semicírculo del área derecha -->
+    <path d="M 1600 480 A 80 80 0 0 0 1600 720"/>
+
+    <!-- Esquinas (corner arcs) -->
+    <path d="M 80 110 A 10 10 0 0 0 90 100"/>
+    <path d="M 1830 100 A 10 10 0 0 0 1840 110"/>
+    <path d="M 80 1090 A 10 10 0 0 1 90 1100"/>
+    <path d="M 1830 1100 A 10 10 0 0 1 1840 1090"/>
+  </g>
+
+  <!-- 3. Halos rojos USG (decorativos) -->
+  <rect width="1920" height="1200" fill="url(#halo-tr)"/>
+  <rect width="1920" height="1200" fill="url(#halo-bl)"/>
+
+  <!-- 4. Vignette para enfocar el centro -->
+  <rect width="1920" height="1200" fill="url(#vignette)"/>
+</svg>

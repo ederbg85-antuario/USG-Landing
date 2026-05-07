@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+  <!-- ============================================================ -->
+  <!--  CANCHA DE FÚTBOL — VERSIÓN MÓVIL (PORTRAIT)                 -->
+  <!--  ViewBox 1080×1920 = ratio 9:16, exactamente la proporción    -->
+  <!--  típica de las pantallas de móvil verticales. La cancha se    -->
+  <!--  ve completa de portería a portería sin recortes raros.       -->
+  <!--                                                               -->
+  <!--  · Franjas de césped MÁS ANCHAS (más cinematográficas)       -->
+  <!--  · Líneas blancas MÁS GRUESAS (visibles incluso en 360px)    -->
+  <!--  · Áreas, círculo central y semicírculos más prominentes     -->
+  <!--  · Halos rojos USG y vignette para profundidad               -->
+  <!-- ============================================================ -->
+
+  <defs>
+    <!-- Franjas horizontales del césped (efecto podadora) - más anchas -->
+    <pattern id="grass-stripes-v" x="0" y="0" width="1080" height="320" patternUnits="userSpaceOnUse">
+      <rect width="1080" height="160" fill="#0e3a1c"/>
+      <rect y="160" width="1080" height="160" fill="#164a26"/>
+    </pattern>
+
+    <!-- Vignette para profundidad y enfoque al centro -->
+    <radialGradient id="vignette-v" cx="50%" cy="50%" r="72%">
+      <stop offset="0%" stop-color="rgba(0,0,0,0)"/>
+      <stop offset="60%" stop-color="rgba(0,0,0,0.30)"/>
+      <stop offset="100%" stop-color="rgba(0,0,0,0.85)"/>
+    </radialGradient>
+
+    <!-- Halo rojo USG superior derecho -->
+    <radialGradient id="halo-tr-v" cx="85%" cy="8%" r="38%">
+      <stop offset="0%" stop-color="rgba(200,16,46,0.50)"/>
+      <stop offset="100%" stop-color="rgba(200,16,46,0)"/>
+    </radialGradient>
+
+    <!-- Halo rojo USG inferior izquierdo -->
+    <radialGradient id="halo-bl-v" cx="15%" cy="92%" r="38%">
+      <stop offset="0%" stop-color="rgba(200,16,46,0.36)"/>
+      <stop offset="100%" stop-color="rgba(200,16,46,0)"/>
+    </radialGradient>
+  </defs>
+
+  <!-- 1. Césped con franjas horizontales (efecto cancha vista desde un costado) -->
+  <rect width="1080" height="1920" fill="url(#grass-stripes-v)"/>
+
+  <!-- 2. Líneas oficiales de la cancha — gruesas para que se lean bien en móvil -->
+  <g stroke="rgba(255,255,255,0.42)" stroke-width="6" fill="none">
+    <!-- Rectángulo perimetral (líneas de banda y de meta) -->
+    <rect x="60" y="60" width="960" height="1800"/>
+
+    <!-- Línea media (horizontal en versión vertical) -->
+    <line x1="60" y1="960" x2="1020" y2="960"/>
+
+    <!-- Círculo central (grande y centrado) -->
+    <circle cx="540" cy="960" r="220"/>
+    <!-- Punto central -->
+    <circle cx="540" cy="960" r="10" fill="rgba(255,255,255,0.55)" stroke="none"/>
+
+    <!-- ─── PORTERÍA SUPERIOR ─── -->
+    <!-- Área grande superior -->
+    <rect x="240" y="60" width="600" height="280"/>
+    <!-- Área pequeña superior -->
+    <rect x="380" y="60" width="320" height="120"/>
+    <!-- Punto penal arriba -->
+    <circle cx="540" cy="260" r="9" fill="rgba(255,255,255,0.55)" stroke="none"/>
+    <!-- Semicírculo del área superior -->
+    <path d="M 420 340 A 120 120 0 0 0 660 340"/>
+
+    <!-- ─── PORTERÍA INFERIOR ─── -->
+    <!-- Área grande inferior -->
+    <rect x="240" y="1580" width="600" height="280"/>
+    <!-- Área pequeña inferior -->
+    <rect x="380" y="1740" width="320" height="120"/>
+    <!-- Punto penal abajo -->
+    <circle cx="540" cy="1660" r="9" fill="rgba(255,255,255,0.55)" stroke="none"/>
+    <!-- Semicírculo del área inferior -->
+    <path d="M 420 1580 A 120 120 0 0 1 660 1580"/>
+
+    <!-- ─── ESQUINAS (corner arcs) ─── -->
+    <path d="M 60 78 A 18 18 0 0 1 78 60"/>
+    <path d="M 1002 60 A 18 18 0 0 1 1020 78"/>
+    <path d="M 60 1842 A 18 18 0 0 0 78 1860"/>
+    <path d="M 1002 1860 A 18 18 0 0 0 1020 1842"/>
+  </g>
+
+  <!-- 3. Halos rojos USG (decorativos) -->
+  <rect width="1080" height="1920" fill="url(#halo-tr-v)"/>
+  <rect width="1080" height="1920" fill="url(#halo-bl-v)"/>
+
+  <!-- 4. Vignette para enfocar el centro -->
+  <rect width="1080" height="1920" fill="url(#vignette-v)"/>
+</svg>

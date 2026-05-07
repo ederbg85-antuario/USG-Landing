@@ -90,7 +90,7 @@ export default function Leaderboard() {
   return (
     <section
       id="ranking"
-      className="relative py-20 sm:py-28 overflow-hidden bg-gradient-to-b from-black via-usg-black to-black"
+      className="relative py-16 sm:py-24 lg:py-28 overflow-hidden bg-gradient-to-b from-black/65 via-usg-black/55 to-black/65"
     >
       {/* Marca de agua del logo USG (vector) */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-[0.04]">
@@ -113,7 +113,7 @@ export default function Leaderboard() {
           <span className="inline-block text-usg-red text-sm font-bold tracking-widest uppercase mb-3">
             Tabla de posiciones nacional
           </span>
-          <h2 className="font-display text-5xl sm:text-6xl md:text-7xl text-white tracking-tight leading-[0.92] mb-6">
+          <h2 className="font-display text-4xl xs:text-5xl sm:text-6xl md:text-7xl text-white tracking-tight leading-[0.92] mb-5 sm:mb-6">
             <span className="block">Ranking de ganadores</span>
             <span className="block gradient-text-red">en tiempo real</span>
           </h2>
@@ -134,8 +134,8 @@ export default function Leaderboard() {
             {/* Cabecera de la tarjeta */}
             <div className="relative z-10 flex items-center justify-between gap-3 px-5 sm:px-8 py-5 border-b border-usg-red/30 bg-gradient-to-r from-usg-red/20 via-usg-red/10 to-transparent">
               <div className="flex items-center gap-3 min-w-0">
-                <div className="bg-white rounded-md px-2 py-1.5 shadow-lg flex-shrink-0">
-                  <UsgLogo variant="dark" className="h-5 sm:h-6 w-auto" />
+                <div className="bg-white rounded-md px-2.5 py-1.5 shadow-lg flex-shrink-0">
+                  <UsgLogo variant="dark" className="h-6 sm:h-7 w-auto" />
                 </div>
                 <div className="min-w-0">
                   <p className="font-display text-lg sm:text-2xl text-white tracking-wide leading-none truncate">

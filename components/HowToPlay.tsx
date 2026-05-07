@@ -36,7 +36,7 @@ export default function HowToPlay() {
   return (
     <section
       id="mecanica"
-      className="relative py-20 sm:py-28 bg-gradient-to-b from-black via-usg-black to-black overflow-hidden"
+      className="relative py-16 sm:py-24 lg:py-28 bg-gradient-to-b from-black/65 via-usg-black/55 to-black/65 overflow-hidden"
     >
       {/* Línea decorativa superior */}
       <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-usg-red to-transparent" />
@@ -56,7 +56,7 @@ export default function HowToPlay() {
           <span className="inline-block text-usg-red text-sm font-bold tracking-widest uppercase mb-3">
             Mecánica de la promoción
           </span>
-          <h2 className="font-display text-5xl sm:text-6xl md:text-7xl text-white tracking-tight leading-[0.92] mb-6">
+          <h2 className="font-display text-4xl xs:text-5xl sm:text-6xl md:text-7xl text-white tracking-tight leading-[0.92] mb-5 sm:mb-6">
             ¿Cómo se <span className="gradient-text-red">juega</span>?
           </h2>
           <p className="text-base sm:text-lg text-white/70 leading-relaxed">
@@ -68,22 +68,22 @@ export default function HowToPlay() {
         </div>
 
         {/* Steps grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
           {STEPS.map((step, idx) => (
             <div
               key={step.number}
-              className="card-glow rounded-2xl p-7 relative group"
+              className="card-glow rounded-2xl p-5 sm:p-7 relative group"
             >
               {/* Number background */}
-              <span className="absolute top-3 right-4 font-display text-7xl text-white/[0.06] group-hover:text-usg-red/25 transition-colors leading-none">
+              <span className="absolute top-3 right-4 font-display text-6xl sm:text-7xl text-white/[0.06] group-hover:text-usg-red/25 transition-colors leading-none">
                 {step.number}
               </span>
 
-              <div className="text-5xl mb-5 relative z-10">{step.icon}</div>
-              <h3 className="font-display text-2xl text-white tracking-wide leading-tight mb-3 relative z-10">
+              <div className="text-4xl sm:text-5xl mb-4 sm:mb-5 relative z-10">{step.icon}</div>
+              <h3 className="font-display text-xl sm:text-2xl text-white tracking-wide leading-tight mb-2 sm:mb-3 relative z-10">
                 {step.title}
               </h3>
-              <p className="text-sm text-white/60 leading-relaxed relative z-10">
+              <p className="text-sm text-white/65 leading-relaxed relative z-10">
                 {step.description}
               </p>
 

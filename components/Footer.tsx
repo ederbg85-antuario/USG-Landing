@@ -3,13 +3,14 @@ import UsgLogo from "@/components/UsgLogo";
 
 export default function Footer() {
   return (
-    <footer className="bg-black border-t border-white/10 pt-16 pb-8">
+    <footer className="relative bg-black/85 backdrop-blur-sm border-t border-white/10 pt-16 pb-8">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid md:grid-cols-4 gap-10 mb-10">
           {/* Brand */}
           <div className="md:col-span-2">
-            <div className="bg-white inline-flex rounded-lg px-3 py-2 mb-4 shadow-md">
-              <UsgLogo variant="dark" className="h-10 w-auto" />
+            {/* Tarjeta blanca con el logo USG en rojo oficial (variant="red") */}
+            <div className="bg-white inline-flex items-center justify-center rounded-xl px-5 py-3 mb-5 shadow-lg ring-1 ring-black/5">
+              <UsgLogo variant="dark" className="h-11 sm:h-12 w-auto" />
             </div>
             <p className="font-display text-2xl text-white tracking-wide mb-2">
               LIGA DE CAMPEONES

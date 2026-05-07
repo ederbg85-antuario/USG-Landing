@@ -28,7 +28,7 @@ export default function Prizes() {
   return (
     <section
       id="premios"
-      className="relative py-20 sm:py-28 overflow-hidden bg-gradient-to-b from-black via-[#100407] to-black"
+      className="relative py-16 sm:py-24 lg:py-28 overflow-hidden bg-gradient-to-b from-black/65 via-[#100407]/55 to-black/65"
     >
       {/* Spotlight rojo */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-usg-red/20 rounded-full blur-[140px] pointer-events-none" />
@@ -44,7 +44,7 @@ export default function Prizes() {
           <span className="inline-block text-usg-red text-sm font-bold tracking-widest uppercase mb-3">
             Premios
           </span>
-          <h2 className="font-display text-5xl sm:text-6xl md:text-7xl text-white tracking-tight leading-[0.92] mb-6">
+          <h2 className="font-display text-4xl xs:text-5xl sm:text-6xl md:text-7xl text-white tracking-tight leading-[0.92] mb-5 sm:mb-6">
             ¡La mejor selección
             <span className="block gradient-text-red">se lleva los premios!</span>
           </h2>
@@ -82,11 +82,11 @@ export default function Prizes() {
         </div>
 
         {/* Niveles de premio */}
-        <div className="grid md:grid-cols-3 gap-5 sm:gap-6 max-w-6xl mx-auto mb-10">
+        <div className="grid md:grid-cols-3 gap-4 sm:gap-6 max-w-6xl mx-auto mb-10">
           {PRIZES.map((prize, idx) => (
             <div
               key={prize.place}
-              className={`relative rounded-3xl p-8 overflow-hidden ${
+              className={`relative rounded-2xl sm:rounded-3xl p-6 sm:p-8 overflow-hidden ${
                 idx === 0
                   ? "bg-gradient-to-br from-yellow-500/20 via-black to-black border-2 border-yellow-400/50 md:scale-105 md:shadow-2xl md:shadow-yellow-400/20"
                   : "card-glow"
@@ -98,11 +98,11 @@ export default function Prizes() {
               />
 
               <div className="relative z-10">
-                <div className="text-7xl mb-4 text-center">{prize.medal}</div>
-                <p className="text-xs uppercase tracking-[0.25em] text-white/60 text-center mb-2">
+                <div className="text-6xl sm:text-7xl mb-3 sm:mb-4 text-center">{prize.medal}</div>
+                <p className="text-[11px] sm:text-xs uppercase tracking-[0.25em] text-white/60 text-center mb-2">
                   {prize.place}
                 </p>
-                <p className="font-display text-4xl sm:text-5xl text-white text-center leading-none mb-4">
+                <p className="font-display text-4xl sm:text-5xl text-white text-center leading-none mb-3 sm:mb-4">
                   {prize.value}
                 </p>
                 <p className="text-sm text-white/70 text-center leading-relaxed">

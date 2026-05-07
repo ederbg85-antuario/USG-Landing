@@ -7,6 +7,10 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      screens: {
+        // Breakpoint extra-small para móviles muy pequeños (≤ 380 px)
+        xs: "400px",
+      },
       colors: {
         usg: {
           red: "#C8102E",

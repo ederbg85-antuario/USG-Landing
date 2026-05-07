@@ -5,7 +5,7 @@ export default function Products() {
   return (
     <section
       id="productos"
-      className="relative py-20 sm:py-28 overflow-hidden bg-gradient-to-b from-black via-[#0a1208] to-black"
+      className="relative py-16 sm:py-24 lg:py-28 overflow-hidden bg-gradient-to-b from-black/65 via-[#0a1208]/55 to-black/65"
     >
       {/* Decorative elements */}
       <div className="absolute top-1/4 -left-32 w-72 h-72 bg-usg-red/20 rounded-full blur-[120px] pointer-events-none" />
@@ -28,7 +28,7 @@ export default function Products() {
           <span className="inline-block text-usg-red text-sm font-bold tracking-widest uppercase mb-3">
             Sistema de Puntos · Productos participantes
           </span>
-          <h2 className="font-display text-5xl sm:text-6xl md:text-7xl text-white tracking-tight leading-[0.92] mb-6">
+          <h2 className="font-display text-4xl xs:text-5xl sm:text-6xl md:text-7xl text-white tracking-tight leading-[0.92] mb-5 sm:mb-6">
             No todos los productos
             <span className="block gradient-text-red">juegan igual</span>
           </h2>
@@ -42,18 +42,18 @@ export default function Products() {
         </div>
 
         {/* Two tier cards */}
-        <div className="grid lg:grid-cols-2 gap-6 sm:gap-8 max-w-6xl mx-auto">
+        <div className="grid lg:grid-cols-2 gap-5 sm:gap-8 max-w-6xl mx-auto">
           {/* BÁSICO */}
-          <div className="card-glow rounded-3xl p-8 relative overflow-hidden border-2 border-white/10">
+          <div className="card-glow rounded-2xl sm:rounded-3xl p-5 sm:p-8 relative overflow-hidden border-2 border-white/10">
             <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl" />
 
             <div className="relative z-10">
-              <div className="flex items-center justify-between mb-7">
+              <div className="flex items-center justify-between mb-5 sm:mb-7">
                 <div>
                   <p className="text-xs uppercase tracking-[0.25em] text-white/50 mb-1">
                     Nivel
                   </p>
-                  <h3 className="font-display text-4xl text-white tracking-wide">
+                  <h3 className="font-display text-3xl sm:text-4xl text-white tracking-wide">
                     BÁSICO
                   </h3>
                 </div>
@@ -91,7 +91,7 @@ export default function Products() {
           </div>
 
           {/* PREMIUM */}
-          <div className="rounded-3xl p-8 relative overflow-hidden bg-gradient-to-br from-usg-red via-usg-red-dark to-[#3a040d] border-2 border-usg-red shadow-2xl shadow-usg-red/30">
+          <div className="rounded-2xl sm:rounded-3xl p-5 sm:p-8 relative overflow-hidden bg-gradient-to-br from-usg-red via-usg-red-dark to-[#3a040d] border-2 border-usg-red shadow-2xl shadow-usg-red/30">
             {/* Premium badge */}
             <div className="absolute top-4 right-4 z-20">
               <div className="bg-yellow-400 text-black font-bold text-[10px] uppercase tracking-widest px-3 py-1 rounded-full shadow-lg flex items-center gap-1">
@@ -103,12 +103,12 @@ export default function Products() {
             <div className="absolute top-0 left-0 w-40 h-40 bg-white/10 rounded-full -translate-x-1/2 -translate-y-1/2 blur-2xl" />
 
             <div className="relative z-10">
-              <div className="flex items-center justify-between mb-7">
+              <div className="flex items-center justify-between mb-5 sm:mb-7">
                 <div>
                   <p className="text-xs uppercase tracking-[0.25em] text-white/70 mb-1">
                     Nivel
                   </p>
-                  <h3 className="font-display text-4xl text-white tracking-wide">
+                  <h3 className="font-display text-3xl sm:text-4xl text-white tracking-wide">
                     PREMIUM
                   </h3>
                 </div>

@@ -19,15 +19,15 @@ export default function Header() {
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled
           ? "bg-black/85 backdrop-blur-xl border-b border-white/10 py-3"
-          : "bg-gradient-to-b from-black/60 via-black/30 to-transparent backdrop-blur-sm py-5"
+          : "bg-gradient-to-b from-black/60 via-black/30 to-transparent backdrop-blur-sm py-4 sm:py-5"
       }`}
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
         <Link href="#hero" className="flex items-center gap-3 group">
-          {/* Logo USG en versión clara (fondo oscuro) — el ginda se mantiene */}
+          {/* Logo USG en versión clara (fondo oscuro) — un poco más grande */}
           <UsgLogo
             variant="light"
-            className="h-9 sm:h-10 w-auto transition-transform group-hover:scale-105"
+            className="h-11 sm:h-12 lg:h-14 w-auto transition-transform group-hover:scale-105"
             ariaLabel="USG Liga de Campeones"
           />
           <div className="hidden sm:block border-l border-white/15 pl-3">
