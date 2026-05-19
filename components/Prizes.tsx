@@ -33,74 +33,39 @@ export default function Prizes() {
           </p>
         </div>
 
-        {/* Premios reales — grid con imágenes oficiales */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 max-w-6xl mx-auto mb-12">
-          {PRIZES.map((prize, idx) => {
-            const isTop = idx === 0;
-            return (
-              <div
-                key={prize.name}
-                className={`group relative rounded-2xl sm:rounded-3xl overflow-hidden border-2 ${
-                  isTop
-                    ? "border-yellow-400/60 bg-gradient-to-br from-yellow-500/15 via-black to-black shadow-2xl shadow-yellow-400/15 lg:scale-[1.02]"
-                    : "border-white/10 bg-gradient-to-br from-white/[0.04] to-white/[0.01] hover:border-usg-red/50"
-                } transition-all duration-300`}
-              >
-                {/* Glow accent */}
-                <div
-                  className={`absolute -top-20 -right-20 w-44 h-44 rounded-full blur-3xl opacity-40 bg-gradient-to-br ${prize.accent}`}
-                />
+        {/* Banner oficial de premios */}
+        <div className="relative mx-auto mb-12 max-w-4xl">
+          <div
+            aria-hidden
+            className="absolute -inset-3 sm:-inset-4 -z-10 rounded-[2rem] bg-gradient-to-br from-usg-red/40 via-usg-red-dark/25 to-transparent opacity-80 blur-2xl"
+          />
 
-                {/* Badge cantidad */}
-                <div className="absolute top-3 left-3 z-20">
-                  <div
-                    className={`flex items-center gap-1.5 rounded-full px-3 py-1.5 backdrop-blur-md shadow-lg ${
-                      isTop
-                        ? "bg-yellow-400 text-black"
-                        : "bg-usg-red text-white"
-                    }`}
-                  >
-                    <span className="font-display text-base leading-none">
-                      ×{prize.quantity}
-                    </span>
-                    <span className="text-[9px] font-bold uppercase tracking-widest">
-                      Ganadores
-                    </span>
-                  </div>
-                </div>
+          <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl border-2 border-usg-red/50 shadow-2xl shadow-usg-red/25">
+            <Image
+              src="/banner-premios.jpg"
+              alt="Premios USG Liga de Campeones: motocicleta Italika, Smart TVs LG y TCL, rotomartillo Bosch, escalera telescópica y audífonos Beats"
+              width={1536}
+              height={1024}
+              sizes="(max-width: 768px) 100vw, 56rem"
+              className="block h-auto w-full bg-white object-contain"
+            />
 
-                {/* Medal */}
-                {isTop && (
-                  <div className="absolute top-3 right-3 z-20 text-3xl drop-shadow-lg">
-                    {prize.medal}
-                  </div>
-                )}
-
-                {/* Imagen del premio — fondo blanco uniforme para homogeneizar proporciones */}
-                <div className="relative aspect-[4/3] overflow-hidden p-3 sm:p-4">
-                  <div className="relative w-full h-full bg-white rounded-xl overflow-hidden shadow-inner">
-                    <Image
-                      src={prize.image}
-                      alt={prize.name}
-                      fill
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                      className="object-contain p-3 sm:p-5 group-hover:scale-[1.04] transition-transform duration-500"
-                    />
-                  </div>
-                </div>
-
-                {/* Info */}
-                <div className="relative z-10 p-5 sm:p-6 border-t border-white/10">
-                  <p className="font-display text-lg sm:text-xl text-white leading-tight tracking-wide mb-1.5">
-                    {prize.name}
-                  </p>
-                  <p className="text-[11px] sm:text-xs text-white/60 uppercase tracking-wider leading-snug">
-                    {prize.subtitle}
-                  </p>
-                </div>
+            {/* Tira inferior */}
+            <div className="relative border-t-2 border-usg-red/40 bg-gradient-to-r from-usg-red via-usg-red-dark to-usg-red px-5 py-3 sm:px-7 sm:py-4">
+              <div className="absolute inset-0 diagonal-stripes opacity-30" />
+              <div className="relative flex items-center justify-center gap-2">
+                <span className="text-xl sm:text-2xl">🏆</span>
+                <span className="font-display text-sm sm:text-base tracking-[0.18em] text-white">
+                  {TOTAL_PRIZES} PREMIOS EN JUEGO
+                </span>
               </div>
-            );
-          })}
+            </div>
+          </div>
+
+          {/* Etiqueta flotante */}
+          <div className="absolute -top-3 -left-3 sm:-top-4 sm:-left-4 rotate-[-4deg] rounded-full bg-yellow-400 px-3 py-1 sm:px-4 sm:py-1.5 text-[10px] sm:text-xs font-bold uppercase tracking-widest text-black shadow-xl">
+            ★ Oficial
+          </div>
         </div>
 
         {/* Tira de resumen */}

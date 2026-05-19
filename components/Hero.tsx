@@ -1,5 +1,5 @@
+import Image from "next/image";
 import { getWhatsAppUrl } from "@/lib/config";
-import PrizeMarquee from "@/components/PrizeMarquee";
 
 /**
  * ============================================================
@@ -7,9 +7,9 @@ import PrizeMarquee from "@/components/PrizeMarquee";
  * ============================================================
  *
  *  · Layout asimétrico desktop (7 / 5): titular épico a la
- *    izquierda y un carrusel VERTICAL de premios reales a la
- *    derecha (corre solo, sin pausa, loop infinito).
- *  · Mobile: stack vertical con el titular arriba y el carrusel
+ *    izquierda y el banner oficial de premios a la derecha,
+ *    enmarcado con estética "cartel deportivo".
+ *  · Mobile: stack vertical con el titular arriba y el banner
  *    de premios debajo, manteniendo la misma estética.
  * ============================================================
  */
@@ -116,7 +116,7 @@ export default function Hero() {
             </p>
           </div>
 
-          {/* ─── COLUMNA CARRUSEL DE PREMIOS ─── */}
+          {/* ─── COLUMNA BANNER DE PREMIOS ─── */}
           <div className="lg:col-span-5">
             <div className="relative mx-auto max-w-md lg:max-w-none">
               {/* Glow detrás */}
@@ -125,10 +125,21 @@ export default function Hero() {
                 className="absolute -inset-4 -z-10 rounded-[2rem] bg-gradient-to-br from-usg-red/50 via-usg-red-dark/30 to-transparent opacity-80 blur-2xl"
               />
 
-              {/* Marco del carrusel — mantiene el estilo "showcase" deportivo */}
-              <div className="relative overflow-hidden rounded-2xl border-2 border-usg-red/50 bg-gradient-to-br from-black/90 via-[#1a0207]/85 to-black/95 shadow-2xl shadow-usg-red/25 backdrop-blur-md sm:rounded-3xl">
-                {/* Header del marco */}
-                <div className="relative border-b-2 border-usg-red/40 bg-gradient-to-r from-usg-red via-usg-red-dark to-usg-red px-5 py-3 sm:px-7 sm:py-4">
+              {/* Marco del banner — estilo "showcase" deportivo */}
+              <div className="relative overflow-hidden rounded-2xl border-2 border-usg-red/50 shadow-2xl shadow-usg-red/25 sm:rounded-3xl">
+                {/* Imagen oficial de premios */}
+                <Image
+                  src="/banner-premios.jpg"
+                  alt="Premios USG Liga de Campeones: motocicleta Italika, Smart TVs LG y TCL, rotomartillo Bosch, escalera y audífonos Beats"
+                  width={1536}
+                  height={1024}
+                  priority
+                  sizes="(max-width: 1024px) 100vw, 40vw"
+                  className="block h-auto w-full bg-white object-contain"
+                />
+
+                {/* Tira inferior */}
+                <div className="relative border-t-2 border-usg-red/40 bg-gradient-to-r from-usg-red via-usg-red-dark to-usg-red px-5 py-3 sm:px-7 sm:py-3.5">
                   <div className="absolute inset-0 diagonal-stripes opacity-30" />
                   <div className="relative flex items-center justify-between">
                     <div className="flex items-center gap-2">
@@ -141,11 +152,6 @@ export default function Hero() {
                       48 ganadores
                     </span>
                   </div>
-                </div>
-
-                {/* Carrusel vertical infinito */}
-                <div className="relative bg-black h-[440px] sm:h-[520px] lg:h-[560px] xl:h-[600px] overflow-hidden">
-                  <PrizeMarquee direction="vertical" />
                 </div>
               </div>
 
