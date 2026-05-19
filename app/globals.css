@@ -237,7 +237,8 @@ body::after {
 }
 
 /* ========================================================== */
-/*  PRIZE MARQUEE — banner corredizo infinito de premios       */
+/*  PRIZE MARQUEE — carrusel infinito de premios               */
+/*  Variantes: horizontal (banner) y vertical (columna).        */
 /* ========================================================== */
 .prize-marquee-track {
   width: max-content;
@@ -245,7 +246,13 @@ body::after {
   will-change: transform;
 }
 
-.prize-marquee-track:hover {
+.prize-marquee-track-vertical {
+  animation: prize-marquee-scroll-v 38s linear infinite;
+  will-change: transform;
+}
+
+.prize-marquee-track:hover,
+.prize-marquee-track-vertical:hover {
   animation-play-state: paused;
 }
 
@@ -266,8 +273,18 @@ body::after {
   }
 }
 
+@keyframes prize-marquee-scroll-v {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-50%);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .prize-marquee-track {
+  .prize-marquee-track,
+  .prize-marquee-track-vertical {
     animation-duration: 120s;
   }
 }
