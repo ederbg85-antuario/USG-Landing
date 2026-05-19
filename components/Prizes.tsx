@@ -1,39 +1,17 @@
+import Image from "next/image";
 import { PRIZES, getWhatsAppUrl } from "@/lib/config";
 import UsgLogo from "@/components/UsgLogo";
 
-const PRIZE_SHOTS = [
-  {
-    name: "Motocicleta",
-    desc: "Premio destacado",
-    icon: "🏍️",
-  },
-  {
-    name: "Smart TV",
-    desc: "Pantalla premium",
-    icon: "📺",
-  },
-  {
-    name: "Bicicletas",
-    desc: "Modelos premium",
-    icon: "🚲",
-  },
-  {
-    name: "Cajas de herramientas",
-    desc: "Equipo profesional",
-    icon: "🧰",
-  },
-];
+const TOTAL_PRIZES = PRIZES.reduce((acc, p) => acc + p.quantity, 0);
 
 export default function Prizes() {
   return (
     <section
       id="premios"
-      className="relative py-16 sm:py-24 lg:py-28 overflow-hidden bg-gradient-to-b from-black/65 via-[#100407]/55 to-black/65"
+      className="relative py-16 sm:py-24 lg:py-28 overflow-hidden bg-gradient-to-b from-black/55 via-[#100407]/45 to-black/55"
     >
-      {/* Spotlight rojo */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-usg-red/20 rounded-full blur-[140px] pointer-events-none" />
 
-      {/* Marca de agua del logo USG (vector) */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-[0.05]">
         <UsgLogo variant="light" className="w-[80%] max-w-4xl h-auto" />
       </div>
@@ -49,75 +27,96 @@ export default function Prizes() {
             <span className="block gradient-text-red">se lleva los premios!</span>
           </h2>
           <p className="text-base sm:text-lg text-white/70 max-w-2xl mx-auto leading-relaxed">
-            Los líderes de la liga se llevan{" "}
-            <span className="text-usg-red font-semibold">producto USG</span> +{" "}
-            <span className="text-usg-red font-semibold">premios físicos</span>{" "}
-            de alto valor: motos, pantallas, bicicletas y cajas de herramientas.
+            <span className="text-usg-red font-semibold">{TOTAL_PRIZES} premios</span>{" "}
+            físicos en juego: motocicletas Italika, Smart TVs LG y TCL,
+            rotomartillos Bosch, audífonos Beats y herramienta profesional.
           </p>
         </div>
 
-        {/* Tarjetas — premios físicos */}
-        <div className="max-w-5xl mx-auto mb-16">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
-            {PRIZE_SHOTS.map((p) => (
+        {/* Premios reales — grid con imágenes oficiales */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 max-w-6xl mx-auto mb-12">
+          {PRIZES.map((prize, idx) => {
+            const isTop = idx === 0;
+            return (
               <div
-                key={p.name}
-                className="group relative card-glow rounded-3xl p-6 text-center overflow-hidden"
+                key={prize.name}
+                className={`group relative rounded-2xl sm:rounded-3xl overflow-hidden border-2 ${
+                  isTop
+                    ? "border-yellow-400/60 bg-gradient-to-br from-yellow-500/15 via-black to-black shadow-2xl shadow-yellow-400/15 lg:scale-[1.02]"
+                    : "border-white/10 bg-gradient-to-br from-white/[0.04] to-white/[0.01] hover:border-usg-red/50"
+                } transition-all duration-300`}
               >
-                <div className="absolute -top-12 -right-12 w-32 h-32 rounded-full blur-3xl opacity-30 bg-gradient-to-br from-usg-red to-usg-red-dark" />
-                <div className="relative z-10">
-                  <div className="w-20 h-20 sm:w-24 sm:h-24 mx-auto rounded-2xl bg-gradient-to-br from-usg-red/20 to-usg-red-dark/30 border border-usg-red/40 flex items-center justify-center text-4xl sm:text-5xl mb-4 group-hover:scale-110 transition-transform">
-                    {p.icon}
+                {/* Glow accent */}
+                <div
+                  className={`absolute -top-20 -right-20 w-44 h-44 rounded-full blur-3xl opacity-40 bg-gradient-to-br ${prize.accent}`}
+                />
+
+                {/* Badge cantidad */}
+                <div className="absolute top-3 left-3 z-20">
+                  <div
+                    className={`flex items-center gap-1.5 rounded-full px-3 py-1.5 backdrop-blur-md shadow-lg ${
+                      isTop
+                        ? "bg-yellow-400 text-black"
+                        : "bg-usg-red text-white"
+                    }`}
+                  >
+                    <span className="font-display text-base leading-none">
+                      ×{prize.quantity}
+                    </span>
+                    <span className="text-[9px] font-bold uppercase tracking-widest">
+                      Ganadores
+                    </span>
                   </div>
-                  <p className="font-display text-lg sm:text-xl text-white tracking-wide mb-1 leading-tight">
-                    {p.name}
+                </div>
+
+                {/* Medal */}
+                {isTop && (
+                  <div className="absolute top-3 right-3 z-20 text-3xl drop-shadow-lg">
+                    {prize.medal}
+                  </div>
+                )}
+
+                {/* Imagen del premio */}
+                <div className="relative aspect-[4/3] bg-gradient-to-br from-white/[0.06] to-white/[0.02] overflow-hidden">
+                  <Image
+                    src={prize.image}
+                    alt={prize.name}
+                    fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    className="object-contain p-4 sm:p-6 group-hover:scale-[1.04] transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
+                </div>
+
+                {/* Info */}
+                <div className="relative z-10 p-5 sm:p-6 border-t border-white/10">
+                  <p className="font-display text-lg sm:text-xl text-white leading-tight tracking-wide mb-1.5">
+                    {prize.name}
                   </p>
-                  <p className="text-[10px] sm:text-xs text-white/55 uppercase tracking-widest">
-                    {p.desc}
+                  <p className="text-[11px] sm:text-xs text-white/60 uppercase tracking-wider leading-snug">
+                    {prize.subtitle}
                   </p>
                 </div>
               </div>
-            ))}
-          </div>
+            );
+          })}
         </div>
 
-        {/* Niveles de premio */}
-        <div className="grid md:grid-cols-3 gap-4 sm:gap-6 max-w-6xl mx-auto mb-10">
-          {PRIZES.map((prize, idx) => (
-            <div
-              key={prize.place}
-              className={`relative rounded-2xl sm:rounded-3xl p-6 sm:p-8 overflow-hidden ${
-                idx === 0
-                  ? "bg-gradient-to-br from-yellow-500/20 via-black to-black border-2 border-yellow-400/50 md:scale-105 md:shadow-2xl md:shadow-yellow-400/20"
-                  : "card-glow"
-              }`}
-            >
-              {/* Glow */}
-              <div
-                className={`absolute -top-20 -right-20 w-40 h-40 rounded-full blur-3xl opacity-40 bg-gradient-to-br ${prize.accent}`}
-              />
-
-              <div className="relative z-10">
-                <div className="text-6xl sm:text-7xl mb-3 sm:mb-4 text-center">{prize.medal}</div>
-                <p className="text-[11px] sm:text-xs uppercase tracking-[0.25em] text-white/60 text-center mb-2">
-                  {prize.place}
-                </p>
-                <p className="font-display text-4xl sm:text-5xl text-white text-center leading-none mb-3 sm:mb-4">
-                  {prize.value}
-                </p>
-                <p className="text-sm text-white/70 text-center leading-relaxed">
-                  {prize.description}
-                </p>
-              </div>
-            </div>
-          ))}
+        {/* Tira de resumen */}
+        <div className="max-w-4xl mx-auto mb-10 bg-gradient-to-r from-usg-red/10 via-usg-red/25 to-usg-red/10 border border-usg-red/30 rounded-2xl p-5 sm:p-6 backdrop-blur-sm text-center">
+          <p className="text-white font-display text-2xl sm:text-3xl tracking-wide leading-tight">
+            {TOTAL_PRIZES} ganadores · {PRIZES.length} categorías
+          </p>
+          <p className="text-white/70 text-sm sm:text-base mt-2">
+            Mientras más alto subas en el ranking, mejor el premio que te llevas.
+          </p>
         </div>
 
         {/* Disclaimer */}
         <p className="text-center text-xs text-white/40 max-w-2xl mx-auto mb-8">
-          *Los premios económicos en producto se otorgarán mediante NDC al
-          distribuidor. Al momento de premiar se entregará un cheque
-          representativo al ganador para redimir en POV.
+          *Los premios físicos se entregan a los ganadores oficiales conforme a
+          la posición final en el ranking. Productos USG se otorgan mediante NDC
+          al distribuidor.
         </p>
 
         {/* CTA */}

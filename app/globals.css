@@ -245,3 +245,39 @@ body {
 .usg-board {
   display: none;
 }
+
+/* ========================================================== */
+/*  PRIZE MARQUEE — banner corredizo infinito de premios       */
+/* ========================================================== */
+.prize-marquee-track {
+  width: max-content;
+  animation: prize-marquee-scroll 45s linear infinite;
+  will-change: transform;
+}
+
+.prize-marquee-track:hover {
+  animation-play-state: paused;
+}
+
+.prize-marquee-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.prize-marquee-card:hover {
+  transform: translateY(-4px);
+}
+
+@keyframes prize-marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .prize-marquee-track {
+    animation-duration: 120s;
+  }
+}

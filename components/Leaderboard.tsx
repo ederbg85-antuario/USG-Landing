@@ -90,7 +90,7 @@ export default function Leaderboard() {
   return (
     <section
       id="ranking"
-      className="relative py-16 sm:py-24 lg:py-28 overflow-hidden bg-gradient-to-b from-black/65 via-usg-black/55 to-black/65"
+      className="relative py-16 sm:py-24 lg:py-28 overflow-hidden bg-gradient-to-b from-black/45 via-usg-black/35 to-black/45"
     >
       {/* Marca de agua del logo USG (vector) */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-[0.04]">

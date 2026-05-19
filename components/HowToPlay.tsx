@@ -36,7 +36,7 @@ export default function HowToPlay() {
   return (
     <section
       id="mecanica"
-      className="relative py-16 sm:py-24 lg:py-28 bg-gradient-to-b from-black/65 via-usg-black/55 to-black/65 overflow-hidden"
+      className="relative py-16 sm:py-24 lg:py-28 bg-gradient-to-b from-black/45 via-usg-black/35 to-black/45 overflow-hidden"
     >
       {/* Línea decorativa superior */}
       <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-usg-red to-transparent" />

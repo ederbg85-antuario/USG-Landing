@@ -58,11 +58,11 @@ export default function FinalCTA() {
             </div>
 
             <p className="text-lg sm:text-2xl text-white font-semibold mb-3 sm:mb-4 leading-snug max-w-2xl mx-auto">
-              No necesitas registrar correo ni descargar nada.
+              Regístrate rápido por WhatsApp y empieza a sumar puntos.
             </p>
             <p className="text-sm sm:text-lg text-white/85 mb-8 sm:mb-10 leading-relaxed max-w-2xl mx-auto">
-              Inicia tu chat por WhatsApp y empieza a meter goles desde tu
-              primera compra.
+              Tu registro toma menos de un minuto. Una vez dentro, cada compra
+              USG suma puntos a tu marcador y te acerca a los premios.
             </p>
 
             <a

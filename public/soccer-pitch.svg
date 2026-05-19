@@ -9,17 +9,17 @@
   <!-- ========================================= -->
 
   <defs>
-    <!-- Franjas verticales del césped (mowing pattern) -->
+    <!-- Franjas verticales del césped (mowing pattern) — verdes más vivos -->
     <pattern id="grass-stripes" x="0" y="0" width="240" height="1200" patternUnits="userSpaceOnUse">
-      <rect width="120" height="1200" fill="#103a1c"/>
-      <rect x="120" width="120" height="1200" fill="#164a25"/>
+      <rect width="120" height="1200" fill="#1c6b32"/>
+      <rect x="120" width="120" height="1200" fill="#258a42"/>
     </pattern>
 
-    <!-- Vignette para profundidad -->
-    <radialGradient id="vignette" cx="50%" cy="50%" r="65%">
+    <!-- Vignette para profundidad (más suave) -->
+    <radialGradient id="vignette" cx="50%" cy="50%" r="75%">
       <stop offset="0%" stop-color="rgba(0,0,0,0)"/>
-      <stop offset="65%" stop-color="rgba(0,0,0,0.35)"/>
-      <stop offset="100%" stop-color="rgba(0,0,0,0.85)"/>
+      <stop offset="70%" stop-color="rgba(0,0,0,0.15)"/>
+      <stop offset="100%" stop-color="rgba(0,0,0,0.55)"/>
     </radialGradient>
 
     <!-- Halo rojo USG superior derecha -->
@@ -38,8 +38,8 @@
   <!-- 1. Césped con franjas (efecto podadora) -->
   <rect width="1920" height="1200" fill="url(#grass-stripes)"/>
 
-  <!-- 2. Líneas oficiales de la cancha (en blanco semitransparente) -->
-  <g stroke="rgba(255,255,255,0.30)" stroke-width="3" fill="none">
+  <!-- 2. Líneas oficiales de la cancha (en blanco semitransparente — más brillantes) -->
+  <g stroke="rgba(255,255,255,0.55)" stroke-width="4" fill="none">
     <!-- Rectángulo perimetral (líneas de banda y de meta) -->
     <rect x="80" y="100" width="1760" height="1000"/>
 
