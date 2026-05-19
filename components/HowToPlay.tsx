@@ -21,7 +21,7 @@ const STEPS = [
     icon: "⚽",
     title: "Cada pieza suma GOLES",
     description:
-      "Productos básicos = 100 puntos · Productos premium = 1,000 puntos. Mientras más compras, más metes goles.",
+      "Básico = 100 pts · Medio = 500 pts · Premium = 1,000 pts. Mientras mejor el producto, más goles metes en el marcador.",
   },
   {
     number: "04",

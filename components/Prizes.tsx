@@ -8,7 +8,7 @@ export default function Prizes() {
   return (
     <section
       id="premios"
-      className="relative py-16 sm:py-24 lg:py-28 overflow-hidden bg-gradient-to-b from-black/55 via-[#100407]/45 to-black/55"
+      className="relative py-16 sm:py-24 lg:py-28 overflow-hidden bg-gradient-to-b from-black/85 via-[#100407]/90 to-black/85"
     >
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-usg-red/20 rounded-full blur-[140px] pointer-events-none" />
 
@@ -76,16 +76,17 @@ export default function Prizes() {
                   </div>
                 )}
 
-                {/* Imagen del premio */}
-                <div className="relative aspect-[4/3] bg-gradient-to-br from-white/[0.06] to-white/[0.02] overflow-hidden">
-                  <Image
-                    src={prize.image}
-                    alt={prize.name}
-                    fill
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    className="object-contain p-4 sm:p-6 group-hover:scale-[1.04] transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
+                {/* Imagen del premio — fondo blanco uniforme para homogeneizar proporciones */}
+                <div className="relative aspect-[4/3] overflow-hidden p-3 sm:p-4">
+                  <div className="relative w-full h-full bg-white rounded-xl overflow-hidden shadow-inner">
+                    <Image
+                      src={prize.image}
+                      alt={prize.name}
+                      fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      className="object-contain p-3 sm:p-5 group-hover:scale-[1.04] transition-transform duration-500"
+                    />
+                  </div>
                 </div>
 
                 {/* Info */}

@@ -43,7 +43,7 @@ export default function FAQ() {
   return (
     <section
       id="faq"
-      className="relative py-16 sm:py-24 lg:py-28 bg-gradient-to-b from-black/45 via-black/35 to-usg-black/45 overflow-hidden"
+      className="relative py-16 sm:py-24 lg:py-28 bg-gradient-to-b from-black/85 via-black/90 to-usg-black/95 overflow-hidden"
     >
       {/* Marca de agua sutil del logo USG */}
       <div

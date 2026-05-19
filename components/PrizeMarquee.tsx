@@ -44,15 +44,17 @@ export default function PrizeMarquee() {
               </div>
             </div>
 
-            {/* Imagen */}
-            <div className="relative aspect-[4/3] bg-gradient-to-br from-white/[0.08] to-white/[0.02]">
-              <Image
-                src={prize.image}
-                alt={prize.name}
-                fill
-                sizes="300px"
-                className="object-contain p-3 sm:p-4"
-              />
+            {/* Imagen — fondo blanco uniforme */}
+            <div className="relative aspect-[4/3] p-3">
+              <div className="relative w-full h-full bg-white rounded-xl overflow-hidden">
+                <Image
+                  src={prize.image}
+                  alt={prize.name}
+                  fill
+                  sizes="300px"
+                  className="object-contain p-3"
+                />
+              </div>
             </div>
 
             {/* Info */}
