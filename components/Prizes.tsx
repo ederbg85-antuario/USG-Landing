@@ -35,12 +35,12 @@ export default function Prizes() {
 
         {/* Banner oficial de premios */}
         <Image
-          src="/banner-premios.png"
+          src="/banner-premios-cuadrado.png"
           alt="Premios USG Liga de Campeones: motocicleta Italika, Smart TVs LG y TCL, rotomartillo Bosch, escalera telescópica y audífonos Beats"
-          width={1536}
-          height={1024}
-          sizes="(max-width: 768px) 100vw, 56rem"
-          className="mx-auto mb-12 h-auto w-full max-w-4xl object-contain"
+          width={959}
+          height={946}
+          sizes="(max-width: 768px) 100vw, 768px"
+          className="mx-auto mb-10 h-auto w-full max-w-3xl object-contain"
         />
 
         {/* Tira de resumen */}

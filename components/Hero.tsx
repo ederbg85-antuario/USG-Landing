@@ -43,7 +43,7 @@ export default function Hero() {
       <div className="container relative mx-auto px-4 sm:px-6 lg:px-8 flex-1 flex items-center">
         <div className="grid w-full items-center gap-10 lg:grid-cols-12 lg:gap-12 xl:gap-16">
           {/* ─── COLUMNA TEXTO ─── */}
-          <div className="lg:col-span-6 text-center lg:text-left">
+          <div className="lg:col-span-5 text-center lg:text-left">
             {/* Badge superior */}
             <div className="inline-flex items-center gap-2.5 rounded-full border border-usg-red/50 bg-usg-red/15 px-4 py-2 backdrop-blur-md shadow-lg shadow-usg-red/20">
               <span className="relative flex h-2.5 w-2.5">
@@ -117,15 +117,15 @@ export default function Hero() {
           </div>
 
           {/* ─── COLUMNA BANNER DE PREMIOS ─── */}
-          <div className="lg:col-span-6">
+          <div className="lg:col-span-7 flex justify-center">
             <Image
-              src="/banner-premios.png"
+              src="/banner-premios-cuadrado.png"
               alt="Premios USG Liga de Campeones: motocicleta Italika, Smart TVs LG y TCL, rotomartillo Bosch, escalera y audífonos Beats"
-              width={1536}
-              height={1024}
+              width={959}
+              height={946}
               priority
-              sizes="(max-width: 1024px) 100vw, 55vw"
-              className="mx-auto h-auto w-full max-w-xl object-contain lg:max-w-none lg:origin-center lg:scale-110 xl:scale-[1.2]"
+              sizes="(max-width: 1024px) 100vw, 60vw"
+              className="mx-auto h-auto w-full max-w-xl object-contain lg:max-w-none"
             />
           </div>
         </div>
