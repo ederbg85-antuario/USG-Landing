@@ -118,51 +118,15 @@ export default function Hero() {
 
           {/* ─── COLUMNA BANNER DE PREMIOS ─── */}
           <div className="lg:col-span-5">
-            <div className="relative mx-auto max-w-md lg:max-w-none">
-              {/* Glow detrás */}
-              <div
-                aria-hidden
-                className="absolute -inset-4 -z-10 rounded-[2rem] bg-gradient-to-br from-usg-red/50 via-usg-red-dark/30 to-transparent opacity-80 blur-2xl"
-              />
-
-              {/* Marco del banner — estilo "showcase" deportivo */}
-              <div className="relative overflow-hidden rounded-2xl border-2 border-usg-red/50 shadow-2xl shadow-usg-red/25 sm:rounded-3xl">
-                {/* Imagen oficial de premios */}
-                <Image
-                  src="/banner-premios.jpg"
-                  alt="Premios USG Liga de Campeones: motocicleta Italika, Smart TVs LG y TCL, rotomartillo Bosch, escalera y audífonos Beats"
-                  width={1536}
-                  height={1024}
-                  priority
-                  sizes="(max-width: 1024px) 100vw, 40vw"
-                  className="block h-auto w-full bg-white object-contain"
-                />
-
-                {/* Tira inferior */}
-                <div className="relative border-t-2 border-usg-red/40 bg-gradient-to-r from-usg-red via-usg-red-dark to-usg-red px-5 py-3 sm:px-7 sm:py-3.5">
-                  <div className="absolute inset-0 diagonal-stripes opacity-30" />
-                  <div className="relative flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <span className="text-xl sm:text-2xl">🏆</span>
-                      <span className="font-display text-sm tracking-[0.18em] text-white sm:text-base">
-                        PREMIOS EN JUEGO
-                      </span>
-                    </div>
-                    <span className="inline-flex items-center gap-1.5 rounded-full bg-black/40 px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest text-white backdrop-blur-sm">
-                      48 ganadores
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Etiquetas flotantes decorativas */}
-              <div className="absolute -top-3 -left-3 rotate-[-4deg] rounded-full bg-yellow-400 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-black shadow-xl sm:-top-4 sm:-left-4 sm:px-4 sm:py-1.5 sm:text-xs">
-                ★ Oficial
-              </div>
-              <div className="absolute -bottom-3 -right-3 rotate-[3deg] rounded-full bg-white px-3.5 py-1.5 font-display text-xs tracking-widest text-usg-red shadow-2xl sm:-bottom-4 sm:-right-4 sm:px-5 sm:py-2 sm:text-sm">
-                ¡A METER GOLES!
-              </div>
-            </div>
+            <Image
+              src="/banner-premios.png"
+              alt="Premios USG Liga de Campeones: motocicleta Italika, Smart TVs LG y TCL, rotomartillo Bosch, escalera y audífonos Beats"
+              width={1536}
+              height={1024}
+              priority
+              sizes="(max-width: 1024px) 100vw, 40vw"
+              className="mx-auto h-auto w-full max-w-md object-contain lg:max-w-none"
+            />
           </div>
         </div>
       </div>

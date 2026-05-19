@@ -34,39 +34,14 @@ export default function Prizes() {
         </div>
 
         {/* Banner oficial de premios */}
-        <div className="relative mx-auto mb-12 max-w-4xl">
-          <div
-            aria-hidden
-            className="absolute -inset-3 sm:-inset-4 -z-10 rounded-[2rem] bg-gradient-to-br from-usg-red/40 via-usg-red-dark/25 to-transparent opacity-80 blur-2xl"
-          />
-
-          <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl border-2 border-usg-red/50 shadow-2xl shadow-usg-red/25">
-            <Image
-              src="/banner-premios.jpg"
-              alt="Premios USG Liga de Campeones: motocicleta Italika, Smart TVs LG y TCL, rotomartillo Bosch, escalera telescópica y audífonos Beats"
-              width={1536}
-              height={1024}
-              sizes="(max-width: 768px) 100vw, 56rem"
-              className="block h-auto w-full bg-white object-contain"
-            />
-
-            {/* Tira inferior */}
-            <div className="relative border-t-2 border-usg-red/40 bg-gradient-to-r from-usg-red via-usg-red-dark to-usg-red px-5 py-3 sm:px-7 sm:py-4">
-              <div className="absolute inset-0 diagonal-stripes opacity-30" />
-              <div className="relative flex items-center justify-center gap-2">
-                <span className="text-xl sm:text-2xl">🏆</span>
-                <span className="font-display text-sm sm:text-base tracking-[0.18em] text-white">
-                  {TOTAL_PRIZES} PREMIOS EN JUEGO
-                </span>
-              </div>
-            </div>
-          </div>
-
-          {/* Etiqueta flotante */}
-          <div className="absolute -top-3 -left-3 sm:-top-4 sm:-left-4 rotate-[-4deg] rounded-full bg-yellow-400 px-3 py-1 sm:px-4 sm:py-1.5 text-[10px] sm:text-xs font-bold uppercase tracking-widest text-black shadow-xl">
-            ★ Oficial
-          </div>
-        </div>
+        <Image
+          src="/banner-premios.png"
+          alt="Premios USG Liga de Campeones: motocicleta Italika, Smart TVs LG y TCL, rotomartillo Bosch, escalera telescópica y audífonos Beats"
+          width={1536}
+          height={1024}
+          sizes="(max-width: 768px) 100vw, 56rem"
+          className="mx-auto mb-12 h-auto w-full max-w-4xl object-contain"
+        />
 
         {/* Tira de resumen */}
         <div className="max-w-4xl mx-auto mb-10 bg-gradient-to-r from-usg-red/10 via-usg-red/25 to-usg-red/10 border border-usg-red/30 rounded-2xl p-5 sm:p-6 backdrop-blur-sm text-center">
