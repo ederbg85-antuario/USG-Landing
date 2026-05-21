@@ -5,16 +5,10 @@
  * RANKING DE GANADORES EN TIEMPO REAL
  * ============================================================
  *
- * Por ahora usa datos ficticios (mock) para mostrar el diseño.
- *
- * 🔌 Cuando se conecte a Google Sheets:
- *    1. Crea un endpoint en /app/api/leaderboard/route.ts que
- *       consulte la hoja (con la API de Google Sheets o un
- *       script Apps Script publicado como webapp).
- *    2. Reemplaza la constante MOCK_LEADERBOARD por una
- *       llamada `fetch("/api/leaderboard")` dentro de un
- *       useEffect (ver bloque comentado más abajo).
- *    3. Listo — la sección refrescará en tiempo real.
+ * Conectado a Supabase a través de /app/api/leaderboard/route.ts.
+ * El endpoint lee la vista `ranking` (Top 10, sólo datos públicos).
+ * Este componente lo consulta al montar y cada 60 s, para el
+ * refresco automático del ranking.
  * ============================================================
  */
 
@@ -28,22 +22,6 @@ type LeaderboardEntry = {
   stars: number; // 0..5
   points: number;
 };
-
-/**
- * Datos ficticios — REEMPLAZAR por fetch a la API cuando esté lista.
- */
-const MOCK_LEADERBOARD: LeaderboardEntry[] = [
-  { rank: 1, name: "Carlos M.", state: "CDMX", stars: 5, points: 14820 },
-  { rank: 2, name: "María G.", state: "Jalisco", stars: 5, points: 13110 },
-  { rank: 3, name: "Roberto S.", state: "Nuevo León", stars: 4, points: 11890 },
-  { rank: 4, name: "Ana L.", state: "Querétaro", stars: 4, points: 9740 },
-  { rank: 5, name: "Jorge V.", state: "Puebla", stars: 4, points: 8650 },
-  { rank: 6, name: "Patricia R.", state: "Yucatán", stars: 3, points: 7220 },
-  { rank: 7, name: "Diego H.", state: "Estado de México", stars: 3, points: 6430 },
-  { rank: 8, name: "Lucía F.", state: "Guanajuato", stars: 3, points: 5810 },
-  { rank: 9, name: "Miguel A.", state: "Veracruz", stars: 2, points: 4920 },
-  { rank: 10, name: "Sofía T.", state: "Sinaloa", stars: 2, points: 4150 },
-];
 
 const MEDALS: Record<number, { emoji: string; ring: string }> = {
   1: { emoji: "🥇", ring: "ring-yellow-400/60" },
@@ -72,19 +50,43 @@ function StarRow({ count }: { count: number }) {
 }
 
 export default function Leaderboard() {
-  const [entries] = useState<LeaderboardEntry[]>(MOCK_LEADERBOARD);
-  const [loading] = useState(false);
+  const [entries, setEntries] = useState<LeaderboardEntry[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
   const [updatedAt, setUpdatedAt] = useState<string>("");
 
   useEffect(() => {
-    const now = new Date();
-    setUpdatedAt(
-      now.toLocaleString("es-MX", {
-        weekday: "short",
-        hour: "2-digit",
-        minute: "2-digit",
-      })
-    );
+    let cancelado = false;
+
+    const cargarRanking = async () => {
+      try {
+        const res = await fetch("/api/leaderboard");
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data: LeaderboardEntry[] = await res.json();
+        if (cancelado) return;
+        setEntries(data);
+        setError(false);
+      } catch {
+        if (!cancelado) setError(true);
+      } finally {
+        if (cancelado) return;
+        setLoading(false);
+        setUpdatedAt(
+          new Date().toLocaleString("es-MX", {
+            weekday: "short",
+            hour: "2-digit",
+            minute: "2-digit",
+          }),
+        );
+      }
+    };
+
+    cargarRanking();
+    const intervalo = setInterval(cargarRanking, 60_000);
+    return () => {
+      cancelado = true;
+      clearInterval(intervalo);
+    };
   }, []);
 
   return (
@@ -155,6 +157,21 @@ export default function Leaderboard() {
             </div>
 
             {/* Filas */}
+            {loading ? (
+              <div className="relative z-10 px-6 sm:px-8 py-16 text-center text-sm text-white/50">
+                Cargando ranking…
+              </div>
+            ) : error ? (
+              <div className="relative z-10 px-6 sm:px-8 py-16 text-center text-sm text-white/50">
+                No pudimos cargar el ranking ahora mismo. Vuelve a intentar en
+                un momento.
+              </div>
+            ) : entries.length === 0 ? (
+              <div className="relative z-10 px-6 sm:px-8 py-16 text-center text-sm text-white/50">
+                Aún no hay participantes en el ranking. ¡Registra tus compras
+                por WhatsApp y aparece aquí!
+              </div>
+            ) : (
             <ol className="relative z-10 divide-y divide-white/5">
               {entries.map((entry) => {
                 const medal = MEDALS[entry.rank];
@@ -224,6 +241,7 @@ export default function Leaderboard() {
                 );
               })}
             </ol>
+            )}
 
             {/* Footer de la tarjeta */}
             <div className="relative z-10 px-6 sm:px-8 py-4 border-t border-usg-red/30 bg-black/60 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-white/60">

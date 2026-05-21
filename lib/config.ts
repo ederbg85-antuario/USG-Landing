@@ -12,8 +12,8 @@
  */
 
 export const SITE_CONFIG = {
-  // Reemplazar por el número real cuando esté disponible
-  whatsappNumber: "5215512345678", // PLACEHOLDER — cambiar antes de lanzar
+  // Número oficial de la promoción: 55 2972 5267
+  whatsappNumber: "5215529725267",
   whatsappMessage:
     "¡Hola! Quiero registrarme en la Promo USG Liga de Campeones ⚽",
   campaignName: "USG Liga de Campeones",
