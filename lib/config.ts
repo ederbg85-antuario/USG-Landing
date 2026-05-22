@@ -42,6 +42,8 @@ export const PRODUCTS_BASIC = [
   { name: "USG TABLAROCA® ULTRALIGHT", points: 100 },
   { name: "USG BASECOAT® REGULAR", points: 100 },
   { name: "USG TABLAROCA® ANTI-MOHO®", points: 100 },
+  { name: "USG YESO IMPERIAL®", points: 100 },
+  { name: "USG YESO SUPREMO®", points: 100 },
 ];
 
 export const PRODUCTS_MEDIUM = [
