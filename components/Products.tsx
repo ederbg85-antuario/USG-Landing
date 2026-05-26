@@ -20,7 +20,7 @@ const TIERS: Tier[] = [
     highlight: "basic",
   },
   {
-    level: "MEDIO",
+    level: "MEDIUM",
     points: 500,
     products: PRODUCTS_MEDIUM,
     highlight: "medium",
@@ -88,23 +88,6 @@ export default function Products() {
                       : "card-glow border-white/10"
                 }`}
               >
-                {isPremium && (
-                  <div className="absolute top-4 right-4 z-20">
-                    <div className="bg-yellow-400 text-black font-bold text-[10px] uppercase tracking-widest px-3 py-1 rounded-full shadow-lg flex items-center gap-1">
-                      <span>★</span>
-                      <span>Premium</span>
-                    </div>
-                  </div>
-                )}
-                {isMedium && (
-                  <div className="absolute top-4 right-4 z-20">
-                    <div className="bg-amber-400 text-black font-bold text-[10px] uppercase tracking-widest px-3 py-1 rounded-full shadow-lg flex items-center gap-1">
-                      <span>🔥</span>
-                      <span>Medio</span>
-                    </div>
-                  </div>
-                )}
-
                 <div
                   className={`absolute top-0 ${isPremium ? "left-0 -translate-x-1/2 -translate-y-1/2 bg-white/10" : "right-0 translate-x-1/2 -translate-y-1/2 bg-white/5"} w-40 h-40 rounded-full blur-2xl`}
                 />

@@ -89,7 +89,7 @@ export default function Hero() {
               <div className="flex items-center gap-3">
                 <span className="block h-1 w-10 rounded-full bg-usg-red" />
                 <span className="text-[11px] font-bold uppercase tracking-[0.28em] text-white/80 sm:text-xs">
-                  48 premios · 3 niveles · 2 meses
+                  +100 premios · Vigencia 01 jun – 31 jul
                 </span>
                 <span className="block h-1 w-10 rounded-full bg-usg-red" />
               </div>

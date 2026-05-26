@@ -13,7 +13,7 @@ const FAQS = [
   },
   {
     q: "¿Cuántos puntos vale cada producto?",
-    a: "Los productos básicos (Tablaroca, Durock Forte, Redimix, Basecoat Regular y Tablaroca Anti-Moho) suman 100 puntos por pieza. Los productos premium (Basecoat Fino, Tablaroca Firecode, Securock, Plafones y Donn) suman 1,000 puntos por pieza.",
+    a: "Los productos del nivel básico suman 100 puntos por pieza, los del nivel medium suman 500 puntos por pieza y los del nivel premium suman 1,000 puntos por pieza.",
   },
   {
     q: "¿Cómo consulto mis puntos y mi posición en el ranking?",
@@ -26,10 +26,6 @@ const FAQS = [
   {
     q: "¿Puedo registrar tickets de compras anteriores al inicio de la promo?",
     a: "Solo cuentan los tickets emitidos dentro del periodo oficial de la promoción. Las fechas exactas se comunican al iniciar el chat con el agente.",
-  },
-  {
-    q: "¿Cómo se entregan los premios?",
-    a: "Los ganadores serán notificados por WhatsApp al cierre de la promo. Los premios económicos se otorgan mediante NDC al distribuidor; al momento de premiar se entrega un cheque representativo al ganador para redimir en POV.",
   },
   {
     q: "¿Qué pasa si mi ticket no se valida?",

@@ -18,7 +18,7 @@ export default function Footer() {
             <p className="text-sm text-white/55 max-w-md leading-relaxed">
               Promoción oficial USG 2026. Acumula goles (puntos) por cada
               compra de productos USG, sube en el ranking nacional y compite
-              por hasta $100,000 MXN en premios.
+              por los mejores premios.
             </p>
           </div>
 
@@ -104,11 +104,6 @@ export default function Footer() {
             inconsistencias o indicios de fraude. Vigencia, productos
             participantes, mecánica detallada y términos legales completos se
             comunican al iniciar el chat con el agente oficial.
-          </p>
-          <p>
-            USG, USG Tablaroca®, USG Durock Forte®, USG Redimix®, USG
-            Basecoat®, USG Anti-Moho®, USG Firecode®, USG Securock®, USG
-            Plafones® y USG Donn® son marcas registradas de USG Corporation.
           </p>
         </div>
 

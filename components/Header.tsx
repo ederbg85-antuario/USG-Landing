@@ -27,14 +27,14 @@ export default function Header() {
           {/* Logo USG en versión clara (fondo oscuro) — un poco más grande */}
           <UsgLogo
             variant="light"
-            className="h-11 sm:h-12 lg:h-14 w-auto transition-transform group-hover:scale-105"
+            className="h-11 sm:h-12 lg:h-14 w-auto transition-transform group-hover:scale-105 brightness-0 invert"
             ariaLabel="USG Liga de Campeones"
           />
           <div className="hidden sm:block border-l border-white/15 pl-3">
             <p className="font-display text-white text-base sm:text-lg leading-none tracking-wide">
               LIGA DE CAMPEONES
             </p>
-            <p className="text-[10px] text-usg-red uppercase tracking-[0.2em] mt-1">
+            <p className="text-[10px] text-white uppercase tracking-[0.2em] mt-1">
               Promoción 2026
             </p>
           </div>

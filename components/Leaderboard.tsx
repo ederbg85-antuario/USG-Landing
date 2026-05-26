@@ -6,7 +6,7 @@
  * ============================================================
  *
  * Conectado a Supabase a través de /app/api/leaderboard/route.ts.
- * El endpoint lee la vista `ranking` (Top 10, sólo datos públicos).
+ * El endpoint lee la vista `ranking` (Top 15, sólo datos públicos).
  * Este componente lo consulta al montar y cada 60 s, para el
  * refresco automático del ranking.
  * ============================================================

@@ -35,11 +35,11 @@ export const getWhatsAppUrl = (customMessage?: string): string => {
 /**
  * Catálogo de productos participantes — 3 niveles
  *  · BÁSICO  → 100 puntos / pieza
- *  · MEDIO   → 500 puntos / pieza
+ *  · MEDIUM  → 500 puntos / pieza
  *  · PREMIUM → 1000 puntos / pieza
  */
 export const PRODUCTS_BASIC = [
-  { name: "USG TABLAROCA® ULTRALIGHT", points: 100 },
+  { name: "USG TABLAROCA® ULTRALIGHT®", points: 100 },
   { name: "USG BASECOAT® REGULAR", points: 100 },
   { name: "USG TABLAROCA® ANTI-MOHO®", points: 100 },
   { name: "USG YESO IMPERIAL®", points: 100 },

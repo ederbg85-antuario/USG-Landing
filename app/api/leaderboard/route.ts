@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 /**
  * Endpoint del ranking público — USG Liga de Campeones.
  *
- * Lee la vista `ranking` de Supabase (Top 10, sólo datos públicos:
+ * Lee la vista `ranking` de Supabase (Top 15, sólo datos públicos:
  * nombre_publico, estado, stars, puntos — nunca teléfonos).
  * Se revalida cada 30 s para mantener la sensación de "tiempo real"
  * sin saturar la base.
@@ -30,7 +30,7 @@ type LeaderboardEntry = {
 export async function GET() {
   try {
     const res = await fetch(
-      `${SUPABASE_URL}/rest/v1/ranking?select=rank,name:nombre_publico,state:estado,stars,points&order=rank&limit=10`,
+      `${SUPABASE_URL}/rest/v1/ranking?select=rank,name:nombre_publico,state:estado,stars,points&order=rank&limit=15`,
       {
         headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` },
         next: { revalidate: 30 },

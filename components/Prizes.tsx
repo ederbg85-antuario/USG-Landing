@@ -1,8 +1,6 @@
 import Image from "next/image";
-import { PRIZES, getWhatsAppUrl } from "@/lib/config";
+import { getWhatsAppUrl } from "@/lib/config";
 import UsgLogo from "@/components/UsgLogo";
-
-const TOTAL_PRIZES = PRIZES.reduce((acc, p) => acc + p.quantity, 0);
 
 export default function Prizes() {
   return (
@@ -27,9 +25,9 @@ export default function Prizes() {
             <span className="block gradient-text-red">se lleva los premios!</span>
           </h2>
           <p className="text-base sm:text-lg text-white/70 max-w-2xl mx-auto leading-relaxed">
-            <span className="text-usg-red font-semibold">{TOTAL_PRIZES} premios</span>{" "}
-            físicos en juego: motocicletas Italika, Smart TVs LG y TCL,
-            rotomartillos Bosch, audífonos Beats y herramienta profesional.
+            <span className="text-usg-red font-semibold">+100 premios</span>{" "}
+            físicos en juego: motocicletas, Smart TVs, rotomartillos, audífonos
+            y herramienta profesional.
           </p>
         </div>
 
@@ -46,18 +44,22 @@ export default function Prizes() {
         {/* Tira de resumen */}
         <div className="max-w-4xl mx-auto mb-10 bg-gradient-to-r from-usg-red/10 via-usg-red/25 to-usg-red/10 border border-usg-red/30 rounded-2xl p-5 sm:p-6 backdrop-blur-sm text-center">
           <p className="text-white font-display text-2xl sm:text-3xl tracking-wide leading-tight">
-            {TOTAL_PRIZES} ganadores · {PRIZES.length} categorías
+            +100 premios
           </p>
           <p className="text-white/70 text-sm sm:text-base mt-2">
-            Mientras más alto subas en el ranking, mejor el premio que te llevas.
+            Vigencia de la promoción: 01 de junio al 31 de julio.
           </p>
         </div>
 
         {/* Disclaimer */}
+        <p className="text-center text-xs text-white/40 max-w-2xl mx-auto mb-4">
+          *Las marcas y modelos de los premios mostrados son ilustrativos y
+          pueden variar por disponibilidad. El tipo de premio (motocicleta,
+          Smart TV, herramienta, etc.) se mantiene; la marca o modelo final
+          puede cambiar sin previo aviso.
+        </p>
         <p className="text-center text-xs text-white/40 max-w-2xl mx-auto mb-8">
-          *Los premios físicos se entregan a los ganadores oficiales conforme a
-          la posición final en el ranking. Productos USG se otorgan mediante NDC
-          al distribuidor.
+          *Se otorgará nota de credito para cambiar por productos USG.
         </p>
 
         {/* CTA */}
