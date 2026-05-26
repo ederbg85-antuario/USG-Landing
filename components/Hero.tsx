@@ -43,9 +43,9 @@ export default function Hero() {
       />
 
       <div className="container relative mx-auto flex flex-1 items-center px-4 sm:px-6 lg:px-8">
-        <div className="grid w-full items-center gap-10 lg:grid-cols-12 lg:gap-10 xl:gap-14">
+        <div className="grid w-full items-center gap-10 lg:grid-cols-12 lg:gap-14 xl:gap-16">
           {/* ─── COLUMNA TEXTO ─── */}
-          <div className="text-center lg:col-span-6 lg:text-left xl:col-span-6">
+          <div className="text-center lg:col-span-5 lg:text-left xl:col-span-5">
             {/* Badge superior */}
             <div className="inline-flex items-center gap-2.5 rounded-full border border-usg-red/50 bg-usg-red/15 px-4 py-2 shadow-lg shadow-usg-red/20 backdrop-blur-md">
               <span className="relative flex h-2.5 w-2.5">
@@ -139,8 +139,8 @@ export default function Hero() {
           </div>
 
           {/* ─── COLUMNA BANNER DE PREMIOS ─── */}
-          <div className="relative lg:col-span-6 xl:col-span-6">
-            <div className="relative mx-auto w-full max-w-[34rem] lg:max-w-none">
+          <div className="relative lg:col-span-7 xl:col-span-7 lg:-mr-4 xl:-mr-6">
+            <div className="relative mx-auto w-full max-w-[34rem] lg:max-w-none lg:scale-[1.04] xl:scale-[1.06] lg:origin-right">
               {/* Halo decorativo controlado (no afecta el bounding box) */}
               <div
                 aria-hidden
@@ -151,14 +151,14 @@ export default function Hero() {
                   object-contain garantiza que la imagen completa siempre se vea. */}
               <div className="relative mx-auto w-full">
                 <Image
-                  src="/banner-premios-cuadrado.png"
-                  alt="Premios USG Liga de Campeones: motocicleta Italika, Smart TVs LG y TCL, rotomartillo Bosch, escalera y audífonos Beats"
-                  width={959}
-                  height={946}
+                  src="/arte-premios.png"
+                  alt="Premios USG Liga de Campeones: motocicleta, Smart TV, scooter, rotomartillo, herramienta y notas de crédito $100,000, $50,000 y $30,000 MXN"
+                  width={2112}
+                  height={1408}
                   priority
-                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  sizes="(max-width: 1024px) 100vw, 55vw"
                   className="mx-auto block h-auto w-full max-h-[70vh] object-contain
-                             lg:max-h-[75vh] xl:max-h-[80vh]
+                             lg:max-h-[78vh] xl:max-h-[82vh]
                              drop-shadow-[0_25px_45px_rgba(0,0,0,0.55)]"
                 />
               </div>

@@ -33,12 +33,12 @@ export default function Prizes() {
 
         {/* Banner oficial de premios */}
         <Image
-          src="/banner-premios-cuadrado.png"
-          alt="Premios USG Liga de Campeones: motocicleta Italika, Smart TVs LG y TCL, rotomartillo Bosch, escalera telescópica y audífonos Beats"
-          width={959}
-          height={946}
-          sizes="(max-width: 768px) 100vw, 768px"
-          className="mx-auto mb-10 h-auto w-full max-w-3xl object-contain"
+          src="/arte-premios.png"
+          alt="Premios USG Liga de Campeones: motocicleta, Smart TV, scooter, rotomartillo, herramienta y notas de crédito $100,000, $50,000 y $30,000 MXN"
+          width={2112}
+          height={1408}
+          sizes="(max-width: 1024px) 100vw, 1100px"
+          className="mx-auto mb-10 h-auto w-full max-w-5xl object-contain drop-shadow-[0_25px_45px_rgba(0,0,0,0.55)]"
         />
 
         {/* Tira de resumen */}
