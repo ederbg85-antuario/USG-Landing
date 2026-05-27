@@ -45,7 +45,7 @@ export default function Hero() {
       <div className="container relative mx-auto flex flex-1 items-center px-4 sm:px-6 lg:px-8">
         <div className="grid w-full items-center gap-10 lg:grid-cols-12 lg:gap-14 xl:gap-16">
           {/* ─── COLUMNA TEXTO ─── */}
-          <div className="text-center lg:col-span-5 lg:text-left xl:col-span-5">
+          <div className="text-center lg:col-span-6 lg:text-left xl:col-span-6">
             {/* Badge superior */}
             <div className="inline-flex items-center gap-2.5 rounded-full border border-usg-red/50 bg-usg-red/15 px-4 py-2 shadow-lg shadow-usg-red/20 backdrop-blur-md">
               <span className="relative flex h-2.5 w-2.5">
@@ -70,9 +70,9 @@ export default function Hero() {
                 width={4536}
                 height={2267}
                 priority
-                sizes="(max-width: 640px) 90vw, (max-width: 1024px) 70vw, 40vw"
-                className="h-auto w-[18rem] xs:w-[20rem] sm:w-[26rem] md:w-[30rem]
-                           lg:w-[26rem] xl:w-[32rem] 2xl:w-[38rem]
+                sizes="(max-width: 640px) 90vw, (max-width: 1024px) 85vw, 50vw"
+                className="h-auto w-[22rem] xs:w-[24rem] sm:w-[34rem] md:w-[40rem]
+                           lg:w-[36rem] xl:w-[44rem] 2xl:w-[52rem]
                            drop-shadow-[0_8px_32px_rgba(0,0,0,0.55)]"
               />
             </h1>
@@ -132,8 +132,8 @@ export default function Hero() {
           </div>
 
           {/* ─── COLUMNA BANNER DE PREMIOS ─── */}
-          <div className="relative lg:col-span-7 xl:col-span-7 lg:-mr-4 xl:-mr-6">
-            <div className="relative mx-auto w-full max-w-[34rem] lg:max-w-none lg:scale-[1.04] xl:scale-[1.06] lg:origin-right">
+          <div className="relative lg:col-span-6 xl:col-span-6">
+            <div className="relative mx-auto w-full max-w-[32rem] lg:max-w-none">
               {/* Halo decorativo controlado (no afecta el bounding box) */}
               <div
                 aria-hidden
