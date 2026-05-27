@@ -58,12 +58,14 @@ export default function Hero() {
             </div>
 
             {/* Antetítulo */}
-            <p className="mt-5 font-display text-base uppercase tracking-[0.4em] text-white/60 sm:text-lg">
+            <p className="mt-4 font-display text-base uppercase tracking-[0.4em] text-white/60 sm:text-lg">
               ¡Mete goles y gana!
             </p>
 
-            {/* Logo oficial de la promo — Liga de Campeones */}
-            <h1 className="mt-3 flex justify-center lg:justify-start">
+            {/* Logo oficial de la promo — Liga de Campeones.
+                Los márgenes negativos absorben el aire transparente
+                del PNG para que el logo se sienta más dominante. */}
+            <h1 className="-my-4 sm:-my-6 lg:-my-8 flex justify-center lg:justify-start">
               <Image
                 src="/liga-de-campeones-logo.png"
                 alt="USG Liga de Campeones"
@@ -78,7 +80,7 @@ export default function Hero() {
             </h1>
 
             {/* Separador con info clave */}
-            <div className="mt-5 flex justify-center lg:justify-start">
+            <div className="mt-2 flex justify-center lg:justify-start">
               <div className="flex items-center gap-3">
                 <span className="block h-1 w-10 rounded-full bg-usg-red" />
                 <span className="text-[11px] font-bold uppercase tracking-[0.28em] text-white/80 sm:text-xs">
@@ -89,7 +91,7 @@ export default function Hero() {
             </div>
 
             {/* Descripción */}
-            <p className="mx-auto mt-5 max-w-xl text-sm leading-relaxed text-white/85 sm:text-base lg:mx-0 lg:text-[17px]">
+            <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-white/85 sm:text-base lg:mx-0 lg:text-[17px]">
               Acumula puntos con cada compra USG, sube en el ranking nacional
               y llévate{" "}
               <span className="font-bold text-white">
@@ -99,7 +101,7 @@ export default function Hero() {
             </p>
 
             {/* CTAs */}
-            <div className="mt-7 flex flex-col items-stretch justify-center gap-3 sm:flex-row lg:justify-start">
+            <div className="mt-5 flex flex-col items-stretch justify-center gap-3 sm:flex-row lg:justify-start">
               <a
                 href={getWhatsAppUrl()}
                 target="_blank"
@@ -126,7 +128,7 @@ export default function Hero() {
             </div>
 
             {/* Microcopy */}
-            <p className="mx-auto mt-5 max-w-md text-[11px] leading-relaxed text-white/55 sm:text-xs lg:mx-0">
+            <p className="mx-auto mt-3 max-w-md text-[11px] leading-relaxed text-white/55 sm:text-xs lg:mx-0">
               Registro rápido por WhatsApp · Toma menos de 1 minuto
             </p>
           </div>
