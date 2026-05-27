@@ -69,8 +69,8 @@ export default function Hero() {
               <Image
                 src="/liga-de-campeones-logo.png"
                 alt="USG Liga de Campeones"
-                width={4536}
-                height={2267}
+                width={3968}
+                height={1983}
                 priority
                 sizes="(max-width: 640px) 90vw, (max-width: 1024px) 85vw, 50vw"
                 className="h-auto w-[22rem] xs:w-[24rem] sm:w-[34rem] md:w-[40rem]
