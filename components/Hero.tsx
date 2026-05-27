@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { getWhatsAppUrl } from "@/lib/config";
+import UsgLogo from "@/components/UsgLogo";
 
 /**
  * ============================================================
@@ -62,26 +63,16 @@ export default function Hero() {
               ¡Mete goles y gana!
             </p>
 
-            {/* Titular — proporcionado para balancear con la imagen */}
-            <h1 className="mt-2 font-display tracking-tight text-white">
-              <span
-                className="block leading-[0.86] gradient-text-red
-                           text-[3rem] xs:text-[3.5rem]
-                           sm:text-[5rem] md:text-[5.5rem]
-                           lg:text-[4.75rem] xl:text-[5.75rem] 2xl:text-[6.5rem]
-                           drop-shadow-[0_6px_28px_rgba(200,16,46,0.45)]"
-              >
-                USG LIGA
-              </span>
-              <span
-                className="mt-1 block leading-[0.92] text-white
-                           text-[2.5rem] xs:text-[2.85rem]
-                           sm:text-[4.25rem] md:text-[4.75rem]
-                           lg:text-[3.85rem] xl:text-[4.5rem] 2xl:text-[5rem]
-                           drop-shadow-[0_4px_20px_rgba(0,0,0,0.65)]"
-              >
-                DE CAMPEONES
-              </span>
+            {/* Logo USG — sustituye al titular textual, todo en blanco */}
+            <h1 className="mt-3 flex justify-center lg:justify-start">
+              <UsgLogo
+                variant="light"
+                ariaLabel="USG"
+                priority
+                className="h-28 xs:h-32 sm:h-44 md:h-52 lg:h-44 xl:h-56 2xl:h-64 w-auto
+                           brightness-0 invert
+                           drop-shadow-[0_6px_28px_rgba(0,0,0,0.55)]"
+              />
             </h1>
 
             {/* Separador con info clave */}
