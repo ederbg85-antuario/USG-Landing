@@ -1,6 +1,5 @@
 import Image from "next/image";
 import { getWhatsAppUrl } from "@/lib/config";
-import UsgLogo from "@/components/UsgLogo";
 
 /**
  * ============================================================
@@ -63,15 +62,18 @@ export default function Hero() {
               ¡Mete goles y gana!
             </p>
 
-            {/* Logo USG — sustituye al titular textual, todo en blanco */}
+            {/* Logo oficial de la promo — Liga de Campeones */}
             <h1 className="mt-3 flex justify-center lg:justify-start">
-              <UsgLogo
-                variant="light"
-                ariaLabel="USG"
+              <Image
+                src="/liga-de-campeones-logo.png"
+                alt="USG Liga de Campeones"
+                width={4536}
+                height={2267}
                 priority
-                className="h-28 xs:h-32 sm:h-44 md:h-52 lg:h-44 xl:h-56 2xl:h-64 w-auto
-                           brightness-0 invert
-                           drop-shadow-[0_6px_28px_rgba(0,0,0,0.55)]"
+                sizes="(max-width: 640px) 90vw, (max-width: 1024px) 70vw, 40vw"
+                className="h-auto w-[18rem] xs:w-[20rem] sm:w-[26rem] md:w-[30rem]
+                           lg:w-[26rem] xl:w-[32rem] 2xl:w-[38rem]
+                           drop-shadow-[0_8px_32px_rgba(0,0,0,0.55)]"
               />
             </h1>
 
