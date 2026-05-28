@@ -29,52 +29,57 @@ export default function Footer() {
             </h4>
             <ul className="space-y-2 text-sm text-white/60">
               <li>
-                <Link href="#mecanica" className="hover:text-usg-red transition-colors">
+                <Link href="/#mecanica" className="hover:text-usg-red transition-colors">
                   Cómo se juega
                 </Link>
               </li>
               <li>
-                <Link href="#productos" className="hover:text-usg-red transition-colors">
+                <Link href="/#productos" className="hover:text-usg-red transition-colors">
                   Productos y puntos
                 </Link>
               </li>
               <li>
-                <Link href="#premios" className="hover:text-usg-red transition-colors">
+                <Link href="/#premios" className="hover:text-usg-red transition-colors">
                   Premios
                 </Link>
               </li>
               <li>
-                <Link href="#ranking" className="hover:text-usg-red transition-colors">
+                <Link href="/#ranking" className="hover:text-usg-red transition-colors">
                   Leaderboard
                 </Link>
               </li>
               <li>
-                <Link href="#faq" className="hover:text-usg-red transition-colors">
+                <Link href="/#faq" className="hover:text-usg-red transition-colors">
                   Preguntas frecuentes
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Legal */}
+          {/* Legal / Documentos oficiales */}
           <div>
             <h4 className="text-white font-bold uppercase tracking-widest text-xs mb-4">
-              Legal
+              Documentos oficiales
             </h4>
             <ul className="space-y-2 text-sm text-white/60">
               <li>
-                <Link href="#terminos" className="hover:text-usg-red transition-colors">
+                <Link href="/productos-participantes" className="hover:text-usg-red transition-colors">
+                  Lista de productos participantes
+                </Link>
+              </li>
+              <li>
+                <Link href="/distribuidores" className="hover:text-usg-red transition-colors">
+                  Lista de distribuidores oficiales
+                </Link>
+              </li>
+              <li>
+                <Link href="/bases" className="hover:text-usg-red transition-colors">
+                  Bases de Liga de Campeones
+                </Link>
+              </li>
+              <li>
+                <Link href="/bases" className="hover:text-usg-red transition-colors">
                   Términos y condiciones
-                </Link>
-              </li>
-              <li>
-                <Link href="#privacidad" className="hover:text-usg-red transition-colors">
-                  Aviso de privacidad
-                </Link>
-              </li>
-              <li>
-                <Link href="#contacto" className="hover:text-usg-red transition-colors">
-                  Contacto
                 </Link>
               </li>
             </ul>

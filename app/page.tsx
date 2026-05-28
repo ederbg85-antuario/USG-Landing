@@ -6,6 +6,7 @@ import Prizes from "@/components/Prizes";
 import Leaderboard from "@/components/Leaderboard";
 import FAQ from "@/components/FAQ";
 import FinalCTA from "@/components/FinalCTA";
+import MoreProductsCTA from "@/components/MoreProductsCTA";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 
@@ -22,6 +23,7 @@ export default function Home() {
       <Prizes />
       <FAQ />
       <FinalCTA />
+      <MoreProductsCTA />
       <Footer />
       <WhatsAppFloat />
     </main>
