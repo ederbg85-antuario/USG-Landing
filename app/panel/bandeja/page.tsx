@@ -3,24 +3,25 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
 type Conv = {
-  id: number;
+  id: string;
   name: string;
   phone: string;
   last: string;
   unread: number;
-  ts: number;
+  ts: string;
 };
 type Msg = {
   id: number;
   content: string;
   outgoing: boolean;
-  ts: number;
+  ts: string;
   attachments: { url: string; type: string }[];
 };
 
-function hora(ts: number) {
+function hora(ts: string) {
   if (!ts) return "";
-  const d = new Date(ts * 1000);
+  const d = new Date(ts);
+  if (isNaN(d.getTime())) return "";
   return d.toLocaleTimeString("es-MX", { hour: "2-digit", minute: "2-digit" });
 }
 function inicial(name: string) {
@@ -36,6 +37,7 @@ export default function BandejaPage() {
   const [loadingMsgs, setLoadingMsgs] = useState(false);
   const [reply, setReply] = useState("");
   const [sending, setSending] = useState(false);
+  const [sendNote, setSendNote] = useState("");
   const endRef = useRef<HTMLDivElement>(null);
 
   const loadConvs = useCallback(async () => {
@@ -52,10 +54,12 @@ export default function BandejaPage() {
     }
   }, []);
 
-  const loadMsgs = useCallback(async (id: number, silent = false) => {
+  const loadMsgs = useCallback(async (id: string, silent = false) => {
     if (!silent) setLoadingMsgs(true);
     try {
-      const r = await fetch(`/api/panel/chatwoot?action=messages&id=${id}`);
+      const r = await fetch(
+        `/api/panel/chatwoot?action=messages&id=${encodeURIComponent(id)}`,
+      );
       const d = await r.json();
       if (r.ok) setMsgs(d.messages || []);
     } finally {
@@ -71,6 +75,7 @@ export default function BandejaPage() {
 
   useEffect(() => {
     if (!sel) return;
+    setSendNote("");
     loadMsgs(sel.id);
     const t = setInterval(() => loadMsgs(sel.id, true), 8000);
     return () => clearInterval(t);
@@ -83,18 +88,28 @@ export default function BandejaPage() {
   async function enviar() {
     if (!sel || !reply.trim() || sending) return;
     setSending(true);
+    setSendNote("");
     const text = reply.trim();
     setReply("");
     try {
-      const r = await fetch(`/api/panel/chatwoot?action=send&id=${sel.id}`, {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ content: text }),
-      });
-      if (r.ok) await loadMsgs(sel.id, true);
-      else setReply(text);
+      const r = await fetch(
+        `/api/panel/chatwoot?action=send&id=${encodeURIComponent(sel.id)}`,
+        {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ content: text }),
+        },
+      );
+      const d = await r.json().catch(() => ({}));
+      if (r.ok) {
+        await loadMsgs(sel.id, true);
+      } else {
+        setReply(text);
+        setSendNote(d.error || "No se pudo enviar.");
+      }
     } catch {
       setReply(text);
+      setSendNote("No se pudo enviar.");
     } finally {
       setSending(false);
     }
@@ -107,18 +122,14 @@ export default function BandejaPage() {
           BANDEJA DE ENTRADA
         </h1>
         <p className="text-sm text-white/55 mt-1">
-          Conversaciones de WhatsApp en tiempo real.
+          Conversaciones de WhatsApp de hoy.
         </p>
       </div>
 
       {error && (
-        <div className="card-glow rounded-2xl p-5 border-yellow-500/30 mb-4 max-w-2xl">
-          <p className="font-bold text-white mb-1">⚙️ Falta conectar Chatwoot</p>
-          <p className="text-sm text-white/65">
-            {error.includes("CHATWOOT_API_TOKEN")
-              ? "Agrega el secreto CHATWOOT_API_TOKEN en Supabase → Edge Functions → Secrets, con el token de agente de Chatwoot."
-              : error}
-          </p>
+        <div className="card-glow rounded-2xl p-5 border-red-500/30 mb-4 max-w-2xl">
+          <p className="font-bold text-white mb-1">No se pudieron cargar</p>
+          <p className="text-sm text-white/65 break-all">{error}</p>
         </div>
       )}
 
@@ -130,7 +141,7 @@ export default function BandejaPage() {
           } w-full md:w-80 flex-shrink-0 flex-col border-r border-white/10 bg-black/40`}
         >
           <div className="px-4 py-3 border-b border-white/10 text-xs uppercase tracking-widest text-white/45">
-            {loadingConvs ? "Cargando…" : `${convs.length} conversaciones`}
+            {loadingConvs ? "Cargando…" : `${convs.length} conversaciones · hoy`}
           </div>
           <div className="flex-1 overflow-y-auto">
             {convs.map((c) => (
@@ -145,23 +156,23 @@ export default function BandejaPage() {
                   {inicial(c.name)}
                 </div>
                 <div className="min-w-0 flex-1">
-                  <p className="text-white text-sm font-medium truncate">
-                    {c.name}
-                  </p>
+                  <div className="flex items-center justify-between gap-2">
+                    <p className="text-white text-sm font-medium truncate">
+                      {c.name}
+                    </p>
+                    <span className="text-[10px] text-white/35 flex-shrink-0">
+                      {hora(c.ts)}
+                    </span>
+                  </div>
                   <p className="text-white/45 text-xs truncate">
                     {c.last || c.phone}
                   </p>
                 </div>
-                {c.unread > 0 && (
-                  <span className="flex-shrink-0 bg-green-500 text-black text-[10px] font-bold rounded-full px-2 py-0.5">
-                    {c.unread}
-                  </span>
-                )}
               </button>
             ))}
             {!loadingConvs && convs.length === 0 && !error && (
               <p className="text-center text-white/35 text-sm p-8">
-                No hay conversaciones todavía.
+                No hay conversaciones hoy.
               </p>
             )}
           </div>
@@ -221,28 +232,6 @@ export default function BandejaPage() {
                           : "bg-white rounded-tl-none"
                       }`}
                     >
-                      {m.attachments.map((a, i) =>
-                        a.type === "image" ? (
-                          // eslint-disable-next-line @next/next/no-img-element
-                          <a key={i} href={a.url} target="_blank" rel="noreferrer">
-                            <img
-                              src={a.url}
-                              alt="adjunto"
-                              className="rounded-md mb-1 max-h-60 object-cover"
-                            />
-                          </a>
-                        ) : (
-                          <a
-                            key={i}
-                            href={a.url}
-                            target="_blank"
-                            rel="noreferrer"
-                            className="block text-xs text-[#027eb5] underline mb-1"
-                          >
-                            📎 Ver adjunto
-                          </a>
-                        ),
-                      )}
                       {m.content && (
                         <p className="text-[#111b21] text-sm whitespace-pre-wrap break-words">
                           {m.content}
@@ -258,22 +247,27 @@ export default function BandejaPage() {
               </div>
 
               {/* Caja de respuesta */}
-              <div className="flex items-center gap-2 px-3 py-2.5 bg-[#f0f0f0] border-t border-black/10">
-                <input
-                  value={reply}
-                  onChange={(e) => setReply(e.target.value)}
-                  onKeyDown={(e) => e.key === "Enter" && enviar()}
-                  placeholder="Escribe un mensaje…"
-                  className="flex-1 rounded-full bg-white border border-black/10 px-4 py-2 text-sm text-[#111] placeholder-[#8696a0] focus:outline-none"
-                />
-                <button
-                  onClick={enviar}
-                  disabled={sending || !reply.trim()}
-                  className="flex-shrink-0 w-10 h-10 rounded-full bg-[#25d366] disabled:opacity-40 text-white flex items-center justify-center text-lg"
-                  aria-label="Enviar"
-                >
-                  ➤
-                </button>
+              <div className="bg-[#f0f0f0] border-t border-black/10">
+                {sendNote && (
+                  <p className="px-4 pt-2 text-[11px] text-[#b00020]">{sendNote}</p>
+                )}
+                <div className="flex items-center gap-2 px-3 py-2.5">
+                  <input
+                    value={reply}
+                    onChange={(e) => setReply(e.target.value)}
+                    onKeyDown={(e) => e.key === "Enter" && enviar()}
+                    placeholder="Escribe un mensaje…"
+                    className="flex-1 rounded-full bg-white border border-black/10 px-4 py-2 text-sm text-[#111] placeholder-[#8696a0] focus:outline-none"
+                  />
+                  <button
+                    onClick={enviar}
+                    disabled={sending || !reply.trim()}
+                    className="flex-shrink-0 w-10 h-10 rounded-full bg-[#25d366] disabled:opacity-40 text-white flex items-center justify-center text-lg"
+                    aria-label="Enviar"
+                  >
+                    ➤
+                  </button>
+                </div>
               </div>
             </>
           )}
