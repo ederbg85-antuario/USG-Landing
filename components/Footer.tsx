@@ -102,9 +102,9 @@ export default function Footer() {
             válido enviado al canal oficial de WhatsApp de la promoción.
           </p>
           <p>
-            Los premios económicos se otorgarán mediante NDC (Nota de Crédito)
-            al distribuidor correspondiente; al momento de premiar se entregará
-            un cheque representativo al ganador para redimir en POV. USG se
+            Los premios económicos se entregarán a través del distribuidor
+            autorizado USG con un cheque representativo para redimir por
+            productos USG en puntos de venta. USG se
             reserva el derecho de validar o rechazar tickets que presenten
             inconsistencias o indicios de fraude. Vigencia, productos
             participantes, mecánica detallada y términos legales completos se

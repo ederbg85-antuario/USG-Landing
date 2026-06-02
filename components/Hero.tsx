@@ -147,7 +147,7 @@ export default function Hero() {
               <div className="relative mx-auto w-full">
                 <Image
                   src="/imagen-premios.png"
-                  alt="Premios USG Liga de Campeones: motocicleta, Smart TV, scooter, rotomartillo, herramienta y notas de crédito $100,000, $50,000 y $30,000 MXN"
+                  alt="Premios USG Liga de Campeones: motocicleta, Smart TV, scooter, rotomartillo, herramienta y más premios"
                   width={2496}
                   height={1664}
                   priority

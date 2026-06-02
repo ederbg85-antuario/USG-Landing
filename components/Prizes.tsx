@@ -34,7 +34,7 @@ export default function Prizes() {
         {/* Banner oficial de premios */}
         <Image
           src="/imagen-premios.png"
-          alt="Premios USG Liga de Campeones: motocicleta, Smart TV, scooter, rotomartillo, herramienta y notas de crédito $100,000, $50,000 y $30,000 MXN"
+          alt="Premios USG Liga de Campeones: motocicleta, Smart TV, scooter, rotomartillo, herramienta y más premios"
           width={2496}
           height={1664}
           sizes="(max-width: 1024px) 100vw, 1100px"
@@ -59,7 +59,9 @@ export default function Prizes() {
           puede cambiar sin previo aviso.
         </p>
         <p className="text-center text-xs text-white/40 max-w-2xl mx-auto mb-8">
-          *Se otorgará nota de credito para cambiar por productos USG.
+          *Los premios económicos se entregarán a través del distribuidor
+          autorizado USG con un cheque representativo para redimir por productos
+          USG en puntos de venta.
         </p>
 
         {/* CTA */}
