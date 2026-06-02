@@ -227,6 +227,28 @@ export default function BandejaPage() {
                         m.outgoing ? "wa-bubble-out" : "wa-bubble-in"
                       }`}
                     >
+                      {m.attachments?.map((a, i) =>
+                        a.type === "image" ? (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <a key={i} href={a.url} target="_blank" rel="noreferrer">
+                            <img
+                              src={a.url}
+                              alt="adjunto"
+                              className="rounded-md mb-1 max-h-60 object-cover"
+                            />
+                          </a>
+                        ) : (
+                          <a
+                            key={i}
+                            href={a.url}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="block text-xs text-[#027eb5] underline mb-1"
+                          >
+                            📎 Ver adjunto
+                          </a>
+                        ),
+                      )}
                       {m.content && (
                         <p className="text-[#111b21] text-sm whitespace-pre-wrap break-words">
                           {m.content}
