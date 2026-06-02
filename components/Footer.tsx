@@ -119,17 +119,6 @@ export default function Footer() {
             <span className="text-white/60 font-semibold">Antuario × Métrica BTL</span>
           </p>
         </div>
-
-        {/* Acceso al panel de administración (solo por invitación) */}
-        <div className="mt-6 flex justify-center">
-          <Link
-            href="/login"
-            className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.03] px-5 py-2.5 text-xs font-semibold uppercase tracking-widest text-white/60 hover:border-usg-red/60 hover:text-white transition-colors"
-          >
-            <span aria-hidden>🔒</span>
-            Panel de control
-          </Link>
-        </div>
       </div>
     </footer>
   );

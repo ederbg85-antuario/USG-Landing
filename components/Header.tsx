@@ -23,21 +23,24 @@ export default function Header() {
       }`}
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
-        <Link href="#hero" className="flex items-center gap-3 group">
-          {/* Logo USG en versión clara (fondo oscuro) — un poco más grande */}
+        {/* Marca: "Liga [logo USG] de Campeones" — el wordmark USG
+            reemplaza la palabra USG dentro del nombre de la promo. */}
+        <Link
+          href="#hero"
+          className="flex items-baseline gap-1.5 sm:gap-2 group"
+          aria-label="Liga USG de Campeones"
+        >
+          <span className="font-display text-white text-lg sm:text-2xl lg:text-3xl leading-none tracking-wide">
+            Liga
+          </span>
           <UsgLogo
             variant="light"
-            className="h-11 sm:h-12 lg:h-14 w-auto transition-transform group-hover:scale-105 brightness-0 invert"
-            ariaLabel="USG Liga de Campeones"
+            className="h-5 sm:h-7 lg:h-8 w-auto translate-y-[0.12em] transition-transform group-hover:scale-105 brightness-0 invert"
+            ariaLabel="USG"
           />
-          <div className="hidden sm:block border-l border-white/15 pl-3">
-            <p className="font-display text-white text-base sm:text-lg leading-none tracking-wide">
-              LIGA DE CAMPEONES
-            </p>
-            <p className="text-[10px] text-white uppercase tracking-[0.2em] mt-1">
-              Promoción 2026
-            </p>
-          </div>
+          <span className="font-display text-white text-lg sm:text-2xl lg:text-3xl leading-none tracking-wide">
+            de Campeones
+          </span>
         </Link>
 
         <nav className="hidden lg:flex items-center gap-7 text-sm font-medium text-white/75">

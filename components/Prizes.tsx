@@ -33,10 +33,10 @@ export default function Prizes() {
 
         {/* Banner oficial de premios */}
         <Image
-          src="/arte-premios.png"
+          src="/imagen-premios.png"
           alt="Premios USG Liga de Campeones: motocicleta, Smart TV, scooter, rotomartillo, herramienta y notas de crédito $100,000, $50,000 y $30,000 MXN"
-          width={2112}
-          height={1408}
+          width={2496}
+          height={1664}
           sizes="(max-width: 1024px) 100vw, 1100px"
           className="mx-auto mb-10 h-auto w-full max-w-5xl object-contain drop-shadow-[0_25px_45px_rgba(0,0,0,0.55)]"
         />

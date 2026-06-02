@@ -67,10 +67,10 @@ export default function Hero() {
                 del PNG para que el logo se sienta más dominante. */}
             <h1 className="-my-4 sm:-my-6 lg:-my-8 flex justify-center lg:justify-start">
               <Image
-                src="/liga-de-campeones-logo.png"
+                src="/liga-usg-de-campeones.png"
                 alt="USG Liga de Campeones"
-                width={3968}
-                height={1983}
+                width={1200}
+                height={422}
                 priority
                 sizes="(max-width: 640px) 90vw, (max-width: 1024px) 85vw, 50vw"
                 className="h-auto w-[22rem] xs:w-[24rem] sm:w-[34rem] md:w-[40rem]
@@ -146,10 +146,10 @@ export default function Hero() {
                   object-contain garantiza que la imagen completa siempre se vea. */}
               <div className="relative mx-auto w-full">
                 <Image
-                  src="/arte-premios.png"
+                  src="/imagen-premios.png"
                   alt="Premios USG Liga de Campeones: motocicleta, Smart TV, scooter, rotomartillo, herramienta y notas de crédito $100,000, $50,000 y $30,000 MXN"
-                  width={2112}
-                  height={1408}
+                  width={2496}
+                  height={1664}
                   priority
                   sizes="(max-width: 1024px) 100vw, 55vw"
                   className="mx-auto block h-auto w-full max-h-[70vh] object-contain
