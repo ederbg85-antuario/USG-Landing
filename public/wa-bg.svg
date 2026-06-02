@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400">
+  <g fill="none" stroke="#54656f" stroke-opacity="0.06" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <!-- smiley -->
+    <circle cx="55" cy="50" r="15"/>
+    <circle cx="50" cy="46" r="1.4" fill="#54656f" stroke="none" fill-opacity="0.06"/>
+    <circle cx="60" cy="46" r="1.4" fill="#54656f" stroke="none" fill-opacity="0.06"/>
+    <path d="M48 55 q7 6 14 0"/>
+    <!-- heart -->
+    <path d="M150 45 c-6 -10 -22 -4 -16 8 c3 7 16 14 16 14 c0 0 13 -7 16 -14 c6 -12 -10 -18 -16 -8 z"/>
+    <!-- star -->
+    <path d="M255 38 l5 12 13 1 -10 8 3 13 -11 -7 -11 7 3 -13 -10 -8 13 -1 z"/>
+    <!-- chat bubble -->
+    <path d="M330 35 h40 a8 8 0 0 1 8 8 v18 a8 8 0 0 1 -8 8 h-22 l-12 10 v-10 h-6 a8 8 0 0 1 -8 -8 v-18 a8 8 0 0 1 8 -8 z"/>
+    <!-- music note -->
+    <path d="M70 150 v-30 l22 -6 v30"/>
+    <circle cx="64" cy="150" r="7"/>
+    <circle cx="86" cy="144" r="7"/>
+    <!-- camera -->
+    <rect x="160" y="135" width="42" height="30" rx="5"/>
+    <circle cx="181" cy="150" r="8"/>
+    <path d="M170 135 l4 -6 h14 l4 6"/>
+    <!-- sun -->
+    <circle cx="290" cy="150" r="11"/>
+    <path d="M290 132 v-7 M290 168 v7 M272 150 h-7 M308 150 h7 M278 138 l-5 -5 M302 162 l5 5 M302 138 l5 -5 M278 162 l-5 5"/>
+    <!-- coffee -->
+    <path d="M40 250 h34 v18 a10 10 0 0 1 -10 10 h-14 a10 10 0 0 1 -10 -10 z"/>
+    <path d="M74 254 h8 a7 7 0 0 1 0 14 h-8"/>
+    <path d="M48 240 q4 -6 0 -12 M62 240 q4 -6 0 -12"/>
+    <!-- gift -->
+    <rect x="150" y="248" width="34" height="28" rx="3"/>
+    <path d="M150 258 h34 M167 248 v28 M167 248 q-10 -10 -2 -2 M167 248 q10 -10 2 -2"/>
+    <!-- airplane -->
+    <path d="M268 250 l44 14 -16 6 -4 16 -8 -14 -18 6 z"/>
+    <!-- thumbs up -->
+    <path d="M48 348 v-14 h8 v14 z M56 338 l6 -12 q3 -5 6 -1 q2 3 -1 9 l-2 4 h10 q4 0 3 5 l-3 11 q-1 4 -5 4 h-14 z"/>
+    <!-- balloon -->
+    <ellipse cx="165" cy="335" rx="13" ry="16"/>
+    <path d="M165 351 v12 M162 363 q3 3 6 0"/>
+    <!-- lightning -->
+    <path d="M285 320 l-12 22 h10 l-6 18 18 -26 h-10 z"/>
+  </g>
+</svg>

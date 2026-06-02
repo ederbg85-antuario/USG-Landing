@@ -211,10 +211,7 @@ export default function BandejaPage() {
               </div>
 
               {/* Mensajes */}
-              <div
-                className="flex-1 overflow-y-auto px-3 py-4 space-y-1.5"
-                style={{ backgroundColor: "#efeae2" }}
-              >
+              <div className="wa-chat-bg flex-1 overflow-y-auto px-3 py-4 space-y-1.5">
                 {loadingMsgs && msgs.length === 0 && (
                   <p className="text-center text-[#667781] text-xs py-6">
                     Cargando mensajes…
@@ -226,10 +223,8 @@ export default function BandejaPage() {
                     className={`flex ${m.outgoing ? "justify-end" : "justify-start"}`}
                   >
                     <div
-                      className={`max-w-[78%] rounded-lg px-2.5 py-1.5 shadow-sm ${
-                        m.outgoing
-                          ? "bg-[#d9fdd3] rounded-tr-none"
-                          : "bg-white rounded-tl-none"
+                      className={`wa-bubble max-w-[78%] px-2.5 py-1.5 ${
+                        m.outgoing ? "wa-bubble-out" : "wa-bubble-in"
                       }`}
                     >
                       {m.content && (

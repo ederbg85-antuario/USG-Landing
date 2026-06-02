@@ -235,3 +235,48 @@ body::after {
 .usg-board {
   display: none;
 }
+
+/* ========================================================== */
+/*  CHAT ESTILO WHATSAPP (bandeja del panel)                   */
+/* ========================================================== */
+.wa-chat-bg {
+  background-color: #efeae2;
+  background-image: url("/wa-bg.svg");
+  background-repeat: repeat;
+  background-size: 400px 400px;
+}
+
+.wa-bubble {
+  position: relative;
+  box-shadow: 0 1px 0.5px rgba(11, 20, 26, 0.13);
+}
+.wa-bubble-in {
+  background: #ffffff;
+  border-radius: 7.5px;
+  border-top-left-radius: 0;
+}
+.wa-bubble-out {
+  background: #d9fdd3;
+  border-radius: 7.5px;
+  border-top-right-radius: 0;
+}
+.wa-bubble-in::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -8px;
+  width: 8px;
+  height: 13px;
+  background: #ffffff;
+  clip-path: polygon(100% 0, 0 0, 100% 100%);
+}
+.wa-bubble-out::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: -8px;
+  width: 8px;
+  height: 13px;
+  background: #d9fdd3;
+  clip-path: polygon(0 0, 100% 0, 0 100%);
+}
