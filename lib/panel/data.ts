@@ -1,5 +1,6 @@
 import "server-only";
-import { createAdminClient } from "@/lib/supabase/admin";
+import { createClient } from "@/lib/supabase/server";
+import { SUPABASE_URL, SUPABASE_ANON_KEY } from "@/lib/supabase/config";
 
 export type Ticket = {
   status: string | null;
@@ -25,60 +26,47 @@ export type ParticipanteRow = {
   tickets: Ticket[];
 };
 
-export async function getRankingData(): Promise<ParticipanteRow[]> {
-  const sb = createAdminClient();
+export type Resumen = {
+  totalParticipantes: number;
+  totalTickets: number;
+  ticketsAprobados: number;
+  lider: string;
+  liderPuntos: number;
+};
 
-  const [{ data: participantes, error: e1 }, { data: tickets, error: e2 }] =
-    await Promise.all([
-      sb
-        .from("participantes")
-        .select(
-          "telefono,nombre,nombre_publico,estado,ciudad,email,rol,puntos_total,tickets_aprobados,estado_cuenta,fecha_registro",
-        )
-        .order("puntos_total", { ascending: false }),
-      sb
-        .from("tickets")
-        .select("telefono,status,puntos_ticket,url_imagen,fecha_envio,tienda,sucursal")
-        .order("fecha_envio", { ascending: false }),
-    ]);
+const FN = `${SUPABASE_URL}/functions/v1/panel-data`;
 
-  if (e1) throw new Error(e1.message);
-  if (e2) throw new Error(e2.message);
+/**
+ * Llama a la Edge Function `panel-data` con el token de la sesión del usuario.
+ * La función está protegida con verify_jwt, así que solo responde a usuarios
+ * con sesión iniciada. La service_role vive dentro de Supabase (no en Vercel).
+ */
+async function callPanelFn<T>(view: "ranking" | "resumen"): Promise<T> {
+  const supabase = createClient();
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+  if (!session) throw new Error("Sesión no válida. Vuelve a iniciar sesión.");
 
-  const byPhone = new Map<string, Ticket[]>();
-  for (const t of (tickets ?? []) as (Ticket & { telefono: string })[]) {
-    const arr = byPhone.get(t.telefono) ?? [];
-    arr.push(t);
-    byPhone.set(t.telefono, arr);
+  const res = await fetch(`${FN}?view=${view}`, {
+    headers: {
+      Authorization: `Bearer ${session.access_token}`,
+      apikey: SUPABASE_ANON_KEY,
+    },
+    cache: "no-store",
+  });
+
+  if (!res.ok) {
+    const txt = await res.text().catch(() => "");
+    throw new Error(`No se pudieron cargar los datos (${res.status}). ${txt.slice(0, 120)}`);
   }
-
-  return ((participantes ?? []) as Omit<ParticipanteRow, "tickets">[]).map(
-    (p) => ({ ...p, tickets: byPhone.get(p.telefono) ?? [] }),
-  );
+  return res.json() as Promise<T>;
 }
 
-export async function getResumen() {
-  const sb = createAdminClient();
-  const [participantes, tickets, ticketsAprob] = await Promise.all([
-    sb.from("participantes").select("*", { count: "exact", head: true }),
-    sb.from("tickets").select("*", { count: "exact", head: true }),
-    sb
-      .from("tickets")
-      .select("*", { count: "exact", head: true })
-      .eq("status", "aprobado"),
-  ]);
+export function getRankingData() {
+  return callPanelFn<ParticipanteRow[]>("ranking");
+}
 
-  const { data: top } = await sb
-    .from("participantes")
-    .select("nombre,puntos_total")
-    .order("puntos_total", { ascending: false })
-    .limit(1);
-
-  return {
-    totalParticipantes: participantes.count ?? 0,
-    totalTickets: tickets.count ?? 0,
-    ticketsAprobados: ticketsAprob.count ?? 0,
-    lider: top?.[0]?.nombre ?? "—",
-    liderPuntos: top?.[0]?.puntos_total ?? 0,
-  };
+export function getResumen() {
+  return callPanelFn<Resumen>("resumen");
 }

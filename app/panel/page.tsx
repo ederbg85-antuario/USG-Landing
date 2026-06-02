@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { hasServiceKey } from "@/lib/supabase/admin";
 import { getResumen } from "@/lib/panel/data";
 import ConfigNotice from "./ConfigNotice";
 
@@ -28,15 +27,6 @@ function Stat({
 }
 
 export default async function PanelHome() {
-  if (!hasServiceKey()) {
-    return (
-      <div>
-        <Header />
-        <ConfigNotice />
-      </div>
-    );
-  }
-
   let resumen;
   try {
     resumen = await getResumen();

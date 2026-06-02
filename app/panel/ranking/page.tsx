@@ -1,4 +1,3 @@
-import { hasServiceKey } from "@/lib/supabase/admin";
 import { getRankingData } from "@/lib/panel/data";
 import ConfigNotice from "../ConfigNotice";
 import RankingTable from "./RankingTable";
@@ -6,15 +5,6 @@ import RankingTable from "./RankingTable";
 export const dynamic = "force-dynamic";
 
 export default async function RankingPage() {
-  if (!hasServiceKey()) {
-    return (
-      <div>
-        <Header />
-        <ConfigNotice />
-      </div>
-    );
-  }
-
   let rows;
   try {
     rows = await getRankingData();
