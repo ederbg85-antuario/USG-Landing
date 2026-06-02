@@ -122,7 +122,7 @@ export default function BandejaPage() {
           BANDEJA DE ENTRADA
         </h1>
         <p className="text-sm text-white/55 mt-1">
-          Conversaciones de WhatsApp de hoy.
+          Conversaciones de WhatsApp.
         </p>
       </div>
 
@@ -141,7 +141,7 @@ export default function BandejaPage() {
           } w-full md:w-80 flex-shrink-0 flex-col border-r border-white/10 bg-black/40`}
         >
           <div className="px-4 py-3 border-b border-white/10 text-xs uppercase tracking-widest text-white/45">
-            {loadingConvs ? "Cargando…" : `${convs.length} conversaciones · hoy`}
+            {loadingConvs ? "Cargando…" : `${convs.length} conversaciones`}
           </div>
           <div className="flex-1 overflow-y-auto">
             {convs.map((c) => (
@@ -172,7 +172,7 @@ export default function BandejaPage() {
             ))}
             {!loadingConvs && convs.length === 0 && !error && (
               <p className="text-center text-white/35 text-sm p-8">
-                No hay conversaciones hoy.
+                No hay conversaciones todavía.
               </p>
             )}
           </div>
