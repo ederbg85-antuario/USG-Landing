@@ -62,10 +62,10 @@ export default function Hero() {
               ¡Mete goles y gana!
             </p>
 
-            {/* Logo oficial de la promo — Liga de Campeones.
-                Los márgenes negativos absorben el aire transparente
-                del PNG para que el logo se sienta más dominante. */}
-            <h1 className="-my-4 sm:-my-6 lg:-my-8 flex justify-center lg:justify-start">
+            {/* Logo oficial de la promo — Liga USG de Campeones.
+                Márgenes positivos para que el arte no se encime con el
+                antetítulo de arriba ni con el separador de abajo. */}
+            <h1 className="my-3 sm:my-4 lg:my-5 flex justify-center lg:justify-start">
               <Image
                 src="/liga-usg-de-campeones.png"
                 alt="USG Liga de Campeones"
