@@ -90,6 +90,17 @@ export type Informe = {
   };
 };
 
+export type WebAnalytics = {
+  rangeDays: number;
+  totals: { pageviews: number; visitors: number; sessions: number; clicks: number };
+  byDay: { day: string; pageviews: number; visitors: number }[];
+  topPages: { path: string; pageviews: number; visitors: number }[];
+  topReferrers: { host: string; count: number }[];
+  topClicks: { element: string; count: number }[];
+  devices: Record<string, number>;
+  sources: { source: string; count: number }[];
+};
+
 const FN = `${SUPABASE_URL}/functions/v1/panel-data`;
 
 /**
@@ -97,14 +108,18 @@ const FN = `${SUPABASE_URL}/functions/v1/panel-data`;
  * La función está protegida con verify_jwt, así que solo responde a usuarios
  * con sesión iniciada. La service_role vive dentro de Supabase (no en Vercel).
  */
-async function callPanelFn<T>(view: "ranking" | "resumen" | "informe"): Promise<T> {
+async function callPanelFn<T>(
+  view: "ranking" | "resumen" | "informe" | "web",
+  params: Record<string, string | number> = {},
+): Promise<T> {
   const supabase = createClient();
   const {
     data: { session },
   } = await supabase.auth.getSession();
   if (!session) throw new Error("Sesión no válida. Vuelve a iniciar sesión.");
 
-  const res = await fetch(`${FN}?view=${view}`, {
+  const qs = new URLSearchParams({ view, ...Object.fromEntries(Object.entries(params).map(([k, v]) => [k, String(v)])) });
+  const res = await fetch(`${FN}?${qs}`, {
     headers: {
       Authorization: `Bearer ${session.access_token}`,
       apikey: SUPABASE_ANON_KEY,
@@ -129,4 +144,8 @@ export function getResumen() {
 
 export function getInforme() {
   return callPanelFn<Informe>("informe");
+}
+
+export function getWebAnalytics(days = 30) {
+  return callPanelFn<WebAnalytics>("web", { days });
 }

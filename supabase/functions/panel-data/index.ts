@@ -38,8 +38,17 @@ const num = (v: unknown): number => {
 Deno.serve(async (req: Request) => {
   // verify_jwt=true: el gateway de Supabase ya validó que hay un JWT válido
   // (un usuario con sesión iniciada). Aquí solo servimos los datos.
-  const view = new URL(req.url).searchParams.get("view") || "ranking";
+  const url = new URL(req.url);
+  const view = url.searchParams.get("view") || "ranking";
   const sb = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
+
+  if (view === "web") {
+    const raw = parseInt(url.searchParams.get("days") || "30", 10);
+    const days = Math.min(365, Math.max(1, Number.isFinite(raw) ? raw : 30));
+    const { data, error } = await sb.rpc("web_analytics", { days });
+    if (error) return j({ error: error.message }, 500);
+    return j(data);
+  }
 
   if (view === "resumen") {
     const [p, t, ta, top, montos] = await Promise.all([
