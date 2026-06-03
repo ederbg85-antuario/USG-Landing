@@ -10,6 +10,7 @@ const NAV = [
   { href: "/panel", label: "Resumen", icon: "📊" },
   { href: "/panel/bandeja", label: "Bandeja de entrada", icon: "💬" },
   { href: "/panel/ranking", label: "Ranking y registros", icon: "🏆" },
+  { href: "/panel/informe", label: "Informe", icon: "📦" },
   { href: "/panel/analitica", label: "Analítica (GA4)", icon: "📈" },
 ];
 

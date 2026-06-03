@@ -2,13 +2,26 @@ import "server-only";
 import { createClient } from "@/lib/supabase/server";
 import { SUPABASE_URL, SUPABASE_ANON_KEY } from "@/lib/supabase/config";
 
+export type ProductoDetectado = {
+  sku?: string;
+  nombre?: string;
+  cantidad?: number;
+  puntos_unit?: number;
+  puntos_subtotal?: number;
+};
+
 export type Ticket = {
   status: string | null;
   puntos_ticket: number | null;
   url_imagen: string | null;
   fecha_envio: string | null;
+  fecha_ticket: string | null;
+  folio_ticket: string | null;
   tienda: string | null;
   sucursal: string | null;
+  total_ticket: number | string | null;
+  subtotal_participante: number | string | null;
+  productos_detectados: ProductoDetectado[] | null;
 };
 
 export type ParticipanteRow = {
@@ -19,8 +32,11 @@ export type ParticipanteRow = {
   ciudad: string | null;
   email: string | null;
   rol: string | null;
+  empresa: string | null;
   puntos_total: number | null;
   tickets_aprobados: number | null;
+  compras_total_mxn: number | string | null;
+  productos_unicos: number | null;
   estado_cuenta: string | null;
   fecha_registro: string | null;
   tickets: Ticket[];
@@ -32,6 +48,46 @@ export type Resumen = {
   ticketsAprobados: number;
   lider: string;
   liderPuntos: number;
+  compraTotal: number;
+  puntosTotal: number;
+};
+
+export type ProductoInventario = {
+  sku: string;
+  nombre: string;
+  unidades: number;
+  puntos: number;
+  tickets: number;
+  participantes: number;
+};
+
+export type DistribuidorAgg = {
+  tienda: string;
+  tickets: number;
+  puntos: number;
+  monto: number;
+  participantes: number;
+};
+
+export type SucursalAgg = {
+  tienda: string;
+  sucursal: string;
+  tickets: number;
+  puntos: number;
+  monto: number;
+};
+
+export type Informe = {
+  productos: ProductoInventario[];
+  distribuidores: DistribuidorAgg[];
+  sucursales: SucursalAgg[];
+  montos: {
+    compraTotal: number;
+    ticketsAprobados: number;
+    ticketsConMonto: number;
+    ticketPromedio: number;
+    puntosTotal: number;
+  };
 };
 
 const FN = `${SUPABASE_URL}/functions/v1/panel-data`;
@@ -41,7 +97,7 @@ const FN = `${SUPABASE_URL}/functions/v1/panel-data`;
  * La función está protegida con verify_jwt, así que solo responde a usuarios
  * con sesión iniciada. La service_role vive dentro de Supabase (no en Vercel).
  */
-async function callPanelFn<T>(view: "ranking" | "resumen"): Promise<T> {
+async function callPanelFn<T>(view: "ranking" | "resumen" | "informe"): Promise<T> {
   const supabase = createClient();
   const {
     data: { session },
@@ -69,4 +125,8 @@ export function getRankingData() {
 
 export function getResumen() {
   return callPanelFn<Resumen>("resumen");
+}
+
+export function getInforme() {
+  return callPanelFn<Informe>("informe");
 }

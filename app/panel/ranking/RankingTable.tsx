@@ -1,7 +1,7 @@
 "use client";
 
 import { Fragment, useMemo, useState } from "react";
-import type { ParticipanteRow } from "@/lib/panel/data";
+import type { ParticipanteRow, Ticket } from "@/lib/panel/data";
 
 function fmtDate(s: string | null) {
   if (!s) return "—";
@@ -12,11 +12,33 @@ function fmtDate(s: string | null) {
   });
 }
 
+const num = (v: number | string | null | undefined): number => {
+  const n = typeof v === "string" ? parseFloat(v) : (v as number);
+  return Number.isFinite(n) ? n : 0;
+};
+
+const fmtMXN = (n: number) =>
+  n.toLocaleString("es-MX", { style: "currency", currency: "MXN", maximumFractionDigits: 0 });
+
+// Compra total de un participante = suma del total de sus tickets aprobados.
+function compraTotal(r: ParticipanteRow): number {
+  return r.tickets
+    .filter((t) => t.status === "aprobado")
+    .reduce((acc, t) => acc + num(t.total_ticket), 0);
+}
+
+function productosResumen(t: Ticket): string {
+  return (t.productos_detectados || [])
+    .map((p) => `${p.cantidad ?? "?"}× ${p.nombre ?? p.sku ?? "?"}`)
+    .join("; ");
+}
+
 function toCSV(rows: ParticipanteRow[]) {
   const headers = [
     "posicion",
     "nombre",
     "nombre_publico",
+    "empresa",
     "estado",
     "ciudad",
     "telefono",
@@ -24,19 +46,26 @@ function toCSV(rows: ParticipanteRow[]) {
     "rol",
     "puntos_total",
     "tickets_aprobados",
+    "compra_total_mxn",
     "estado_cuenta",
     "fecha_registro",
+    "distribuidores",
+    "sucursales",
+    "productos",
     "imagenes_tickets",
   ];
   const esc = (v: unknown) => {
     const s = v == null ? "" : String(v);
     return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
   };
+  const uniq = (arr: (string | null)[]) =>
+    [...new Set(arr.filter((x): x is string => !!x && x.trim() !== ""))].join(" | ");
   const lines = rows.map((r, i) =>
     [
       i + 1,
       r.nombre,
       r.nombre_publico,
+      r.empresa,
       r.estado,
       r.ciudad,
       r.telefono,
@@ -44,8 +73,12 @@ function toCSV(rows: ParticipanteRow[]) {
       r.rol,
       r.puntos_total ?? 0,
       r.tickets_aprobados ?? 0,
+      Math.round(compraTotal(r)),
       r.estado_cuenta,
       r.fecha_registro,
+      uniq(r.tickets.map((t) => t.tienda)),
+      uniq(r.tickets.map((t) => t.sucursal)),
+      uniq(r.tickets.map((t) => productosResumen(t)).filter(Boolean)),
       r.tickets
         .map((t) => t.url_imagen)
         .filter(Boolean)
@@ -65,7 +98,17 @@ export default function RankingTable({ rows }: { rows: ParticipanteRow[] }) {
     const t = q.trim().toLowerCase();
     if (!t) return rows;
     return rows.filter((r) =>
-      [r.nombre, r.estado, r.ciudad, r.telefono, r.email, r.rol]
+      [
+        r.nombre,
+        r.estado,
+        r.ciudad,
+        r.telefono,
+        r.email,
+        r.rol,
+        r.empresa,
+        ...r.tickets.map((tk) => tk.tienda),
+        ...r.tickets.map((tk) => tk.sucursal),
+      ]
         .filter(Boolean)
         .some((v) => String(v).toLowerCase().includes(t)),
     );
@@ -89,7 +132,7 @@ export default function RankingTable({ rows }: { rows: ParticipanteRow[] }) {
         <input
           value={q}
           onChange={(e) => setQ(e.target.value)}
-          placeholder="Buscar por nombre, estado, teléfono…"
+          placeholder="Buscar por nombre, estado, distribuidor…"
           className="w-full sm:max-w-xs rounded-lg bg-black/40 border border-white/10 px-4 py-2.5 text-sm text-white placeholder-white/30 focus:outline-none focus:border-usg-red"
         />
         <div className="flex items-center gap-3">
@@ -115,6 +158,7 @@ export default function RankingTable({ rows }: { rows: ParticipanteRow[] }) {
                 <th className="px-4 py-3 font-semibold">Ubicación</th>
                 <th className="px-4 py-3 font-semibold">Contacto</th>
                 <th className="px-4 py-3 font-semibold text-right">Puntos</th>
+                <th className="px-4 py-3 font-semibold text-right">Compra</th>
                 <th className="px-4 py-3 font-semibold text-center">Tickets</th>
                 <th className="px-4 py-3 font-semibold"></th>
               </tr>
@@ -123,16 +167,13 @@ export default function RankingTable({ rows }: { rows: ParticipanteRow[] }) {
               {filtered.map((r, i) => {
                 const isOpen = expanded === r.telefono;
                 const conImg = r.tickets.filter((t) => t.url_imagen);
+                const compra = compraTotal(r);
                 return (
                   <Fragment key={r.telefono}>
                     <tr className="hover:bg-white/[0.03]">
-                      <td className="px-4 py-3 text-white/40 tabular-nums">
-                        {i + 1}
-                      </td>
+                      <td className="px-4 py-3 text-white/40 tabular-nums">{i + 1}</td>
                       <td className="px-4 py-3">
-                        <p className="text-white font-medium">
-                          {r.nombre ?? "—"}
-                        </p>
+                        <p className="text-white font-medium">{r.nombre ?? "—"}</p>
                         <p className="text-[11px] text-white/40">
                           {r.rol ?? ""} · {r.estado_cuenta ?? ""}
                         </p>
@@ -153,6 +194,9 @@ export default function RankingTable({ rows }: { rows: ParticipanteRow[] }) {
                           {(r.puntos_total ?? 0).toLocaleString("es-MX")}
                         </span>
                       </td>
+                      <td className="px-4 py-3 text-right text-white/70 tabular-nums">
+                        {compra > 0 ? fmtMXN(compra) : "—"}
+                      </td>
                       <td className="px-4 py-3 text-center text-white/60 tabular-nums">
                         {r.tickets.length}
                         {conImg.length > 0 && (
@@ -164,9 +208,7 @@ export default function RankingTable({ rows }: { rows: ParticipanteRow[] }) {
                       <td className="px-4 py-3 text-right">
                         {r.tickets.length > 0 && (
                           <button
-                            onClick={() =>
-                              setExpanded(isOpen ? null : r.telefono)
-                            }
+                            onClick={() => setExpanded(isOpen ? null : r.telefono)}
                             className="text-xs text-usg-red hover:underline whitespace-nowrap"
                           >
                             {isOpen ? "Ocultar" : "Ver tickets"}
@@ -176,12 +218,12 @@ export default function RankingTable({ rows }: { rows: ParticipanteRow[] }) {
                     </tr>
                     {isOpen && (
                       <tr className="bg-black/30">
-                        <td colSpan={7} className="px-4 py-4">
+                        <td colSpan={8} className="px-4 py-4">
                           <div className="flex flex-wrap gap-3">
                             {r.tickets.map((t, ti) => (
                               <div
                                 key={ti}
-                                className="w-40 rounded-lg border border-white/10 overflow-hidden bg-black/40"
+                                className="w-56 rounded-lg border border-white/10 overflow-hidden bg-black/40"
                               >
                                 {t.url_imagen ? (
                                   t.url_imagen.toLowerCase().endsWith(".pdf") ? (
@@ -194,11 +236,7 @@ export default function RankingTable({ rows }: { rows: ParticipanteRow[] }) {
                                       📄
                                     </a>
                                   ) : (
-                                    <a
-                                      href={t.url_imagen}
-                                      target="_blank"
-                                      rel="noreferrer"
-                                    >
+                                    <a href={t.url_imagen} target="_blank" rel="noreferrer">
                                       {/* eslint-disable-next-line @next/next/no-img-element */}
                                       <img
                                         src={t.url_imagen}
@@ -212,17 +250,32 @@ export default function RankingTable({ rows }: { rows: ParticipanteRow[] }) {
                                     sin imagen
                                   </div>
                                 )}
-                                <div className="px-2 py-1.5 text-[11px]">
+                                <div className="px-2.5 py-2 text-[11px] space-y-1.5">
                                   <p className="text-white/70 capitalize">
                                     {t.status ?? "—"} ·{" "}
-                                    {(t.puntos_ticket ?? 0).toLocaleString(
-                                      "es-MX",
-                                    )}{" "}
-                                    pts
+                                    {(t.puntos_ticket ?? 0).toLocaleString("es-MX")} pts
                                   </p>
-                                  <p className="text-white/35">
-                                    {fmtDate(t.fecha_envio)}
-                                  </p>
+                                  {(t.tienda || t.sucursal) && (
+                                    <p className="text-white/60 leading-snug">
+                                      🏬 {t.tienda ?? "—"}
+                                      {t.sucursal ? ` · ${t.sucursal}` : ""}
+                                    </p>
+                                  )}
+                                  {num(t.total_ticket) > 0 && (
+                                    <p className="text-white/50">
+                                      Compra: {fmtMXN(num(t.total_ticket))}
+                                    </p>
+                                  )}
+                                  {(t.productos_detectados?.length ?? 0) > 0 && (
+                                    <ul className="text-white/55 leading-snug list-none space-y-0.5 pt-1 border-t border-white/10">
+                                      {t.productos_detectados!.map((p, pi) => (
+                                        <li key={pi}>
+                                          {p.cantidad ?? "?"}× {p.nombre ?? p.sku}
+                                        </li>
+                                      ))}
+                                    </ul>
+                                  )}
+                                  <p className="text-white/35">{fmtDate(t.fecha_envio)}</p>
                                 </div>
                               </div>
                             ))}
@@ -235,10 +288,7 @@ export default function RankingTable({ rows }: { rows: ParticipanteRow[] }) {
               })}
               {filtered.length === 0 && (
                 <tr>
-                  <td
-                    colSpan={7}
-                    className="px-4 py-12 text-center text-white/40 text-sm"
-                  >
+                  <td colSpan={8} className="px-4 py-12 text-center text-white/40 text-sm">
                     Sin resultados.
                   </td>
                 </tr>
