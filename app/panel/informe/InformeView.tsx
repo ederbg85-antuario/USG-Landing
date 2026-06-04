@@ -72,18 +72,18 @@ export default function InformeView({ data }: { data: Informe }) {
   return (
     <div className="space-y-8">
       {/* KPIs */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <Kpi label="Compra total registrada" value={fmtMXN(montos.compraTotal)} sub="suma de tickets aprobados" />
+      <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+        <Kpi label="Compra total registrada" value={fmtMXN(montos.compraTotal)} sub="total de los tickets aprobados" />
+        <Kpi label="Monto en productos USG" value={fmtMXN(montos.compraUSG)} sub="solo productos participantes" />
         <Kpi label="Ticket promedio" value={fmtMXN(montos.ticketPromedio)} sub={`${montos.ticketsConMonto} con monto`} />
         <Kpi label="Puntos otorgados" value={fmtN(montos.puntosTotal)} />
         <Kpi label="Tickets aprobados" value={fmtN(montos.ticketsAprobados)} />
+        <Kpi
+          label="USG sobre la compra"
+          value={montos.compraTotal ? `${Math.round((montos.compraUSG / montos.compraTotal) * 100)}%` : "—"}
+          sub="del total comprado"
+        />
       </div>
-
-      <p className="text-xs text-white/40 -mt-4">
-        * Los montos corresponden al total de cada ticket aprobado. El monto desglosado solo de
-        productos USG participantes se habilita en la siguiente fase (lectura de importe por
-        renglón en el agente).
-      </p>
 
       {/* Podio de productos */}
       <div>
@@ -130,8 +130,8 @@ export default function InformeView({ data }: { data: Informe }) {
                 onClick={() =>
                   downloadCSV(
                     "inventario-productos-usg.csv",
-                    ["posicion", "producto", "sku", "unidades", "puntos", "tickets", "participantes"],
-                    productos.map((p, i) => [i + 1, p.nombre, p.sku, p.unidades, p.puntos, p.tickets, p.participantes]),
+                    ["posicion", "producto", "sku", "unidades", "puntos", "importe_mxn", "tickets", "participantes"],
+                    productos.map((p, i) => [i + 1, p.nombre, p.sku, p.unidades, p.puntos, Math.round(p.importe), p.tickets, p.participantes]),
                   )
                 }
               />
@@ -144,6 +144,7 @@ export default function InformeView({ data }: { data: Informe }) {
                     <th className="px-4 py-3 font-semibold">Producto</th>
                     <th className="px-4 py-3 font-semibold text-right">Unidades</th>
                     <th className="px-4 py-3 font-semibold text-right">Puntos</th>
+                    <th className="px-4 py-3 font-semibold text-right">Importe USG</th>
                     <th className="px-4 py-3 font-semibold text-center">Tickets</th>
                     <th className="px-4 py-3 font-semibold text-center">Participantes</th>
                   </tr>
@@ -155,11 +156,12 @@ export default function InformeView({ data }: { data: Informe }) {
                       <td className="px-4 py-3 text-white">{p.nombre}</td>
                       <td className="px-4 py-3 text-right text-white tabular-nums font-semibold">{fmtN(p.unidades)}</td>
                       <td className="px-4 py-3 text-right text-white/70 tabular-nums">{fmtN(p.puntos)}</td>
+                      <td className="px-4 py-3 text-right text-white/70 tabular-nums">{p.importe > 0 ? fmtMXN(p.importe) : "—"}</td>
                       <td className="px-4 py-3 text-center text-white/60 tabular-nums">{p.tickets}</td>
                       <td className="px-4 py-3 text-center text-white/60 tabular-nums">{p.participantes}</td>
                     </tr>
                   ))}
-                  {productos.length === 0 && <EmptyRow cols={6} />}
+                  {productos.length === 0 && <EmptyRow cols={7} />}
                 </tbody>
               </table>
             </div>
@@ -173,8 +175,8 @@ export default function InformeView({ data }: { data: Informe }) {
                 onClick={() =>
                   downloadCSV(
                     "ranking-distribuidores.csv",
-                    ["posicion", "distribuidor", "tickets", "puntos", "compra_total_mxn", "participantes"],
-                    distribuidores.map((d, i) => [i + 1, d.tienda, d.tickets, d.puntos, Math.round(d.monto), d.participantes]),
+                    ["posicion", "distribuidor", "tickets", "puntos", "compra_total_mxn", "monto_usg_mxn", "participantes"],
+                    distribuidores.map((d, i) => [i + 1, d.tienda, d.tickets, d.puntos, Math.round(d.monto), Math.round(d.montoUSG), d.participantes]),
                   )
                 }
               />
@@ -188,6 +190,7 @@ export default function InformeView({ data }: { data: Informe }) {
                     <th className="px-4 py-3 font-semibold text-center">Tickets</th>
                     <th className="px-4 py-3 font-semibold text-right">Puntos</th>
                     <th className="px-4 py-3 font-semibold text-right">Compra total</th>
+                    <th className="px-4 py-3 font-semibold text-right">Monto USG</th>
                     <th className="px-4 py-3 font-semibold text-center">Participantes</th>
                   </tr>
                 </thead>
@@ -199,10 +202,11 @@ export default function InformeView({ data }: { data: Informe }) {
                       <td className="px-4 py-3 text-center text-white/60 tabular-nums">{d.tickets}</td>
                       <td className="px-4 py-3 text-right text-white tabular-nums font-semibold">{fmtN(d.puntos)}</td>
                       <td className="px-4 py-3 text-right text-white/70 tabular-nums">{fmtMXN(d.monto)}</td>
+                      <td className="px-4 py-3 text-right text-white/70 tabular-nums">{fmtMXN(d.montoUSG)}</td>
                       <td className="px-4 py-3 text-center text-white/60 tabular-nums">{d.participantes}</td>
                     </tr>
                   ))}
-                  {distribuidores.length === 0 && <EmptyRow cols={6} />}
+                  {distribuidores.length === 0 && <EmptyRow cols={7} />}
                 </tbody>
               </table>
             </div>
@@ -216,8 +220,8 @@ export default function InformeView({ data }: { data: Informe }) {
                 onClick={() =>
                   downloadCSV(
                     "ranking-sucursales.csv",
-                    ["posicion", "distribuidor", "sucursal", "tickets", "puntos", "compra_total_mxn"],
-                    sucursales.map((s, i) => [i + 1, s.tienda, s.sucursal, s.tickets, s.puntos, Math.round(s.monto)]),
+                    ["posicion", "distribuidor", "sucursal", "tickets", "puntos", "compra_total_mxn", "monto_usg_mxn"],
+                    sucursales.map((s, i) => [i + 1, s.tienda, s.sucursal, s.tickets, s.puntos, Math.round(s.monto), Math.round(s.montoUSG)]),
                   )
                 }
               />
@@ -232,6 +236,7 @@ export default function InformeView({ data }: { data: Informe }) {
                     <th className="px-4 py-3 font-semibold text-center">Tickets</th>
                     <th className="px-4 py-3 font-semibold text-right">Puntos</th>
                     <th className="px-4 py-3 font-semibold text-right">Compra total</th>
+                    <th className="px-4 py-3 font-semibold text-right">Monto USG</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-white/5">
@@ -243,9 +248,10 @@ export default function InformeView({ data }: { data: Informe }) {
                       <td className="px-4 py-3 text-center text-white/60 tabular-nums">{s.tickets}</td>
                       <td className="px-4 py-3 text-right text-white tabular-nums font-semibold">{fmtN(s.puntos)}</td>
                       <td className="px-4 py-3 text-right text-white/70 tabular-nums">{fmtMXN(s.monto)}</td>
+                      <td className="px-4 py-3 text-right text-white/70 tabular-nums">{fmtMXN(s.montoUSG)}</td>
                     </tr>
                   ))}
-                  {sucursales.length === 0 && <EmptyRow cols={6} />}
+                  {sucursales.length === 0 && <EmptyRow cols={7} />}
                 </tbody>
               </table>
             </div>

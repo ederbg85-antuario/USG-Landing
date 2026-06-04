@@ -49,6 +49,7 @@ export type Resumen = {
   lider: string;
   liderPuntos: number;
   compraTotal: number;
+  compraUSG: number;
   puntosTotal: number;
   participantesActivos: number;
   participantesSinAprobado: number;
@@ -60,6 +61,7 @@ export type ProductoInventario = {
   nombre: string;
   unidades: number;
   puntos: number;
+  importe: number;
   tickets: number;
   participantes: number;
 };
@@ -69,6 +71,7 @@ export type DistribuidorAgg = {
   tickets: number;
   puntos: number;
   monto: number;
+  montoUSG: number;
   participantes: number;
 };
 
@@ -78,6 +81,7 @@ export type SucursalAgg = {
   tickets: number;
   puntos: number;
   monto: number;
+  montoUSG: number;
 };
 
 export type Informe = {
@@ -86,6 +90,7 @@ export type Informe = {
   sucursales: SucursalAgg[];
   montos: {
     compraTotal: number;
+    compraUSG: number;
     ticketsAprobados: number;
     ticketsConMonto: number;
     ticketPromedio: number;

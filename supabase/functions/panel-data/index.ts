@@ -56,7 +56,7 @@ Deno.serve(async (req: Request) => {
       sb.from("tickets").select("*", { count: "exact", head: true }),
       sb.from("tickets").select("*", { count: "exact", head: true }).eq("status", "aprobado"),
       sb.from("participantes").select("nombre,puntos_total").order("puntos_total", { ascending: false }).limit(1),
-      sb.from("tickets").select("total_ticket,puntos_ticket").eq("status", "aprobado"),
+      sb.from("tickets").select("total_ticket,puntos_ticket,subtotal_participante").eq("status", "aprobado"),
       // Participantes ACTIVOS = con al menos 1 ticket aprobado.
       sb.from("participantes").select("*", { count: "exact", head: true }).gt("tickets_aprobados", 0),
       // Registrados SIN ticket aprobado.
@@ -65,9 +65,11 @@ Deno.serve(async (req: Request) => {
       sb.from("participantes").select("*", { count: "exact", head: true }).or("tickets_total.eq.0,tickets_total.is.null"),
     ]);
     let compraTotal = 0;
+    let compraUSG = 0;
     let puntosTotal = 0;
-    for (const r of (montos.data || []) as { total_ticket: number | string | null; puntos_ticket: number | null }[]) {
+    for (const r of (montos.data || []) as { total_ticket: number | string | null; puntos_ticket: number | null; subtotal_participante: number | string | null }[]) {
       compraTotal += num(r.total_ticket);
+      compraUSG += num(r.subtotal_participante);
       puntosTotal += num(r.puntos_ticket);
     }
     return j({
@@ -77,6 +79,7 @@ Deno.serve(async (req: Request) => {
       lider: top.data?.[0]?.nombre || "—",
       liderPuntos: top.data?.[0]?.puntos_total || 0,
       compraTotal,
+      compraUSG,
       puntosTotal,
       participantesActivos: activos.count || 0,
       participantesSinAprobado: sinAprob.count || 0,
@@ -93,10 +96,11 @@ Deno.serve(async (req: Request) => {
     if (error) return j({ error: error.message }, 500);
     const tickets = (data || []) as TicketRow[];
 
-    const productos = new Map<string, { sku: string; nombre: string; unidades: number; puntos: number; tickets: Set<string>; participantes: Set<string> }>();
-    const distribs = new Map<string, { tienda: string; tickets: number; puntos: number; monto: number; participantes: Set<string> }>();
-    const sucursales = new Map<string, { tienda: string; sucursal: string; tickets: number; puntos: number; monto: number }>();
+    const productos = new Map<string, { sku: string; nombre: string; unidades: number; puntos: number; importe: number; tickets: Set<string>; participantes: Set<string> }>();
+    const distribs = new Map<string, { tienda: string; tickets: number; puntos: number; monto: number; montoUSG: number; participantes: Set<string> }>();
+    const sucursales = new Map<string, { tienda: string; sucursal: string; tickets: number; puntos: number; monto: number; montoUSG: number }>();
     let compraTotal = 0;
+    let compraUSG = 0;
     let puntosTotal = 0;
     let ticketsConMonto = 0;
 
@@ -104,31 +108,34 @@ Deno.serve(async (req: Request) => {
       const tid = `${t.telefono}-${i}`;
       const pts = num(t.puntos_ticket);
       const monto = num(t.total_ticket);
+      const montoUsg = num(t.subtotal_participante);
       compraTotal += monto;
+      compraUSG += montoUsg;
       puntosTotal += pts;
       if (monto > 0) ticketsConMonto++;
 
       // Distribuidor (tienda)
       const dKey = normKey(t.tienda) || "SIN_TIENDA";
       const dLabel = (t.tienda || "Sin distribuidor").trim();
-      const d = distribs.get(dKey) || { tienda: dLabel, tickets: 0, puntos: 0, monto: 0, participantes: new Set<string>() };
-      d.tickets++; d.puntos += pts; d.monto += monto; d.participantes.add(t.telefono);
+      const d = distribs.get(dKey) || { tienda: dLabel, tickets: 0, puntos: 0, monto: 0, montoUSG: 0, participantes: new Set<string>() };
+      d.tickets++; d.puntos += pts; d.monto += monto; d.montoUSG += montoUsg; d.participantes.add(t.telefono);
       distribs.set(dKey, d);
 
       // Sucursal (tienda + sucursal)
       if (t.sucursal && normLabel(t.sucursal)) {
         const sKey = `${dKey}|${normKey(t.sucursal)}`;
-        const s = sucursales.get(sKey) || { tienda: dLabel, sucursal: t.sucursal.trim(), tickets: 0, puntos: 0, monto: 0 };
-        s.tickets++; s.puntos += pts; s.monto += monto;
+        const s = sucursales.get(sKey) || { tienda: dLabel, sucursal: t.sucursal.trim(), tickets: 0, puntos: 0, monto: 0, montoUSG: 0 };
+        s.tickets++; s.puntos += pts; s.monto += monto; s.montoUSG += montoUsg;
         sucursales.set(sKey, s);
       }
 
       // Productos (inventario)
       for (const prod of t.productos_detectados || []) {
         const sku = prod.sku || prod.nombre || "DESCONOCIDO";
-        const p = productos.get(sku) || { sku, nombre: prod.nombre || sku, unidades: 0, puntos: 0, tickets: new Set<string>(), participantes: new Set<string>() };
+        const p = productos.get(sku) || { sku, nombre: prod.nombre || sku, unidades: 0, puntos: 0, importe: 0, tickets: new Set<string>(), participantes: new Set<string>() };
         p.unidades += num(prod.cantidad);
         p.puntos += num(prod.puntos_subtotal);
+        p.importe += num((prod as { importe?: number | string }).importe);
         p.tickets.add(tid);
         p.participantes.add(t.telefono);
         productos.set(sku, p);
@@ -137,14 +144,15 @@ Deno.serve(async (req: Request) => {
 
     return j({
       productos: [...productos.values()]
-        .map((p) => ({ sku: p.sku, nombre: p.nombre, unidades: p.unidades, puntos: p.puntos, tickets: p.tickets.size, participantes: p.participantes.size }))
+        .map((p) => ({ sku: p.sku, nombre: p.nombre, unidades: p.unidades, puntos: p.puntos, importe: p.importe, tickets: p.tickets.size, participantes: p.participantes.size }))
         .sort((a, b) => b.unidades - a.unidades),
       distribuidores: [...distribs.values()]
-        .map((d) => ({ tienda: d.tienda, tickets: d.tickets, puntos: d.puntos, monto: d.monto, participantes: d.participantes.size }))
+        .map((d) => ({ tienda: d.tienda, tickets: d.tickets, puntos: d.puntos, monto: d.monto, montoUSG: d.montoUSG, participantes: d.participantes.size }))
         .sort((a, b) => b.puntos - a.puntos),
       sucursales: [...sucursales.values()].sort((a, b) => b.puntos - a.puntos),
       montos: {
         compraTotal,
+        compraUSG,
         ticketsAprobados: tickets.length,
         ticketsConMonto,
         ticketPromedio: ticketsConMonto ? compraTotal / ticketsConMonto : 0,

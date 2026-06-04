@@ -26,6 +26,12 @@ function compraTotal(r: ParticipanteRow): number {
     .filter((t) => t.status === "aprobado")
     .reduce((acc, t) => acc + num(t.total_ticket), 0);
 }
+// Monto solo de productos USG participantes (suma de subtotal_participante aprobado).
+function compraUSG(r: ParticipanteRow): number {
+  return r.tickets
+    .filter((t) => t.status === "aprobado")
+    .reduce((acc, t) => acc + num(t.subtotal_participante), 0);
+}
 
 function productosResumen(t: Ticket): string {
   return (t.productos_detectados || [])
@@ -47,6 +53,7 @@ function toCSV(rows: ParticipanteRow[]) {
     "puntos_total",
     "tickets_aprobados",
     "compra_total_mxn",
+    "monto_usg_mxn",
     "estado_cuenta",
     "fecha_registro",
     "distribuidores",
@@ -74,6 +81,7 @@ function toCSV(rows: ParticipanteRow[]) {
       r.puntos_total ?? 0,
       r.tickets_aprobados ?? 0,
       Math.round(compraTotal(r)),
+      Math.round(compraUSG(r)),
       r.estado_cuenta,
       r.fecha_registro,
       uniq(r.tickets.map((t) => t.tienda)),
@@ -168,6 +176,7 @@ export default function RankingTable({ rows }: { rows: ParticipanteRow[] }) {
                 const isOpen = expanded === r.telefono;
                 const conImg = r.tickets.filter((t) => t.url_imagen);
                 const compra = compraTotal(r);
+                const usg = compraUSG(r);
                 return (
                   <Fragment key={r.telefono}>
                     <tr className="hover:bg-white/[0.03]">
@@ -194,8 +203,11 @@ export default function RankingTable({ rows }: { rows: ParticipanteRow[] }) {
                           {(r.puntos_total ?? 0).toLocaleString("es-MX")}
                         </span>
                       </td>
-                      <td className="px-4 py-3 text-right text-white/70 tabular-nums">
-                        {compra > 0 ? fmtMXN(compra) : "—"}
+                      <td className="px-4 py-3 text-right tabular-nums">
+                        <p className="text-white/70">{compra > 0 ? fmtMXN(compra) : "—"}</p>
+                        {usg > 0 && (
+                          <p className="text-[11px] text-usg-red/80">{fmtMXN(usg)} USG</p>
+                        )}
                       </td>
                       <td className="px-4 py-3 text-center text-white/60 tabular-nums">
                         {r.tickets.length}
@@ -264,6 +276,11 @@ export default function RankingTable({ rows }: { rows: ParticipanteRow[] }) {
                                   {num(t.total_ticket) > 0 && (
                                     <p className="text-white/50">
                                       Compra: {fmtMXN(num(t.total_ticket))}
+                                      {num(t.subtotal_participante) > 0 && (
+                                        <span className="text-usg-red/80">
+                                          {" "}· USG {fmtMXN(num(t.subtotal_participante))}
+                                        </span>
+                                      )}
                                     </p>
                                   )}
                                   {(t.productos_detectados?.length ?? 0) > 0 && (

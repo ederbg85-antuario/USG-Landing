@@ -114,11 +114,12 @@ export default async function PanelHome() {
         <Stat
           label="Compra total registrada"
           value={fmtMXN(resumen.compraTotal)}
-          sub="tickets aprobados"
+          sub="total de los tickets"
         />
         <Stat
-          label="Puntos otorgados"
-          value={resumen.puntosTotal.toLocaleString("es-MX")}
+          label="Monto en productos USG"
+          value={fmtMXN(resumen.compraUSG)}
+          sub="solo productos participantes"
         />
       </div>
 
