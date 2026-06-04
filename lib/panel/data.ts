@@ -50,6 +50,9 @@ export type Resumen = {
   liderPuntos: number;
   compraTotal: number;
   puntosTotal: number;
+  participantesActivos: number;
+  participantesSinAprobado: number;
+  participantesSinTicket: number;
 };
 
 export type ProductoInventario = {

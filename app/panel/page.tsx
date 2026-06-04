@@ -122,6 +122,24 @@ export default async function PanelHome() {
         />
       </div>
 
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+        <Stat
+          label="Participantes activos"
+          value={resumen.participantesActivos}
+          sub="con al menos 1 ticket aprobado"
+        />
+        <Stat
+          label="Registrados sin ticket válido"
+          value={resumen.participantesSinAprobado}
+          sub="registrados pero aún sin aprobar"
+        />
+        <Stat
+          label="Sin enviar ningún ticket"
+          value={resumen.participantesSinTicket}
+          sub="registrados que no han participado"
+        />
+      </div>
+
       {informe && (
         <div className="grid lg:grid-cols-3 gap-4 mb-8">
           <TopList

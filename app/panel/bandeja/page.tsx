@@ -39,6 +39,23 @@ export default function BandejaPage() {
   const [sending, setSending] = useState(false);
   const [sendNote, setSendNote] = useState("");
   const endRef = useRef<HTMLDivElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  // ¿el usuario está hasta abajo del chat? (si scrolleó arriba, no lo movemos)
+  const atBottomRef = useRef(true);
+  // firma de los mensajes actuales, para no re-renderizar si no cambió nada
+  const lastSigRef = useRef("");
+  // marca que se acaba de abrir una conversación (para bajar al fondo una vez)
+  const justSelectedRef = useRef(false);
+
+  function msgsSig(arr: Msg[]) {
+    const last = arr[arr.length - 1];
+    return `${arr.length}:${last?.id ?? ""}:${last?.content?.length ?? 0}`;
+  }
+  function onChatScroll() {
+    const el = scrollRef.current;
+    if (!el) return;
+    atBottomRef.current = el.scrollHeight - el.scrollTop - el.clientHeight < 80;
+  }
 
   const loadConvs = useCallback(async () => {
     try {
@@ -61,7 +78,15 @@ export default function BandejaPage() {
         `/api/panel/chatwoot?action=messages&id=${encodeURIComponent(id)}`,
       );
       const d = await r.json();
-      if (r.ok) setMsgs(d.messages || []);
+      if (r.ok) {
+        const next: Msg[] = d.messages || [];
+        const sig = msgsSig(next);
+        // Solo actualizamos si de verdad cambió algo (evita re-render y brinco).
+        if (sig !== lastSigRef.current) {
+          lastSigRef.current = sig;
+          setMsgs(next);
+        }
+      }
     } finally {
       if (!silent) setLoadingMsgs(false);
     }
@@ -76,13 +101,26 @@ export default function BandejaPage() {
   useEffect(() => {
     if (!sel) return;
     setSendNote("");
+    // Reset al cambiar de conversación: limpiamos y marcamos para bajar al fondo.
+    lastSigRef.current = "";
+    atBottomRef.current = true;
+    justSelectedRef.current = true;
+    setMsgs([]);
     loadMsgs(sel.id);
     const t = setInterval(() => loadMsgs(sel.id, true), 8000);
     return () => clearInterval(t);
   }, [sel, loadMsgs]);
 
+  // Bajar al fondo SOLO al abrir la conversación, o cuando llega un mensaje
+  // nuevo y el usuario ya estaba hasta abajo. Si está leyendo arriba, no lo movemos.
   useEffect(() => {
-    endRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (msgs.length === 0) return;
+    if (justSelectedRef.current) {
+      justSelectedRef.current = false;
+      endRef.current?.scrollIntoView({ behavior: "auto" });
+    } else if (atBottomRef.current) {
+      endRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
   }, [msgs]);
 
   async function enviar() {
@@ -211,7 +249,11 @@ export default function BandejaPage() {
               </div>
 
               {/* Mensajes */}
-              <div className="wa-chat-bg flex-1 overflow-y-auto px-3 py-4 space-y-1.5">
+              <div
+                ref={scrollRef}
+                onScroll={onChatScroll}
+                className="wa-chat-bg flex-1 overflow-y-auto px-3 py-4 space-y-1.5"
+              >
                 {loadingMsgs && msgs.length === 0 && (
                   <p className="text-center text-[#667781] text-xs py-6">
                     Cargando mensajes…

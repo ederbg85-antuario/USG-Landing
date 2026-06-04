@@ -51,12 +51,18 @@ Deno.serve(async (req: Request) => {
   }
 
   if (view === "resumen") {
-    const [p, t, ta, top, montos] = await Promise.all([
+    const [p, t, ta, top, montos, activos, sinAprob, sinTicket] = await Promise.all([
       sb.from("participantes").select("*", { count: "exact", head: true }),
       sb.from("tickets").select("*", { count: "exact", head: true }),
       sb.from("tickets").select("*", { count: "exact", head: true }).eq("status", "aprobado"),
       sb.from("participantes").select("nombre,puntos_total").order("puntos_total", { ascending: false }).limit(1),
       sb.from("tickets").select("total_ticket,puntos_ticket").eq("status", "aprobado"),
+      // Participantes ACTIVOS = con al menos 1 ticket aprobado.
+      sb.from("participantes").select("*", { count: "exact", head: true }).gt("tickets_aprobados", 0),
+      // Registrados SIN ticket aprobado.
+      sb.from("participantes").select("*", { count: "exact", head: true }).or("tickets_aprobados.eq.0,tickets_aprobados.is.null"),
+      // No han enviado NINGÚN ticket.
+      sb.from("participantes").select("*", { count: "exact", head: true }).or("tickets_total.eq.0,tickets_total.is.null"),
     ]);
     let compraTotal = 0;
     let puntosTotal = 0;
@@ -72,6 +78,9 @@ Deno.serve(async (req: Request) => {
       liderPuntos: top.data?.[0]?.puntos_total || 0,
       compraTotal,
       puntosTotal,
+      participantesActivos: activos.count || 0,
+      participantesSinAprobado: sinAprob.count || 0,
+      participantesSinTicket: sinTicket.count || 0,
     });
   }
 
