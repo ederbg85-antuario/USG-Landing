@@ -18,6 +18,7 @@ const bebas = Bebas_Neue({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://ligausgdecampeones.com"),
   title: "USG Liga de Campeones — Promo Oficial 2026",
   description:
     "Acumula puntos por cada compra USG, sube en el ranking nacional y gana premios reales: motos, pantallas, bicicletas y herramientas. Regístrate por WhatsApp.",

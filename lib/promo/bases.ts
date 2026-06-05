@@ -134,7 +134,7 @@ export const BASES_BLOCKS: BaseBlock[] = [
   },
   {
     "kind": "p",
-    "text": "Se podrán consultar las bases de esta promoción a través de Internet, en la página web oficial de la promoción: www.usgligadecampeones.com (en adelante la “Página de la Promoción”)."
+    "text": "Se podrán consultar las bases de esta promoción a través de Internet, en la página web oficial de la promoción: www.ligausgdecampeones.com (en adelante la “Página de la Promoción”)."
   },
   {
     "kind": "p",
