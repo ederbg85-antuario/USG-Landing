@@ -166,7 +166,7 @@ Deno.serve(async (req: Request) => {
     sb
       .from("participantes")
       .select(
-        "telefono,nombre,nombre_publico,estado,ciudad,email,rol,empresa,puntos_total,tickets_aprobados,compras_total_mxn,productos_unicos,estado_cuenta,fecha_registro",
+        "telefono,nombre,nombre_publico,estado,ciudad,email,empresa,puntos_total,tickets_aprobados,compras_total_mxn,productos_unicos,estado_cuenta,fecha_registro",
       )
       .order("puntos_total", { ascending: false }),
     sb

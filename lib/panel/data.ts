@@ -31,7 +31,6 @@ export type ParticipanteRow = {
   estado: string | null;
   ciudad: string | null;
   email: string | null;
-  rol: string | null;
   empresa: string | null;
   puntos_total: number | null;
   tickets_aprobados: number | null;

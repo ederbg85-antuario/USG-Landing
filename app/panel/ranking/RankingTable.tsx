@@ -49,7 +49,6 @@ function toCSV(rows: ParticipanteRow[]) {
     "ciudad",
     "telefono",
     "email",
-    "rol",
     "puntos_total",
     "tickets_aprobados",
     "compra_total_mxn",
@@ -77,7 +76,6 @@ function toCSV(rows: ParticipanteRow[]) {
       r.ciudad,
       r.telefono,
       r.email,
-      r.rol,
       r.puntos_total ?? 0,
       r.tickets_aprobados ?? 0,
       Math.round(compraTotal(r)),
@@ -112,7 +110,6 @@ export default function RankingTable({ rows }: { rows: ParticipanteRow[] }) {
         r.ciudad,
         r.telefono,
         r.email,
-        r.rol,
         r.empresa,
         ...r.tickets.map((tk) => tk.tienda),
         ...r.tickets.map((tk) => tk.sucursal),
@@ -184,7 +181,7 @@ export default function RankingTable({ rows }: { rows: ParticipanteRow[] }) {
                       <td className="px-4 py-3">
                         <p className="text-white font-medium">{r.nombre ?? "—"}</p>
                         <p className="text-[11px] text-white/40">
-                          {r.rol ?? ""} · {r.estado_cuenta ?? ""}
+                          {r.estado_cuenta ?? ""}
                         </p>
                       </td>
                       <td className="px-4 py-3 text-white/60">
