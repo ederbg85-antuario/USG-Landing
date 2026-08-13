@@ -6,6 +6,7 @@ export type PublicRankingEntry = {
   state?: string;
   stars: number;
   points: number;
+  distributor?: string;
 };
 
 type SupabaseRankingRow = {
@@ -14,6 +15,7 @@ type SupabaseRankingRow = {
   state?: unknown;
   stars?: unknown;
   points?: unknown;
+  distributor?: unknown;
 };
 
 const PUBLIC_STATE_LABELS: Record<string, string> = {
@@ -42,7 +44,7 @@ export async function getPublicRanking(
   const endpoint = new URL(`${SUPABASE_URL}/rest/v1/ranking`);
   endpoint.searchParams.set(
     "select",
-    "rank,name:nombre_publico,state:estado,stars,points",
+    "rank,name:nombre_publico,state:estado,stars,points,distributor:distribuidor",
   );
   endpoint.searchParams.set("order", "rank.asc");
   endpoint.searchParams.set("limit", String(limit));
@@ -72,6 +74,10 @@ export async function getPublicRanking(
       state: publicStateLabel(row.state),
       stars: Math.min(5, Math.max(0, Number(row.stars) || 0)),
       points: Math.max(0, Number(row.points) || 0),
+      distributor:
+        typeof row.distributor === "string" && row.distributor.trim()
+          ? row.distributor.trim()
+          : undefined,
     }))
     .filter(
       (entry) =>

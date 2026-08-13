@@ -21,6 +21,7 @@ type LeaderboardEntry = {
   state?: string;
   stars: number; // 0..5
   points: number;
+  distributor?: string;
 };
 
 const MEDALS: Record<number, { emoji: string; ring: string }> = {
@@ -216,9 +217,11 @@ export default function Leaderboard() {
                       <p className="text-white font-semibold text-sm sm:text-base truncate">
                         {entry.name}
                       </p>
-                      {entry.state && (
+                      {(entry.state || entry.distributor) && (
                         <p className="text-[10px] sm:text-xs text-white/50 uppercase tracking-wider truncate">
-                          {entry.state}
+                          {[entry.state, entry.distributor]
+                            .filter(Boolean)
+                            .join(" · ")}
                         </p>
                       )}
                     </div>

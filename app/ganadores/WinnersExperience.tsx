@@ -155,7 +155,9 @@ function PodiumCard({
             {entry?.name ?? "Actualizando…"}
           </h3>
           <p className="mt-1 truncate text-xs uppercase tracking-wider text-white/45">
-            {entry?.state ?? "México"}
+            {[entry?.state ?? "México", entry?.distributor]
+              .filter(Boolean)
+              .join(" · ")}
           </p>
         </div>
       </div>
@@ -220,7 +222,9 @@ function RankingRow({ entry }: { entry: PublicRankingEntry }) {
             {entry.name}
           </p>
           <p className="mt-0.5 truncate text-[10px] uppercase tracking-[0.16em] text-white/40 sm:text-xs">
-            {entry.state || "México"}
+            {[entry.state || "México", entry.distributor]
+              .filter(Boolean)
+              .join(" · ")}
           </p>
         </div>
       </div>
@@ -286,7 +290,7 @@ export default function WinnersExperience({
     if (!normalized) return entries;
 
     return entries.filter((entry) =>
-      [entry.rank, entry.name, entry.state, entry.points]
+      [entry.rank, entry.name, entry.state, entry.distributor, entry.points]
         .filter((value) => value !== undefined)
         .some((value) =>
           String(value).toLocaleLowerCase("es-MX").includes(normalized),
