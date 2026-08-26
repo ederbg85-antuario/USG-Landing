@@ -19,22 +19,22 @@ const bebas = Bebas_Neue({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://ligausgdecampeones.com"),
-  title: "USG Liga de Campeones — Promo Oficial 2026",
+  title: "Ganadores 2026 | USG Liga de Campeones",
   description:
-    "Acumula puntos por cada compra USG, sube en el ranking nacional y gana premios reales: motos, pantallas, bicicletas y herramientas. Regístrate por WhatsApp.",
+    "Resultados oficiales de USG Liga de Campeones: consulta los 115 ganadores, sus puntos y el premio asignado.",
   keywords: [
     "USG",
     "USG Liga de Campeones",
-    "promoción USG",
-    "puntos USG",
+    "ganadores USG",
+    "resultados USG",
     "tablaroca",
     "construcción",
     "premios",
   ],
   openGraph: {
-    title: "USG Liga de Campeones — Promo Oficial",
+    title: "Ganadores 2026 | USG Liga de Campeones",
     description:
-      "Acumula goles (puntos) por cada compra USG y compite por premios reales (motos, pantallas, bicicletas, herramientas). Regístrate por WhatsApp.",
+      "Consulta la lista oficial de los 115 ganadores, sus puntos y el premio asignado.",
     type: "website",
     locale: "es_MX",
   },

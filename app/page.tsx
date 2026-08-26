@@ -1,31 +1,46 @@
-import Header from "@/components/Header";
-import Hero from "@/components/Hero";
-import HowToPlay from "@/components/HowToPlay";
-import Products from "@/components/Products";
-import Prizes from "@/components/Prizes";
-import Leaderboard from "@/components/Leaderboard";
-import FAQ from "@/components/FAQ";
-import FinalCTA from "@/components/FinalCTA";
-import MoreProductsCTA from "@/components/MoreProductsCTA";
-import Footer from "@/components/Footer";
-import WhatsAppFloat from "@/components/WhatsAppFloat";
+import type { Metadata } from "next";
+import WinnersExperience from "@/app/ganadores/WinnersExperience";
+import {
+  CLIENT_WINNERS_TOTAL,
+  type PublicRankingEntry,
+} from "@/lib/client-winners-ranking";
+import { getPublicRanking } from "@/lib/public-ranking";
 
-export default function Home() {
-  return (
-    <main className="usg-global-bg min-h-screen overflow-x-hidden">
-      <Header />
-      <Hero />
-      {/* Reglas de puntos al inicio (movido por solicitud del cliente) */}
-      <Products />
-      {/* Ranking de ganadores en tiempo real — visible alto en la página */}
-      <Leaderboard />
-      <HowToPlay />
-      <Prizes />
-      <FAQ />
-      <FinalCTA />
-      <MoreProductsCTA />
-      <Footer />
-      <WhatsAppFloat />
-    </main>
+export const metadata: Metadata = {
+  title: "Ganadores 2026 | USG Liga de Campeones",
+  description:
+    "Consulta la lista oficial de los 115 ganadores de USG Liga de Campeones, su posición, puntos, distribuidor y premio asignado.",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: "Los 115 ganadores | USG Liga de Campeones",
+    description:
+      "Consulta el podio, los 13 niveles de premios y la lista final de los 115 campeones de la temporada 2026.",
+    url: "/",
+    type: "website",
+    images: [
+      {
+        url: "/og-ganadores-115.png",
+        width: 1729,
+        height: 910,
+        alt: "Los 115 Campeones de USG Liga de Campeones — Resultados 2026",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Los 115 ganadores | USG Liga de Campeones",
+    description:
+      "Consulta posiciones, puntos y premios de la lista oficial 2026.",
+    images: ["/og-ganadores-115.png"],
+  },
+};
+
+export default async function Home() {
+  const initialEntries: PublicRankingEntry[] = await getPublicRanking(
+    CLIENT_WINNERS_TOTAL,
   );
+
+  return <WinnersExperience initialEntries={initialEntries} />;
 }

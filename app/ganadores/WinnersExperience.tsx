@@ -10,6 +10,13 @@ type WinnersExperienceProps = {
   initialEntries: PublicRankingEntry[];
 };
 
+type PrizeTier = {
+  prize: string;
+  firstRank: number;
+  lastRank: number;
+  winnerCount: number;
+};
+
 const PODIUM_PRIZES: Record<
   number,
   { amount: string; label: string; accent: string; surface: string; medal: string }
@@ -36,29 +43,6 @@ const PODIUM_PRIZES: Record<
     medal: "BRONCE",
   },
 };
-
-const PRIZE_CATEGORIES = [
-  {
-    name: "Motocicletas",
-    kicker: "Para los líderes de la tabla",
-    image: "/prizes/motocicleta-italika-ft200.jpeg",
-  },
-  {
-    name: "Smart TVs",
-    kicker: "Tecnología para disfrutar",
-    image: "/prizes/smart-tv-lg-65.jpeg",
-  },
-  {
-    name: "Herramienta profesional",
-    kicker: "Potencia para cada proyecto",
-    image: "/prizes/rotomartillo-bosch.jpeg",
-  },
-  {
-    name: "Equipo y accesorios",
-    kicker: "Premios para los 115 campeones",
-    image: "/prizes/audifonos-beats-studio3.jpg",
-  },
-];
 
 const numberFormatter = new Intl.NumberFormat("es-MX");
 
@@ -155,7 +139,7 @@ function PodiumCard({
             Premio principal
           </p>
           <p className={`mt-1 font-display text-2xl sm:text-3xl ${prize.accent}`}>
-            {prize.amount}
+            {entry?.prize ?? prize.amount}
           </p>
           <p className="text-[10px] text-white/45">{prize.label}</p>
         </div>
@@ -169,7 +153,7 @@ function RankingRow({ entry }: { entry: PublicRankingEntry }) {
 
   return (
     <li
-      className={`group grid grid-cols-[3.25rem_minmax(0,1fr)_auto] items-center gap-3 px-4 py-3.5 [contain-intrinsic-size:0_72px] [content-visibility:auto] transition-colors sm:grid-cols-[4.25rem_minmax(0,1.15fr)_minmax(12rem,0.85fr)_auto] sm:gap-4 sm:px-6 sm:py-4 lg:px-8 ${
+      className={`group grid grid-cols-[3.25rem_minmax(0,1fr)_auto] items-center gap-3 px-4 py-3.5 transition-colors sm:grid-cols-[4.25rem_minmax(0,1.15fr)_minmax(12rem,0.85fr)_auto] sm:gap-4 sm:px-6 sm:py-4 lg:px-8 ${
         isTopThree
           ? "bg-usg-red/[0.08] hover:bg-usg-red/[0.13]"
           : "hover:bg-white/[0.035]"
@@ -256,15 +240,44 @@ export default function WinnersExperience({
   }, [initialEntries, query]);
 
   const topThree = initialEntries.slice(0, 3);
+  const prizeTiers = useMemo<PrizeTier[]>(() => {
+    const tiers: PrizeTier[] = [];
+
+    initialEntries.forEach((entry) => {
+      if (!entry.prize) return;
+
+      const previousTier = tiers.at(-1);
+      if (
+        previousTier?.prize === entry.prize &&
+        previousTier.lastRank === entry.rank - 1
+      ) {
+        previousTier.lastRank = entry.rank;
+        previousTier.winnerCount += 1;
+        return;
+      }
+
+      tiers.push({
+        prize: entry.prize,
+        firstRank: entry.rank,
+        lastRank: entry.rank,
+        winnerCount: 1,
+      });
+    });
+
+    return tiers;
+  }, [initialEntries]);
 
   return (
-    <main className="min-h-screen overflow-x-hidden bg-[#070907] text-white">
+    <main
+      id="inicio"
+      className="min-h-screen overflow-x-hidden bg-[#070907] text-white"
+    >
       <header className="sticky top-0 z-50 border-b border-white/10 bg-black/80 backdrop-blur-xl">
         <div className="container mx-auto flex h-[4.5rem] items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
-          <Link
-            href="/"
+          <a
+            href="#inicio"
             className="flex min-w-0 items-center gap-3"
-            aria-label="Volver a USG Liga de Campeones"
+            aria-label="Ir al inicio de resultados"
           >
             <UsgLogo
               variant="light"
@@ -274,7 +287,7 @@ export default function WinnersExperience({
             <span className="hidden border-l border-white/15 pl-3 font-display text-lg tracking-wider sm:block">
               LIGA DE CAMPEONES
             </span>
-          </Link>
+          </a>
 
           <nav className="hidden items-center gap-6 text-xs font-bold uppercase tracking-widest text-white/60 md:flex">
             <a href="#podio" className="transition-colors hover:text-white">
@@ -286,13 +299,16 @@ export default function WinnersExperience({
             <a href="#ranking" className="transition-colors hover:text-white">
               Top 115
             </a>
+            <a href="#bases" className="transition-colors hover:text-white">
+              Bases
+            </a>
           </nav>
 
           <a
             href="#ranking"
             className="rounded-full bg-usg-red px-4 py-2.5 text-xs font-black uppercase tracking-wider shadow-lg shadow-usg-red/25 transition-transform hover:-translate-y-0.5 sm:px-5"
           >
-            Ver ganadores
+            Ver mi premio
           </a>
         </div>
       </header>
@@ -448,46 +464,47 @@ export default function WinnersExperience({
               </h2>
             </div>
             <p className="max-w-xl text-sm leading-relaxed text-white/55 sm:text-base lg:justify-self-end">
-              Los 115 lugares forman parte de la selección ganadora.
-              Los incentivos se asignan de mayor a menor de acuerdo con la
-              posición final, la validación documental y la disponibilidad
-              indicada por la Organizadora.
+              Estos son los 13 niveles de premio asignados en la lista final.
+              Cada ganador puede confirmar abajo su posición, puntaje,
+              distribuidor y premio individual.
             </p>
           </div>
 
-          <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {PRIZE_CATEGORIES.map((category, index) => (
+          <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {prizeTiers.map((tier, index) => (
               <article
-                key={category.name}
-                className="group relative min-h-[22rem] overflow-hidden rounded-[1.75rem] border border-white/10 bg-black"
+                key={`${tier.firstRank}-${tier.prize}`}
+                className={`relative overflow-hidden rounded-[1.75rem] border p-5 sm:p-6 ${
+                  index < 3
+                    ? "border-[#ffd55c]/30 bg-gradient-to-br from-[#6f4a00]/45 via-[#171005] to-black"
+                    : "border-white/10 bg-gradient-to-br from-white/[0.055] to-black"
+                }`}
               >
-                <Image
-                  src={category.image}
-                  alt={category.name}
-                  fill
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                  className="object-cover opacity-70 transition duration-500 group-hover:scale-105 group-hover:opacity-85"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/25 to-transparent" />
-                <div className="absolute inset-x-0 bottom-0 p-5">
-                  <span className="font-display text-5xl text-white/20">
-                    0{index + 1}
+                <div className="absolute -right-8 -top-8 h-28 w-28 rounded-full bg-usg-red/10 blur-3xl" />
+                <div className="relative flex items-start justify-between gap-4">
+                  <span className="font-display text-5xl leading-none text-white/15">
+                    {String(index + 1).padStart(2, "0")}
                   </span>
-                  <h3 className="mt-2 font-display text-3xl leading-none text-white">
-                    {category.name}
-                  </h3>
-                  <p className="mt-2 text-xs uppercase tracking-wider text-white/50">
-                    {category.kicker}
-                  </p>
+                  <span className="rounded-full border border-usg-red/25 bg-usg-red/[0.08] px-3 py-1 text-[9px] font-black uppercase tracking-[0.15em] text-usg-red">
+                    {tier.firstRank === tier.lastRank
+                      ? `${tier.firstRank}° lugar`
+                      : `Lugares ${tier.firstRank}–${tier.lastRank}`}
+                  </span>
                 </div>
+                <h3 className="relative mt-6 font-display text-3xl leading-[0.95] text-white">
+                  {tier.prize}
+                </h3>
+                <p className="relative mt-3 text-[10px] font-bold uppercase tracking-[0.17em] text-emerald-300/65">
+                  {tier.winnerCount} {tier.winnerCount === 1 ? "ganador" : "ganadores"}
+                </p>
               </article>
             ))}
           </div>
 
           <p className="mx-auto mt-7 max-w-3xl text-center text-[11px] leading-relaxed text-white/35">
-            Imágenes ilustrativas. Las marcas o modelos pueden variar por
-            disponibilidad; se mantiene el tipo de premio asignado por la
-            Organizadora.
+            Distribución tomada de la lista oficial con corte al 26 de agosto
+            de 2026. Consulta la tabla completa para confirmar la asignación
+            individual.
           </p>
         </div>
       </section>
@@ -538,7 +555,8 @@ export default function WinnersExperience({
                 <div className="sm:w-80">
                   <label className="relative block min-w-0 sm:w-72">
                     <span className="sr-only">
-                      Buscar por nombre, estado, lugar o puntos
+                      Buscar por nombre, estado, distribuidor, lugar, puntos o
+                      premio
                     </span>
                     <input
                       type="search"
@@ -597,30 +615,50 @@ export default function WinnersExperience({
         </div>
       </section>
 
-      <section className="border-y border-white/10 bg-[#110508] py-20 sm:py-24">
+      <section
+        id="bases"
+        className="scroll-mt-20 border-y border-white/10 bg-[#110508] py-20 sm:py-24"
+      >
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-6xl overflow-hidden rounded-[2rem] border border-usg-red/30 bg-gradient-to-br from-usg-red/20 via-black to-black p-6 sm:p-10 lg:p-12">
             <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
               <div>
                 <p className="text-xs font-black uppercase tracking-[0.3em] text-usg-red">
-                  ¿Apareces en la lista?
+                  Bases y entrega de premios
                 </p>
                 <h2 className="mt-4 font-display text-5xl leading-[0.9] text-white sm:text-6xl">
-                  LO QUE SIGUE
-                  <span className="block text-white/30">PARA TI</span>
+                  INFORMACIÓN
+                  <span className="block text-white/30">PARA GANADORES</span>
                 </h2>
                 <p className="mt-5 text-sm leading-relaxed text-white/55">
-                  El equipo organizador se pondrá en contacto utilizando los
-                  datos registrados durante la promoción.
+                  Consulta las Bases oficiales y conserva tus comprobantes. El
+                  equipo organizador se pondrá en contacto utilizando los datos
+                  registrados durante la promoción.
                 </p>
               </div>
 
               <ol className="grid gap-3 sm:grid-cols-2">
                 {[
-                  ["01", "Confirma tu posición", "Localízate en el Top 115 y revisa tus puntos y premio."],
-                  ["02", "Espera el contacto", "La Organizadora contactará a cada ganador."],
-                  ["03", "Prepara tus documentos", "Conserva comprobantes originales e identificación vigente."],
-                  ["04", "Recibe tu premio", "Se coordinará contigo la validación y entrega correspondiente."],
+                  [
+                    "01",
+                    "Confirma tu posición",
+                    "Localízate en el Top 115 y revisa tus puntos y premio.",
+                  ],
+                  [
+                    "02",
+                    "Espera el contacto",
+                    "La Organizadora contactará a cada ganador.",
+                  ],
+                  [
+                    "03",
+                    "Prepara tus documentos",
+                    "Conserva comprobantes originales e identificación vigente.",
+                  ],
+                  [
+                    "04",
+                    "Recibe tu premio",
+                    "Se coordinará contigo la validación y entrega correspondiente.",
+                  ],
                 ].map(([number, title, body]) => (
                   <li
                     key={number}
@@ -645,14 +683,14 @@ export default function WinnersExperience({
                 href="/bases"
                 className="inline-flex items-center justify-center rounded-full bg-usg-red px-6 py-3.5 text-xs font-black uppercase tracking-wider transition-transform hover:-translate-y-0.5"
               >
-                Consultar Bases
+                Consultar Bases oficiales
               </Link>
-              <Link
-                href="/"
+              <a
+                href="#inicio"
                 className="inline-flex items-center justify-center rounded-full border border-white/15 px-6 py-3.5 text-xs font-black uppercase tracking-wider text-white/70 transition-colors hover:bg-white/[0.06] hover:text-white"
               >
-                Volver a la página principal
-              </Link>
+                Volver al inicio
+              </a>
             </div>
           </div>
         </div>
@@ -676,6 +714,12 @@ export default function WinnersExperience({
               Los nombres se muestran de forma abreviada para proteger los
               datos personales.
             </p>
+            <Link
+              href="/bases"
+              className="mt-2 inline-block font-bold uppercase tracking-wider text-usg-red/75 hover:text-usg-red"
+            >
+              Consultar Bases oficiales
+            </Link>
           </div>
         </div>
       </footer>
