@@ -1,27 +1,30 @@
 import { NextResponse } from "next/server";
 import { getPublicRanking } from "@/lib/public-ranking";
+import {
+  CLIENT_WINNERS_TOTAL,
+  CLIENT_WINNERS_UPDATED_AT,
+} from "@/lib/client-winners-ranking";
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+export const revalidate = 86_400;
 
 export async function GET() {
   try {
-    const entries = await getPublicRanking(100);
+    const entries = await getPublicRanking(CLIENT_WINNERS_TOTAL);
 
     return NextResponse.json(
       {
         entries,
-        updatedAt: new Date().toISOString(),
+        updatedAt: CLIENT_WINNERS_UPDATED_AT,
       },
       {
         headers: {
-          "Cache-Control": "no-store, max-age=0",
+          "Cache-Control": "public, max-age=0, s-maxage=86400",
         },
       },
     );
   } catch {
     return NextResponse.json(
-      { error: "No se pudo actualizar el ranking de ganadores." },
+      { error: "No se pudo cargar la lista oficial de ganadores." },
       { status: 502 },
     );
   }

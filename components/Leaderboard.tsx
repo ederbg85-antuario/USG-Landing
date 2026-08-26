@@ -2,17 +2,16 @@
 
 /**
  * ============================================================
- * RANKING DE GANADORES EN TIEMPO REAL
+ * RESUMEN DE LA LISTA OFICIAL DE GANADORES
  * ============================================================
  *
- * Conectado a Supabase a través de /app/api/leaderboard/route.ts.
- * El endpoint lee la vista `ranking` (Top 15, sólo datos públicos).
- * Este componente lo consulta al montar y cada 60 s, para el
- * refresco automático del ranking.
+ * El endpoint público lee la misma lista final del cliente que alimenta
+ * /ganadores. Esa fuente permanece separada del ranking operativo.
  * ============================================================
  */
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import UsgLogo from "@/components/UsgLogo";
 
 type LeaderboardEntry = {
@@ -22,6 +21,7 @@ type LeaderboardEntry = {
   stars: number; // 0..5
   points: number;
   distributor?: string;
+  prize?: string;
 };
 
 const MEDALS: Record<number, { emoji: string; ring: string }> = {
@@ -30,31 +30,10 @@ const MEDALS: Record<number, { emoji: string; ring: string }> = {
   3: { emoji: "🥉", ring: "ring-orange-400/60" },
 };
 
-function StarRow({ count }: { count: number }) {
-  return (
-    <div className="flex items-center gap-0.5" aria-label={`${count} de 5 estrellas`}>
-      {Array.from({ length: 5 }).map((_, i) => (
-        <svg
-          key={i}
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="currentColor"
-          className={`w-4 h-4 sm:w-[18px] sm:h-[18px] ${
-            i < count ? "text-yellow-400" : "text-white/15"
-          }`}
-        >
-          <path d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-        </svg>
-      ))}
-    </div>
-  );
-}
-
 export default function Leaderboard() {
   const [entries, setEntries] = useState<LeaderboardEntry[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-  const [updatedAt, setUpdatedAt] = useState<string>("");
 
   useEffect(() => {
     let cancelado = false;
@@ -72,21 +51,12 @@ export default function Leaderboard() {
       } finally {
         if (cancelado) return;
         setLoading(false);
-        setUpdatedAt(
-          new Date().toLocaleString("es-MX", {
-            weekday: "short",
-            hour: "2-digit",
-            minute: "2-digit",
-          }),
-        );
       }
     };
 
     cargarRanking();
-    const intervalo = setInterval(cargarRanking, 60_000);
     return () => {
       cancelado = true;
-      clearInterval(intervalo);
     };
   }, []);
 
@@ -110,7 +80,7 @@ export default function Leaderboard() {
           <div className="inline-flex items-center gap-2 bg-usg-red/15 border border-usg-red/40 backdrop-blur-sm rounded-full px-4 py-2 mb-4">
             <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse shadow-[0_0_8px_rgba(74,222,128,0.8)]" />
             <span className="text-xs sm:text-sm font-semibold text-white tracking-wider uppercase">
-              EN VIVO · Actualización automática
+              RESULTADOS OFICIALES · LISTA FINAL
             </span>
           </div>
           <span className="inline-block text-usg-red text-sm font-bold tracking-widest uppercase mb-3">
@@ -118,12 +88,12 @@ export default function Leaderboard() {
           </span>
           <h2 className="font-display text-4xl xs:text-5xl sm:text-6xl md:text-7xl text-white tracking-tight leading-[0.92] mb-5 sm:mb-6">
             <span className="block">Ranking de ganadores</span>
-            <span className="block gradient-text-red">en tiempo real</span>
+            <span className="block gradient-text-red">lista oficial</span>
           </h2>
           <p className="text-base sm:text-lg text-white/70 max-w-2xl mx-auto leading-relaxed">
-            Estos son los líderes de la promoción. Sube en el ranking
-            acumulando goles (puntos) por cada compra USG registrada por
-            WhatsApp. Se actualiza automáticamente.
+            Consulta a los primeros lugares de la lista final proporcionada
+            por la Organizadora. La página completa incluye a los 115
+            ganadores y el premio asignado a cada uno.
           </p>
         </div>
 
@@ -145,15 +115,15 @@ export default function Leaderboard() {
                     RANKING USG
                   </p>
                   <p className="text-[10px] uppercase tracking-widest text-white/60 mt-1 truncate">
-                    Top {entries.length} · Liga de Campeones
+                    Primeros {entries.length} de 115 · Liga de Campeones
                   </p>
                 </div>
               </div>
               <div className="text-right flex-shrink-0">
                 <p className="text-[10px] uppercase tracking-widest text-white/60">
-                  {loading ? "Actualizando…" : "Última actualización"}
+                  {loading ? "Cargando…" : "Corte oficial"}
                 </p>
-                <p className="text-xs text-white font-mono">{updatedAt}</p>
+                <p className="text-xs text-white font-mono">26 AGO 2026</p>
               </div>
             </div>
 
@@ -224,11 +194,18 @@ export default function Leaderboard() {
                             .join(" · ")}
                         </p>
                       )}
+                      {entry.prize ? (
+                        <p className="mt-1 truncate text-[9px] font-bold uppercase tracking-wider text-emerald-300/75 sm:hidden">
+                          {entry.prize}
+                        </p>
+                      ) : null}
                     </div>
 
-                    {/* Estrellas */}
-                    <div className="hidden sm:flex flex-shrink-0">
-                      <StarRow count={entry.stars} />
+                    {/* Premio */}
+                    <div className="hidden max-w-[12rem] flex-shrink-0 sm:block">
+                      <p className="text-right text-[9px] font-black uppercase leading-tight tracking-[0.1em] text-emerald-300/75">
+                        {entry.prize}
+                      </p>
                     </div>
 
                     {/* Puntos */}
@@ -249,17 +226,21 @@ export default function Leaderboard() {
             {/* Footer de la tarjeta */}
             <div className="relative z-10 px-6 sm:px-8 py-4 border-t border-usg-red/30 bg-black/60 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-white/60">
               <p>
-                🔄 Sincronizado con la base de datos oficial de la promoción.
+                Lista final proporcionada por la Organizadora.
               </p>
-              <p className="font-mono text-usg-red">USG · 2026</p>
+              <Link
+                href="/ganadores"
+                className="font-black uppercase tracking-wider text-usg-red transition-colors hover:text-white"
+              >
+                Ver los 115 ganadores →
+              </Link>
             </div>
           </div>
 
           {/* Disclaimer */}
           <p className="text-center text-xs text-white/40 max-w-2xl mx-auto mt-6">
-            *Tabla de posiciones referencial. La posición final se determina al
-            cierre oficial de la promoción según los puntos validados de
-            tickets enviados por WhatsApp.
+            Posiciones, puntos y premios publicados conforme a la lista final
+            de la Organizadora, con corte al 26 de agosto de 2026.
           </p>
         </div>
       </div>

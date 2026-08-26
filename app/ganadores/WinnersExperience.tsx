@@ -2,23 +2,12 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import {
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import { useMemo, useState } from "react";
 import type { PublicRankingEntry } from "@/lib/public-ranking";
 import UsgLogo from "@/components/UsgLogo";
 
-type WinnersResponse = {
-  entries: PublicRankingEntry[];
-  updatedAt: string;
-};
-
 type WinnersExperienceProps = {
   initialEntries: PublicRankingEntry[];
-  initialUpdatedAt: string;
 };
 
 const PODIUM_PRIZES: Record<
@@ -66,7 +55,7 @@ const PRIZE_CATEGORIES = [
   },
   {
     name: "Equipo y accesorios",
-    kicker: "Más premios para el Top 100",
+    kicker: "Premios para los 115 campeones",
     image: "/prizes/audifonos-beats-studio3.jpg",
   },
 ];
@@ -75,17 +64,6 @@ const numberFormatter = new Intl.NumberFormat("es-MX");
 
 function formatPoints(value: number) {
   return numberFormatter.format(value);
-}
-
-function formatUpdatedAt(value: string) {
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return "ahora";
-
-  return date.toLocaleTimeString("es-MX", {
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-  });
 }
 
 function initials(name: string) {
@@ -191,7 +169,7 @@ function RankingRow({ entry }: { entry: PublicRankingEntry }) {
 
   return (
     <li
-      className={`group grid grid-cols-[3.25rem_minmax(0,1fr)_auto] items-center gap-3 px-4 py-3.5 transition-colors sm:grid-cols-[4.25rem_minmax(0,1.35fr)_minmax(8rem,0.7fr)_auto] sm:gap-4 sm:px-6 sm:py-4 lg:px-8 ${
+      className={`group grid grid-cols-[3.25rem_minmax(0,1fr)_auto] items-center gap-3 px-4 py-3.5 [contain-intrinsic-size:0_72px] [content-visibility:auto] transition-colors sm:grid-cols-[4.25rem_minmax(0,1.15fr)_minmax(12rem,0.85fr)_auto] sm:gap-4 sm:px-6 sm:py-4 lg:px-8 ${
         isTopThree
           ? "bg-usg-red/[0.08] hover:bg-usg-red/[0.13]"
           : "hover:bg-white/[0.035]"
@@ -226,12 +204,17 @@ function RankingRow({ entry }: { entry: PublicRankingEntry }) {
               .filter(Boolean)
               .join(" · ")}
           </p>
+          {entry.prize ? (
+            <p className="mt-1.5 line-clamp-2 text-[9px] font-bold uppercase leading-tight tracking-[0.12em] text-emerald-300/75 sm:hidden">
+              {entry.prize}
+            </p>
+          ) : null}
         </div>
       </div>
 
       <div className="hidden sm:block">
-        <span className="inline-flex rounded-full border border-emerald-400/20 bg-emerald-400/[0.08] px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.18em] text-emerald-300/80">
-          Ganador 2026
+        <span className="inline-flex max-w-full rounded-full border border-emerald-400/20 bg-emerald-400/[0.08] px-2.5 py-1 text-[9px] font-black uppercase leading-tight tracking-[0.12em] text-emerald-300/80">
+          {entry.prize ?? "Ganador 2026"}
         </span>
       </div>
 
@@ -249,56 +232,30 @@ function RankingRow({ entry }: { entry: PublicRankingEntry }) {
 
 export default function WinnersExperience({
   initialEntries,
-  initialUpdatedAt,
 }: WinnersExperienceProps) {
-  const [entries, setEntries] = useState(initialEntries);
-  const [updatedAt, setUpdatedAt] = useState(initialUpdatedAt);
   const [query, setQuery] = useState("");
-  const [isRefreshing, setIsRefreshing] = useState(initialEntries.length === 0);
-  const [hasError, setHasError] = useState(false);
-
-  const refreshRanking = useCallback(async () => {
-    setIsRefreshing(true);
-
-    try {
-      const response = await fetch("/api/winners", { cache: "no-store" });
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
-
-      const payload = (await response.json()) as WinnersResponse;
-      setEntries(payload.entries);
-      setUpdatedAt(payload.updatedAt);
-      setHasError(false);
-    } catch {
-      setHasError(true);
-    } finally {
-      setIsRefreshing(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (initialEntries.length === 0) refreshRanking();
-
-    const interval = window.setInterval(() => {
-      if (document.visibilityState === "visible") refreshRanking();
-    }, 30_000);
-
-    return () => window.clearInterval(interval);
-  }, [initialEntries.length, refreshRanking]);
 
   const filteredEntries = useMemo(() => {
     const normalized = query.trim().toLocaleLowerCase("es-MX");
-    if (!normalized) return entries;
+    if (!normalized) return initialEntries;
 
-    return entries.filter((entry) =>
-      [entry.rank, entry.name, entry.state, entry.distributor, entry.points]
+    return initialEntries.filter((entry) =>
+      [
+        entry.rank,
+        entry.name,
+        entry.state,
+        entry.distributor,
+        entry.prize,
+        entry.points,
+      ]
         .filter((value) => value !== undefined)
         .some((value) =>
           String(value).toLocaleLowerCase("es-MX").includes(normalized),
         ),
     );
-  }, [entries, query]);
+  }, [initialEntries, query]);
 
-  const topThree = entries.slice(0, 3);
+  const topThree = initialEntries.slice(0, 3);
 
   return (
     <main className="min-h-screen overflow-x-hidden bg-[#070907] text-white">
@@ -327,7 +284,7 @@ export default function WinnersExperience({
               Premios
             </a>
             <a href="#ranking" className="transition-colors hover:text-white">
-              Top 100
+              Top 115
             </a>
           </nav>
 
@@ -355,7 +312,7 @@ export default function WinnersExperience({
                 <span className="relative h-2 w-2 rounded-full bg-emerald-400" />
               </span>
               <span className="text-[10px] font-black uppercase tracking-[0.2em] text-emerald-200 sm:text-xs">
-                Resultados 2026 · Ranking sincronizado
+                Resultados 2026 · Lista oficial
               </span>
             </div>
 
@@ -363,7 +320,7 @@ export default function WinnersExperience({
               USG Liga de Campeones
             </p>
             <h1 className="mx-auto mt-2 max-w-4xl font-display text-[4.25rem] leading-[0.82] tracking-[-0.035em] text-white xs:text-7xl sm:text-8xl md:text-[7.5rem] lg:mx-0 lg:text-[8.4rem] xl:text-[9.5rem]">
-              LOS 100
+              LOS 115
               <span className="block bg-gradient-to-r from-[#ff526e] via-usg-red to-[#8d071c] bg-clip-text text-transparent">
                 CAMPEONES
               </span>
@@ -379,7 +336,7 @@ export default function WinnersExperience({
                 href="#ranking"
                 className="inline-flex items-center justify-center rounded-full bg-usg-red px-7 py-4 text-sm font-black uppercase tracking-wider shadow-[0_18px_50px_rgba(200,16,46,0.38)] transition-transform hover:-translate-y-1"
               >
-                Consultar Top 100
+                Consultar Top 115
               </a>
               <a
                 href="#podio"
@@ -391,7 +348,7 @@ export default function WinnersExperience({
 
             <div className="mx-auto mt-10 grid max-w-xl grid-cols-3 divide-x divide-white/10 overflow-hidden rounded-2xl border border-white/10 bg-black/35 py-4 backdrop-blur-md lg:mx-0">
               <div className="px-3 text-center">
-                <p className="font-display text-3xl text-white sm:text-4xl">100</p>
+                <p className="font-display text-3xl text-white sm:text-4xl">115</p>
                 <p className="mt-1 text-[9px] font-bold uppercase tracking-[0.16em] text-white/40 sm:text-[10px]">
                   Ganadores
                 </p>
@@ -403,9 +360,9 @@ export default function WinnersExperience({
                 </p>
               </div>
               <div className="px-3 text-center">
-                <p className="font-display text-3xl text-emerald-300 sm:text-4xl">30 s</p>
+                <p className="font-display text-3xl text-emerald-300 sm:text-4xl">13</p>
                 <p className="mt-1 text-[9px] font-bold uppercase tracking-[0.16em] text-white/40 sm:text-[10px]">
-                  Actualización
+                  Tipos de premio
                 </p>
               </div>
             </div>
@@ -449,8 +406,8 @@ export default function WinnersExperience({
               <span className="block text-white/35">EN LO MÁS ALTO</span>
             </h2>
             <p className="mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-white/55 sm:text-base">
-              Los primeros lugares encabezaron el ranking nacional con la mayor
-              acumulación de puntos válidos de la promoción.
+              Los primeros lugares encabezan la lista final validada por la
+              Organizadora para la temporada 2026.
             </p>
           </div>
 
@@ -491,7 +448,7 @@ export default function WinnersExperience({
               </h2>
             </div>
             <p className="max-w-xl text-sm leading-relaxed text-white/55 sm:text-base lg:justify-self-end">
-              Los 100 primeros lugares forman parte de la selección ganadora.
+              Los 115 lugares forman parte de la selección ganadora.
               Los incentivos se asignan de mayor a menor de acuerdo con la
               posición final, la validación documental y la disponibilidad
               indicada por la Organizadora.
@@ -545,16 +502,16 @@ export default function WinnersExperience({
             <div className="inline-flex items-center gap-2 rounded-full border border-emerald-400/20 bg-emerald-400/[0.07] px-3.5 py-2">
               <span className="h-2 w-2 rounded-full bg-emerald-400" />
               <span className="text-[10px] font-black uppercase tracking-[0.2em] text-emerald-200">
-                Base de datos oficial
+                Lista oficial de ganadores
               </span>
             </div>
             <h2 className="mt-5 font-display text-5xl leading-[0.9] text-white sm:text-7xl lg:text-8xl">
               RANKING COMPLETO
-              <span className="block text-usg-red">TOP 100</span>
+              <span className="block text-usg-red">TOP 115</span>
             </h2>
             <p className="mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-white/55 sm:text-base">
-              Consulta los puntos validados y la posición de cada ganador. La
-              información se sincroniza automáticamente cada 30 segundos.
+              Consulta la posición, los puntos y el premio asignado a cada
+              ganador conforme a la lista proporcionada por la Organizadora.
             </p>
           </div>
 
@@ -573,14 +530,12 @@ export default function WinnersExperience({
                       className="mt-0.5 text-[10px] uppercase tracking-widest text-white/40"
                       aria-live="polite"
                     >
-                      {hasError
-                        ? "Última sincronización disponible"
-                        : `${entries.length} ganadores · Actualizado ${formatUpdatedAt(updatedAt)}`}
+                      {initialEntries.length} ganadores · Corte 26 ago 2026
                     </p>
                   </div>
                 </div>
 
-                <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+                <div className="sm:w-80">
                   <label className="relative block min-w-0 sm:w-72">
                     <span className="sr-only">
                       Buscar por nombre, estado, lugar o puntos
@@ -589,45 +544,22 @@ export default function WinnersExperience({
                       type="search"
                       value={query}
                       onChange={(event) => setQuery(event.target.value)}
-                      placeholder="Buscar ganador…"
+                      placeholder="Buscar ganador o premio…"
                       className="w-full rounded-full border border-white/10 bg-white/[0.055] px-5 py-3 text-sm text-white outline-none transition placeholder:text-white/30 focus:border-usg-red/70 focus:bg-white/[0.08]"
                     />
                   </label>
-                  <button
-                    type="button"
-                    onClick={refreshRanking}
-                    disabled={isRefreshing}
-                    className="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/[0.055] px-5 py-3 text-xs font-black uppercase tracking-wider text-white/70 transition hover:border-white/20 hover:bg-white/10 disabled:cursor-wait disabled:opacity-50"
-                  >
-                    {isRefreshing ? "Actualizando…" : "Actualizar"}
-                  </button>
                 </div>
               </div>
-
-              {hasError && (
-                <p className="mt-4 rounded-xl border border-amber-400/20 bg-amber-400/[0.06] px-4 py-3 text-xs text-amber-100/70">
-                  No fue posible consultar cambios en este momento. Conservamos
-                  la última tabla disponible y volveremos a intentar
-                  automáticamente.
-                </p>
-              )}
             </div>
 
-            <div className="hidden grid-cols-[4.25rem_minmax(0,1.35fr)_minmax(8rem,0.7fr)_auto] gap-4 border-b border-white/10 bg-black/45 px-8 py-3 text-[9px] font-black uppercase tracking-[0.2em] text-white/30 sm:grid">
+            <div className="hidden grid-cols-[4.25rem_minmax(0,1.15fr)_minmax(12rem,0.85fr)_auto] gap-4 border-b border-white/10 bg-black/45 px-8 py-3 text-[9px] font-black uppercase tracking-[0.2em] text-white/30 sm:grid">
               <span>Lugar</span>
               <span>Ganador</span>
-              <span>Resultado</span>
+              <span>Premio</span>
               <span className="text-right">Marcador</span>
             </div>
 
-            {isRefreshing && entries.length === 0 ? (
-              <div className="px-6 py-24 text-center">
-                <div className="mx-auto h-10 w-10 animate-spin rounded-full border-2 border-white/10 border-t-usg-red" />
-                <p className="mt-4 text-xs uppercase tracking-widest text-white/35">
-                  Sincronizando ranking oficial…
-                </p>
-              </div>
-            ) : filteredEntries.length > 0 ? (
+            {filteredEntries.length > 0 ? (
               <ol className="divide-y divide-white/[0.055]">
                 {filteredEntries.map((entry) => (
                   <RankingRow key={entry.rank} entry={entry} />
@@ -652,15 +584,15 @@ export default function WinnersExperience({
             )}
 
             <div className="flex flex-col gap-2 border-t border-white/10 bg-black/55 px-5 py-4 text-[10px] leading-relaxed text-white/35 sm:flex-row sm:items-center sm:justify-between sm:px-8">
-              <p>Datos públicos: nombre abreviado, estado, posición y puntos.</p>
+              <p>Datos públicos: nombre abreviado, estado, distribuidor, posición, puntos y premio.</p>
               <p className="font-mono text-usg-red/70">USG · TEMPORADA 2026</p>
             </div>
           </div>
 
           <p className="mx-auto mt-6 max-w-3xl text-center text-[11px] leading-relaxed text-white/30">
-            Resultados sujetos a la validación documental final de la
-            Organizadora y a los criterios de desempate establecidos en las
-            Bases de la promoción.
+            El orden y la asignación de premios corresponden a la lista final
+            proporcionada por la Organizadora, con corte al 26 de agosto de
+            2026.
           </p>
         </div>
       </section>
@@ -685,7 +617,7 @@ export default function WinnersExperience({
 
               <ol className="grid gap-3 sm:grid-cols-2">
                 {[
-                  ["01", "Confirma tu posición", "Localízate en el Top 100 y revisa tus puntos."],
+                  ["01", "Confirma tu posición", "Localízate en el Top 115 y revisa tus puntos y premio."],
                   ["02", "Espera el contacto", "La Organizadora contactará a cada ganador."],
                   ["03", "Prepara tus documentos", "Conserva comprobantes originales e identificación vigente."],
                   ["04", "Recibe tu premio", "Se coordinará contigo la validación y entrega correspondiente."],
