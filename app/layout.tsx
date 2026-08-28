@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://ligausgdecampeones.com"),
   title: "Ganadores 2026 | USG Liga de Campeones",
   description:
-    "Resultados oficiales de USG Liga de Campeones: consulta los 115 ganadores, sus puntos y el premio asignado.",
+    "Resultados oficiales de USG Liga de Campeones: consulta los 115 ganadores, su lugar y el premio asignado.",
   keywords: [
     "USG",
     "USG Liga de Campeones",
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Ganadores 2026 | USG Liga de Campeones",
     description:
-      "Consulta la lista oficial de los 115 ganadores, sus puntos y el premio asignado.",
+      "Consulta la lista oficial de los 115 ganadores, su lugar y el premio asignado.",
     type: "website",
     locale: "es_MX",
   },

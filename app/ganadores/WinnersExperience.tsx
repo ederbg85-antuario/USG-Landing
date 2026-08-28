@@ -3,11 +3,16 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import type { PublicRankingEntry } from "@/lib/public-ranking";
 import UsgLogo from "@/components/UsgLogo";
 
+export type WinnerDisplayEntry = {
+  rank: number;
+  name: string;
+  prize: string;
+};
+
 type WinnersExperienceProps = {
-  initialEntries: PublicRankingEntry[];
+  initialEntries: WinnerDisplayEntry[];
 };
 
 type PrizeTier = {
@@ -44,12 +49,6 @@ const PODIUM_PRIZES: Record<
   },
 };
 
-const numberFormatter = new Intl.NumberFormat("es-MX");
-
-function formatPoints(value: number) {
-  return numberFormatter.format(value);
-}
-
 function initials(name: string) {
   return name
     .split(/\s+/)
@@ -64,7 +63,7 @@ function PodiumCard({
   entry,
   rank,
 }: {
-  entry?: PublicRankingEntry;
+  entry?: WinnerDisplayEntry;
   rank: 1 | 2 | 3;
 }) {
   const prize = PODIUM_PRIZES[rank];
@@ -116,44 +115,28 @@ function PodiumCard({
           <h3 className="mt-1 truncate text-lg font-black text-white sm:text-xl">
             {entry?.name ?? "Actualizando…"}
           </h3>
-          <p className="mt-1 truncate text-xs uppercase tracking-wider text-white/45">
-            {[entry?.state ?? "México", entry?.distributor]
-              .filter(Boolean)
-              .join(" · ")}
-          </p>
         </div>
       </div>
 
-      <div className="relative mt-7 grid grid-cols-2 gap-3 border-t border-white/10 pt-5">
-        <div>
-          <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-white/40">
-            Marcador final
-          </p>
-          <p className="mt-1 font-display text-2xl text-white sm:text-3xl">
-            {entry ? formatPoints(entry.points) : "—"}
-            <span className="ml-1 text-xs font-sans text-white/45">pts</span>
-          </p>
-        </div>
-        <div className="text-right">
-          <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-white/40">
-            Premio principal
-          </p>
-          <p className={`mt-1 font-display text-2xl sm:text-3xl ${prize.accent}`}>
-            {entry?.prize ?? prize.amount}
-          </p>
-          <p className="text-[10px] text-white/45">{prize.label}</p>
-        </div>
+      <div className="relative mt-7 border-t border-white/10 pt-5 text-center">
+        <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-white/40">
+          Premio asignado
+        </p>
+        <p className={`mt-1 font-display text-3xl sm:text-4xl ${prize.accent}`}>
+          {entry?.prize ?? prize.amount}
+        </p>
+        <p className="text-[10px] text-white/45">{prize.label}</p>
       </div>
     </article>
   );
 }
 
-function RankingRow({ entry }: { entry: PublicRankingEntry }) {
+function RankingRow({ entry }: { entry: WinnerDisplayEntry }) {
   const isTopThree = entry.rank <= 3;
 
   return (
     <li
-      className={`group grid grid-cols-[3.25rem_minmax(0,1fr)_auto] items-center gap-3 px-4 py-3.5 transition-colors sm:grid-cols-[4.25rem_minmax(0,1.15fr)_minmax(12rem,0.85fr)_auto] sm:gap-4 sm:px-6 sm:py-4 lg:px-8 ${
+      className={`group grid grid-cols-[3.25rem_minmax(0,1fr)] items-center gap-3 px-4 py-3.5 transition-colors sm:grid-cols-[4.25rem_minmax(0,1fr)_minmax(16rem,0.9fr)] sm:gap-4 sm:px-6 sm:py-4 lg:px-8 ${
         isTopThree
           ? "bg-usg-red/[0.08] hover:bg-usg-red/[0.13]"
           : "hover:bg-white/[0.035]"
@@ -183,32 +166,16 @@ function RankingRow({ entry }: { entry: PublicRankingEntry }) {
           <p className="truncate text-sm font-bold text-white sm:text-base">
             {entry.name}
           </p>
-          <p className="mt-0.5 truncate text-[10px] uppercase tracking-[0.16em] text-white/40 sm:text-xs">
-            {[entry.state || "México", entry.distributor]
-              .filter(Boolean)
-              .join(" · ")}
+          <p className="mt-1.5 line-clamp-2 text-[9px] font-bold uppercase leading-tight tracking-[0.12em] text-emerald-300/75 sm:hidden">
+            {entry.prize}
           </p>
-          {entry.prize ? (
-            <p className="mt-1.5 line-clamp-2 text-[9px] font-bold uppercase leading-tight tracking-[0.12em] text-emerald-300/75 sm:hidden">
-              {entry.prize}
-            </p>
-          ) : null}
         </div>
       </div>
 
-      <div className="hidden sm:block">
-        <span className="inline-flex max-w-full rounded-full border border-emerald-400/20 bg-emerald-400/[0.08] px-2.5 py-1 text-[9px] font-black uppercase leading-tight tracking-[0.12em] text-emerald-300/80">
-          {entry.prize ?? "Ganador 2026"}
+      <div className="hidden justify-end sm:flex">
+        <span className="inline-flex max-w-full rounded-full border border-emerald-400/20 bg-emerald-400/[0.08] px-3 py-1.5 text-right text-[9px] font-black uppercase leading-tight tracking-[0.12em] text-emerald-300/80">
+          {entry.prize}
         </span>
-      </div>
-
-      <div className="text-right">
-        <p className="font-display text-xl tabular-nums text-white sm:text-2xl">
-          {formatPoints(entry.points)}
-        </p>
-        <p className="text-[9px] font-bold uppercase tracking-[0.18em] text-usg-red">
-          puntos
-        </p>
       </div>
     </li>
   );
@@ -224,14 +191,7 @@ export default function WinnersExperience({
     if (!normalized) return initialEntries;
 
     return initialEntries.filter((entry) =>
-      [
-        entry.rank,
-        entry.name,
-        entry.state,
-        entry.distributor,
-        entry.prize,
-        entry.points,
-      ]
+      [entry.rank, entry.name, entry.prize]
         .filter((value) => value !== undefined)
         .some((value) =>
           String(value).toLocaleLowerCase("es-MX").includes(normalized),
@@ -343,8 +303,8 @@ export default function WinnersExperience({
             </h1>
 
             <p className="mx-auto mt-7 max-w-2xl text-base leading-relaxed text-white/70 sm:text-lg lg:mx-0 lg:text-xl">
-              El esfuerzo, la constancia y cada punto los trajeron hasta aquí.
-              Conoce a quienes llegaron más alto en la temporada 2026.
+              El esfuerzo y la constancia los trajeron hasta aquí. Conoce a
+              quienes llegaron más alto en la temporada 2026.
             </p>
 
             <div className="mt-8 flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center lg:justify-start">
@@ -465,8 +425,7 @@ export default function WinnersExperience({
             </div>
             <p className="max-w-xl text-sm leading-relaxed text-white/55 sm:text-base lg:justify-self-end">
               Estos son los 13 niveles de premio asignados en la lista final.
-              Cada ganador puede confirmar abajo su posición, puntaje,
-              distribuidor y premio individual.
+              Cada ganador puede confirmar abajo su lugar y premio individual.
             </p>
           </div>
 
@@ -527,8 +486,8 @@ export default function WinnersExperience({
               <span className="block text-usg-red">TOP 115</span>
             </h2>
             <p className="mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-white/55 sm:text-base">
-              Consulta la posición, los puntos y el premio asignado a cada
-              ganador conforme a la lista proporcionada por la Organizadora.
+              Consulta el lugar, nombre y premio asignado a cada ganador
+              conforme a la lista proporcionada por la Organizadora.
             </p>
           </div>
 
@@ -555,8 +514,7 @@ export default function WinnersExperience({
                 <div className="sm:w-80">
                   <label className="relative block min-w-0 sm:w-72">
                     <span className="sr-only">
-                      Buscar por nombre, estado, distribuidor, lugar, puntos o
-                      premio
+                      Buscar por nombre, lugar o premio
                     </span>
                     <input
                       type="search"
@@ -570,11 +528,10 @@ export default function WinnersExperience({
               </div>
             </div>
 
-            <div className="hidden grid-cols-[4.25rem_minmax(0,1.15fr)_minmax(12rem,0.85fr)_auto] gap-4 border-b border-white/10 bg-black/45 px-8 py-3 text-[9px] font-black uppercase tracking-[0.2em] text-white/30 sm:grid">
+            <div className="hidden grid-cols-[4.25rem_minmax(0,1fr)_minmax(16rem,0.9fr)] gap-4 border-b border-white/10 bg-black/45 px-8 py-3 text-[9px] font-black uppercase tracking-[0.2em] text-white/30 sm:grid">
               <span>Lugar</span>
               <span>Ganador</span>
-              <span>Premio</span>
-              <span className="text-right">Marcador</span>
+              <span className="text-right">Premio</span>
             </div>
 
             {filteredEntries.length > 0 ? (
@@ -589,7 +546,7 @@ export default function WinnersExperience({
                   SIN RESULTADOS
                 </p>
                 <p className="mt-2 text-sm text-white/35">
-                  Prueba con otro nombre, estado, lugar o puntaje.
+                  Prueba con otro nombre, lugar o premio.
                 </p>
                 <button
                   type="button"
@@ -602,7 +559,7 @@ export default function WinnersExperience({
             )}
 
             <div className="flex flex-col gap-2 border-t border-white/10 bg-black/55 px-5 py-4 text-[10px] leading-relaxed text-white/35 sm:flex-row sm:items-center sm:justify-between sm:px-8">
-              <p>Datos públicos: nombre abreviado, estado, distribuidor, posición, puntos y premio.</p>
+              <p>Datos públicos: lugar, nombre abreviado y premio.</p>
               <p className="font-mono text-usg-red/70">USG · TEMPORADA 2026</p>
             </div>
           </div>
@@ -642,7 +599,7 @@ export default function WinnersExperience({
                   [
                     "01",
                     "Confirma tu posición",
-                    "Localízate en el Top 115 y revisa tus puntos y premio.",
+                    "Localízate en el Top 115 y revisa tu premio.",
                   ],
                   [
                     "02",

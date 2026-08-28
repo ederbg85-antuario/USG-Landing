@@ -1,15 +1,14 @@
 import type { Metadata } from "next";
-import WinnersExperience from "@/app/ganadores/WinnersExperience";
-import {
-  CLIENT_WINNERS_TOTAL,
-  type PublicRankingEntry,
-} from "@/lib/client-winners-ranking";
+import WinnersExperience, {
+  type WinnerDisplayEntry,
+} from "@/app/ganadores/WinnersExperience";
+import { CLIENT_WINNERS_TOTAL } from "@/lib/client-winners-ranking";
 import { getPublicRanking } from "@/lib/public-ranking";
 
 export const metadata: Metadata = {
   title: "Ganadores 2026 | USG Liga de Campeones",
   description:
-    "Consulta la lista oficial de los 115 ganadores de USG Liga de Campeones, su posición, puntos, distribuidor y premio asignado.",
+    "Consulta la lista oficial de los 115 ganadores de USG Liga de Campeones, su lugar y el premio asignado.",
   alternates: {
     canonical: "/",
   },
@@ -31,15 +30,19 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Los 115 ganadores | USG Liga de Campeones",
-    description:
-      "Consulta posiciones, puntos y premios de la lista oficial 2026.",
+    description: "Consulta lugares y premios de la lista oficial 2026.",
     images: ["/og-ganadores-115.png"],
   },
 };
 
 export default async function Home() {
-  const initialEntries: PublicRankingEntry[] = await getPublicRanking(
-    CLIENT_WINNERS_TOTAL,
+  const ranking = await getPublicRanking(CLIENT_WINNERS_TOTAL);
+  const initialEntries: WinnerDisplayEntry[] = ranking.map(
+    ({ rank, name, prize }) => ({
+      rank,
+      name,
+      prize: prize ?? "Ganador 2026",
+    }),
   );
 
   return <WinnersExperience initialEntries={initialEntries} />;
